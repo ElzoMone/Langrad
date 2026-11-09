@@ -1,0 +1,64 @@
+name: Bootstrap Langrad stage 1
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/bootstrap-dictionary.yml"
+permissions:
+  contents: write
+
+jobs:
+  save-current-site-and-shards:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: true
+      - name: Recover currently published Langrad source files
+        shell: bash
+        run: |
+          set -euo pipefail
+          for filename in index.html PROJECT.md dictionary.json dictionary-meta.json dictionary-license.txt project.html langrad-importer-chrome.zip; do
+            curl --fail --location --silent --show-error --retry 3 --max-time 45 "https://langrad.vercel.app/$filename" -o "$filename"
+          done
+          # Pin hashes to protect existing application and user data.
+          printf '%s\n' \
+            '78a9f47f783b99ab519956173efcb35f8b04136b  index.html' \
+            '5156cc1271c35d96d944e99fb06ab94ef9862083  PROJECT.md' \
+            'da87f776e439acb19374b71f8affa93bb3d1b17e  dictionary.json' \
+            '3aa87682c40d64f154bb965bd8fd9561552ae14d  dictionary-meta.json' \
+            'a3a7e44744318c9d6c7edd0826326c2b20fcda9a  dictionary-license.txt' \
+            '73745f03b84341451647a221077e5cd256386709  project.html' \
+            '787f044c0c95876afc76e04d9cb374f09ac2c340  langrad-importer-chrome.zip' \
+            | sha1sum --check
+      - name: Generate 323 deterministic two-character shards
+        run: |
+          python3 scripts/build_shards.py --input dictionary.json --output public/dict
+          curl --fail --location --silent --show-error --max-time 30 \
+            https://langrad.vercel.app/dict/SOURCES.txt -o public/dict/SOURCES.txt
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          data = json.loads(Path("public/dict/manifest.json").read_text())
+          assert data["entries"] == 26301, data["entries"]
+          assert data["shard_count"] == 323, data["shard_count"]
+          for item in ["er", "ge", "di", "ei"]:
+              assert (Path("public/dict") / (item + ".json")).is_file()
+          print("Checked:", data["entries"], "entries in", data["shard_count"], "shards")
+          PY
+      - name: Save existing website and generated shards to main
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html PROJECT.md dictionary.json dictionary-meta.json \
+            dictionary-license.txt project.html langrad-importer-chrome.zip public/dict
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "feat(dict): save production Langrad and 323 translation shards"
+            git push origin HEAD:main
+          fi
