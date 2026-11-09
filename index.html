@@ -193,7 +193,7 @@ header .topnav button{font-size:13px;padding:9px 10px}
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400;500;600;700&family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
-<script>try{document.documentElement.dataset.theme=localStorage.getItem("langrad-theme")==="tfr"?"tfr":"classic"}catch(e){document.documentElement.dataset.theme="classic"}</script>
+<script>try{document.documentElement.dataset.theme=["classic","tfr","loji"].includes(localStorage.getItem("langrad-theme"))?localStorage.getItem("langrad-theme"):"classic"}catch(e){document.documentElement.dataset.theme="classic"}</script>
 <style id="lr-theme-tfr-css">
 html[data-theme="tfr"]{
  color-scheme:dark;
@@ -359,6 +359,7 @@ html[data-theme="tfr"] .foot{color:#a66eaf!important;font-family:"VT323",monospa
 @media(prefers-reduced-motion:reduce){html[data-theme="tfr"] *{transition:none!important;animation:none!important}}
 </style>
 <link rel="stylesheet" href="/reader-layout.css">
+<link rel="stylesheet" href="/loji-theme.css">
 </head>
 <body>
 <header><div><div class="brand">LANG<em>RAD</em></div><div class="subbrand">THE LANGUAGE RISES</div></div><div class="pills"><span class="pill">Deutsch → Русский</span><span class="pill">Локальное хранение</span><span class="pill">Без платного ИИ</span></div>
@@ -1791,18 +1792,18 @@ themeBlock.id="lr-theme-settings";
 themeBlock.style.cssText="padding:16px;border:1px solid #d6cbbd;border-radius:10px;background:#f8f4ed;margin:18px 0";
 themeBlock.innerHTML='<div class="eyebrow">Внешний вид</div><h2>Тема оформления</h2>'+
 '<label for="lr-theme-select" class="label">Оформление приложения</label>'+
-'<select class="input" id="lr-theme-select" style="max-width:300px"><option value="classic">Классическая — светлая</option><option value="tfr">The Fire Rises — неон / CRT</option></select>'+
-'<p class="tiny" style="margin:10px 0 0">TFR — тёмная панель, розово-фиолетовый неон, пиксельные надписи и экранное свечение. Выбор сохраняется на этом устройстве.</p>';
+'<select class="input" id="lr-theme-select" style="max-width:300px"><option value="classic">Классическая — светлая</option><option value="tfr">The Fire Rises — неон / CRT</option><option value="loji">Loji — Long March / чёрно-красная</option></select>'+
+'<p class="tiny" style="margin:10px 0 0">TFR — фиолетовый CRT. Loji — чёрно-красная нейросетевая панель с глазом-сенсором. Выбор сохраняется на этом устройстве.</p>';
 const anchor=document.getElementById("lr-project-brief");
 if(anchor)settings.insertBefore(themeBlock,anchor);else settings.append(themeBlock);
 const select=document.getElementById("lr-theme-select");
 function setTheme(name){
- const theme=name==="tfr"?"tfr":"classic";
+ const theme=["classic","tfr","loji"].includes(name)?name:"classic";
  document.documentElement.dataset.theme=theme;
  select.value=theme;
  try{localStorage.setItem("langrad-theme",theme)}catch(e){}
 }
-select.value=document.documentElement.dataset.theme==="tfr"?"tfr":"classic";
+select.value=["classic","tfr","loji"].includes(document.documentElement.dataset.theme)?document.documentElement.dataset.theme:"classic";
 select.addEventListener("change",()=>setTheme(select.value));
 const brand=document.querySelector("header>div:first-child");
 if(brand){
@@ -1815,6 +1816,19 @@ if(brand){
  '<path d="M18 100H182M100 18V182M32 56 Q100 98 168 56 M32 144Q100 102 168 144" stroke="#fc8bf5" opacity=".8"/>'+
  '</svg>';
  brand.append(decor);
+ const eye=document.createElement("div");
+ eye.className="lr-loji-eye";
+ eye.setAttribute("aria-hidden","true");
+ eye.innerHTML='<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" fill="none">'+
+ '<circle cx="100" cy="100" r="88" stroke="#9e363c" stroke-width="1" stroke-dasharray="4 9" opacity=".7"/>'+
+ '<circle cx="100" cy="100" r="72" stroke="#f35a5e" stroke-width="1" opacity=".4"/>'+
+ '<path d="M17 100C48 61 72 48 100 48S152 61 183 100C152 139 128 152 100 152S48 139 17 100Z" stroke="#ff777a" stroke-width="4" fill="#250d14" opacity=".96"/>'+
+ '<path d="M32 100H168M100 32V58M100 142V168" stroke="#f65c62" stroke-width="1.5" stroke-dasharray="4 7" opacity=".65"/>'+
+ '<g class="lr-loji-pupil"><circle cx="100" cy="100" r="32" stroke="#ff7a7b" stroke-width="3" fill="#5a1b22"/>'+
+ '<circle cx="100" cy="100" r="15" fill="#f2acaa"/><circle cx="100" cy="100" r="7" fill="#1b0608"/></g>'+
+ '<path d="M36 54H66M134 54H164M36 146H66M134 146H164" stroke="#c54b54" stroke-width="2" opacity=".8"/>'+
+ '</svg>';
+ brand.append(eye);
 }
 })();
 </script>
