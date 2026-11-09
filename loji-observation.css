@@ -484,3 +484,45 @@ html[data-theme="loji"] .lr-loji-rail-trace i:nth-child(5){height:22%}
  html[data-theme="loji"] .lr-loji-avatar-fallback{display:flex!important}
  html[data-theme="loji"] .lr-loji-avatar::after{animation:none!important}
 }
+
+/* Compact telemetry embedded in the edges when large exterior HUD rails
+   cannot fit beside a viewport; never sits on article text. */
+html:not([data-theme="loji"]) .lr-loji-inset-sensor{display:none!important}
+html[data-theme="loji"] .lr-loji-inset-sensor{
+ position:absolute;
+ pointer-events:none;
+ z-index:3;
+ top:145px;
+ display:flex;
+ flex-direction:column;
+ align-items:center;
+ gap:12px;
+ width:12px;
+ max-height:270px;
+ color:#cf777d;
+ font:600 8px/1 var(--lr-loji-mono);
+ opacity:.8;
+}
+html[data-theme="loji"] .lr-loji-inset-left{left:3px}
+html[data-theme="loji"] .lr-loji-inset-right{right:3px}
+html[data-theme="loji"] .lr-loji-inset-sensor::before{
+ content:"";
+ width:2px;
+ height:58px;
+ background:linear-gradient(180deg,transparent,#fa6973,#fa6973,transparent);
+ box-shadow:0 0 7px #fc515a;
+}
+html[data-theme="loji"] .lr-loji-inset-sensor i{
+ width:3px;
+ height:3px;
+ background:#ff7e83;
+ box-shadow:0 0 8px #ef4d51;
+}
+html[data-theme="loji"] .lr-loji-inset-sensor span{
+ writing-mode:vertical-rl;
+ letter-spacing:2px;
+ color:#c37a83;
+}
+@media(max-width:790px){
+ html[data-theme="loji"] .lr-loji-inset-sensor{display:none!important}
+}
