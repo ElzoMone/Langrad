@@ -1,0 +1,9 @@
+Langrad uses German–Russian dictionary data from FreeDict/WikDict, edition 2025.11.23.
+Original source: https://download.freedict.org/dictionaries/deu-rus/2025.11.23/freedict-deu-rus-2025.11.23.src.tar.xz
+FreeDict licensing: https://freedict.org/documentation/
+Derived file: dictionary.json, generated from the original TEI source.
+TEI header (including copyright and license information):
+Deutsch-Русский FreeDict+WikDict dictionary Maintainer Karl Bartel 2025.11.23 26809 headwords Karl Bartel Licensed under the Creative Commons Attribution-ShareAlike 3.0 Unported license 2025-11-23 big enough to be useful Automatic creation of this bilingual dictionary by WikDict . Base data from Wiktionary.org via DBnary . This dictionary comes to you through nice people making it available for free and for good. It is part of the FreeDict project, http://www.freedict.org/. This project aims to make available many translating dictionaries for free. Your contributions are welcome! adj adv n pn v fem masc neut Change numbering scheme from YYYY-MM-DD to YYYY.MM.DD Add links to sourceDesc Add changelog Use ref tag to encode license URL
+
+Licensing: Creative Commons Attribution-ShareAlike 3.0 Unported (CC BY-SA 3.0): https://creativecommons.org/licenses/by-sa/3.0/
+Attribution: FreeDict / WikDict project and Wiktionary contributors. Modifications: reduced TEI to JSON, added human-curated German/Russian word forms and interpretations for reading practice.

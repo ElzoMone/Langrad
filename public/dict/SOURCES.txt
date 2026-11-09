@@ -1,0 +1,6 @@
+Langrad dictionary attribution
+German–Russian translations: FreeDict / WikDict, CC BY-SA 3.0 Unported.
+https://freedict.org/
+https://www.wikdict.com/
+Wiktionary contributors: https://de.wiktionary.org/ (CC BY-SA).
+This pilot file is only a deployment test, not a complete form/lemma index.

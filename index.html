@@ -1,0 +1,2436 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0d1320">
+<title>Langrad — The Language Rises</title>
+<style>
+:root{color-scheme:dark;--bg:#0a1120;--panel:#131d2f;--line:#2a3850;--muted:#97a7c1;--txt:#edf2ff;--accent:#9380ff;--blue:#8296ff;--good:#49c49f;--warn:#f6b957;font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}*{box-sizing:border-box}body{background:var(--bg);color:var(--txt);margin:0}button,textarea,input,select{font:inherit}button{cursor:pointer}button:disabled{cursor:default;opacity:.5}a{color:#b4bbff}header{display:flex;justify-content:space-between;align-items:center;gap:20px;padding:21px max(22px,calc((100vw - 1440px)/2));border-bottom:1px solid var(--line);background:#10192a;flex-wrap:wrap}.brand{font-size:27px;font-weight:900;letter-spacing:-1.4px}.brand em{color:#aaa0ff;font-style:normal}.subbrand{font-size:10px;font-weight:800;color:#8998e9;letter-spacing:3.3px}.pills{display:flex;gap:8px;flex-wrap:wrap}.pill{font-size:12px;padding:6px 10px;border:1px solid #344460;color:#b6c3db;border-radius:100px}.layout{display:grid;grid-template-columns:207px minmax(0,1fr) 320px;gap:20px;max-width:1440px;padding:24px;margin:auto}.panel{min-width:0;border:1px solid var(--line);border-radius:18px;background:var(--panel);padding:22px;box-shadow:0 10px 35px #00000012}.nav{height:max-content;display:flex;flex-direction:column;gap:6px}.nav button{padding:13px 14px;border:none;background:transparent;text-align:left;color:#adbad0;font-weight:650;border-radius:9px}.nav button:hover,.nav button.active{background:#2a3655;color:white}.eyebrow{font-size:11px;color:#9baacc;letter-spacing:1.5px;font-weight:850;text-transform:uppercase}h1{font-size:27px;letter-spacing:-.7px;margin:6px 0 9px}h2{font-size:17px;margin:4px 0 11px}p{color:var(--muted);line-height:1.62}small{color:var(--muted)}.btn{background:#263651;border:1px solid #465678;border-radius:10px;color:#f0f3ff;padding:10px 13px;font-weight:680;text-decoration:none;display:inline-flex;align-items:center;gap:7px}.btn:hover{background:#3c4b6b}.btn.primary{background:#6555df;border-color:#7363ef}.btn.primary:hover{background:#7669ec}.btn.ok{background:#1a6759;border-color:#298a78}.btn.ghost{background:transparent}.btn.sm{font-size:12px;padding:8px 10px}.row{display:flex;align-items:center;gap:9px;flex-wrap:wrap}.spread{display:flex;justify-content:space-between;gap:14px;align-items:center;flex-wrap:wrap}.sep{border:0;border-top:1px solid var(--line);margin:19px 0}.input{width:100%;border:1px solid #3e506b;background:#0d1525;border-radius:10px;padding:12px;color:white;outline:none}.input:focus{border-color:#a69eff}textarea{resize:vertical}.reader{min-height:260px;font:22px/2.15 Georgia,"Times New Roman",serif;white-space:pre-wrap;overflow-wrap:anywhere;margin-top:17px}.token{display:inline;padding:2px 2px;border-radius:4px;cursor:pointer}.token:hover{background:#344969}.token.new{border-bottom:1px dotted #9284ff}.token.learning{background:#4d3e29;border-bottom:1px solid var(--warn)}.token.known{border-bottom:2px solid #28896c}.token.sel{background:#6658e8!important;color:#fff}.alert{border-left:3px solid #a5a3ff;background:#23314a;border-radius:7px;padding:11px 13px;line-height:1.55;color:#c5d1e7;font-size:13px}.tiny{color:var(--muted);font-size:12px}.label{display:block;color:#aebdde;font-size:12px;font-weight:750;margin:12px 0 7px}.term{color:white;font-size:30px;font-weight:850;overflow-wrap:anywhere;margin:8px 0}.translation{font-size:18px;color:#e1eaff;line-height:1.5}.gram{background:#1d2c43;border-radius:10px;padding:13px;margin:12px 0;line-height:1.6;font-size:14px;color:#d4ddf3}.hidden{display:none!important}.table-entry{border-bottom:1px solid #2c3b50;padding:14px 0}.table-entry:last-child{border:0}.statgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:17px 0}.stat{background:#1a293f;border-radius:10px;padding:12px}.stat strong{display:block;font-size:25px}.stat span{font-size:12px;color:#99a9c3}.progress{height:9px;border-radius:10px;background:#314058;overflow:hidden;margin:10px 0}.progress div{height:100%;width:0;background:var(--good)}.choice{width:100%;text-align:left;background:#22334d;border:1px solid #405171;padding:13px;color:white;border-radius:10px;margin:6px 0}.choice:hover{background:#354969}.choice.correct{background:#205c4a;border-color:#4bd2a4}.choice.wrong{background:#633843;border-color:#e37d87}.hint{font-size:13px;color:#c0cee5;margin:10px 0}.breakdown{border:1px solid #364665;background:#162238;border-radius:12px;padding:13px;margin:14px 0}.breakdown b{color:#d8dcff}.levelbox{display:flex;gap:8px;align-items:center;flex-wrap:wrap}select{background:#15243b;border:1px solid #3d4c69;border-radius:9px;color:white;padding:8px}.options{display:flex;flex-wrap:wrap;gap:7px}.tag{display:inline-block;background:#2c3853;border-radius:8px;padding:5px 8px;font-size:11px;color:#d6e1fd}.foot{text-align:center;padding:20px;color:#8392af;font-size:12px}.empty{padding:30px 4px;color:var(--muted);line-height:1.7}@media(max-width:1100px){.layout{grid-template-columns:170px minmax(0,1fr)}.details{grid-column:2}}@media(max-width:700px){header{padding:16px}.brand{font-size:22px}.layout{display:block;padding:10px}.panel{margin-bottom:12px;padding:17px}.nav{flex-direction:row;overflow:auto;gap:5px}.nav button{white-space:nowrap;font-size:13px;padding:9px}.reader{font-size:20px;line-height:2}.details{grid-column:auto}.statgrid{gap:5px}.stat{padding:8px}.stat strong{font-size:22px}}
+</style>
+<style>
+/* Langrad 0.2 — reading-first redesign */
+:root{color-scheme:light;--bg:#edeae3;--panel:#fffdf8;--line:#e0dbd1;--muted:#777167;--txt:#29251f;--accent:#8d4e3b;--blue:#725f9e;--good:#53896c;--warn:#b98b4c}
+body{background:var(--bg);color:var(--txt);font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}
+header{background:#f8f6ef;border-color:var(--line);padding-top:24px;padding-bottom:22px}
+.brand{font-family:Georgia,"Times New Roman",serif;font-weight:700;font-size:31px;color:#27231e;letter-spacing:-1.4px}
+.brand em{color:#924e3d}
+.subbrand{color:#96766b;letter-spacing:2.5px;font-size:9px}
+.pill{background:#f9f6ef;border-color:#ded8ce;color:#716859}
+.layout{grid-template-columns:173px minmax(0,1fr) 310px;gap:16px;max-width:1370px;padding-top:26px}
+.panel{border-color:#e3ded5;background:#fffefa;border-radius:9px;box-shadow:0 5px 22px #3a2c1810}
+.nav{background:transparent;box-shadow:none;border:0;padding:8px;gap:4px}
+.nav button{color:#655f57;border-radius:6px;font-weight:550}
+.nav button:hover,.nav button.active{background:#e0ddd4;color:#312a21}
+.eyebrow{color:#967c68;letter-spacing:1.7px}
+h1{font-family:Georgia,"Times New Roman",serif;font-weight:500;font-size:30px;letter-spacing:-.5px;color:#29241e}
+h2{font-family:Georgia,"Times New Roman",serif;color:#3b3229;font-weight:600}
+p,small,.tiny{color:#756f67}
+.btn{background:#f2eee5;border:1px solid #d9d1c5;color:#463d34;font-weight:570;border-radius:7px;box-shadow:none}
+.btn:hover{background:#e9e2d6}
+.btn.primary{background:#87513e;border-color:#87513e;color:#fff}
+.btn.primary:hover{background:#9d604a}
+.btn.ok{background:#487961;border-color:#487961;color:white}
+.btn.ghost{background:transparent;color:#665d53}
+.input{background:#fffefa;border:1px solid #d6cec2;color:#302a25;border-radius:7px}
+.input:focus{border-color:#a97e6b}
+select{background:#faf8f3;border:1px solid #d5cec2;color:#4c4035}
+.sep{border-top-color:#e9e4db}
+.reader{font-family:Georgia,"Times New Roman",serif;font-size:24px;line-height:2.12;color:#2c2924;max-width:63ch;margin:20px auto 30px;padding:9px 2px}
+.token.new{border-bottom:1px dotted #b7a7ba}
+.token.learning{background:#f9eed3;border-bottom:1px solid #c9a064}
+.token.known{border-bottom:1px solid #83a58b}
+.token:hover{background:#f0e9dc}
+.token.sel{background:#cfb9a9!important;color:#211b18}
+.alert{border-left:2px solid #a68a76;background:#f6f1e9;color:#6d6256}
+.term{font-family:Georgia,"Times New Roman",serif;color:#332921;font-size:31px;font-weight:550}
+.translation{color:#3b3028}
+.label{color:#816958}
+.gram{background:#f7f2e9;color:#4b4037;border-radius:5px;border:1px solid #eee6da}
+.tag{background:#f1eae0;color:#665d51}
+.table-entry{border-color:#e7e0d5}
+.stat{background:#f5f1e9}
+.stat strong{color:#3f3028}
+.progress{background:#e3ddd3}
+.progress div{background:#71977a}
+.choice{background:#faf7f1;border-color:#ddd4c8;color:#372e27}
+.choice:hover{background:#f1eadf}
+.choice.correct{background:#dbeee3;color:#234b38;border-color:#83b49a}
+.choice.wrong{background:#f6dfdf;color:#703c3a;border-color:#d8aaa7}
+.breakdown{background:#f9f6f0;border-color:#ded4c8}
+.breakdown b{color:#3d3027}
+#contextOutput .breakdown p[style]{color:#332e26!important}
+#detail .term+#detail .tag{border:0}
+#docTitle{font-size:25px;font-family:Georgia,"Times New Roman",serif;font-weight:550}
+#score{background:#f3ede2}
+.details{align-self:start;position:sticky;top:16px}
+.foot{color:#978f83}
+.langrad-online{margin-top:16px;padding-top:14px;border-top:1px solid #e8dfd3}
+.langrad-online .tiny{line-height:1.5}
+.langrad-online-result{margin-top:12px;line-height:1.55;font-size:14px;color:#4a4038;white-space:pre-wrap}
+.langrad-online-result strong{color:#33251d}
+@media(max-width:1100px){.layout{grid-template-columns:145px minmax(0,1fr)}.details{position:static;grid-column:2}}
+@media(max-width:700px){.layout{display:block;padding:10px}.panel{padding:18px;border-radius:8px}.nav{background:#fffefa;padding:8px;display:flex;flex-direction:row;flex-wrap:nowrap;overflow:auto}.nav button{padding:10px 11px}.reader{font-size:21px;line-height:2.05;margin:10px auto 25px}.details{position:static}.brand{font-size:27px}header{padding:18px}.stat{padding:8px}}
+</style><style>
+/* Langrad 0.3: top navigation and spacious reading */
+header{
+ display:grid!important;
+ grid-template-columns:180px minmax(410px,1fr) auto;
+ align-items:center;
+ column-gap:24px;
+ row-gap:10px;
+ padding:16px max(24px,calc((100vw - 1420px)/2));
+ min-height:94px;
+}
+header>div:first-child{grid-column:1;grid-row:1}
+header>.pills{grid-column:3;grid-row:1;justify-content:flex-end}
+header>.topnav{
+ grid-column:2;grid-row:1;
+ margin:0;min-width:0;
+ display:flex;flex-direction:row;align-items:center;justify-content:center;
+ gap:3px;padding:0;border:0;border-radius:0;background:transparent;box-shadow:none;
+}
+header>.topnav button{
+ flex:0 0 auto;font-size:13px;
+ font-weight:540;
+ border-radius:6px;
+ padding:10px 12px;
+ white-space:nowrap;
+ text-align:center;
+ color:#554a42;
+}
+header>.topnav button.active,header>.topnav button:hover{
+ background:#e6dfd4;color:#352c24;
+}
+.layout{
+ display:grid!important;
+ grid-template-columns:minmax(0,1fr) 320px!important;
+ gap:18px;
+ max-width:1420px;
+ padding:24px;
+ margin:0 auto;
+}
+.layout>main{grid-column:1;grid-row:1;padding:27px 34px}
+.layout>.details{grid-column:2;grid-row:1;align-self:start;position:sticky;top:14px;padding:24px}
+.reader{max-width:74ch;margin:24px 0 28px;font-size:23px;line-height:2.08}
+#docTitle{font-size:24px}
+@media(min-width:1500px){
+ .layout{grid-template-columns:minmax(0,1fr) 345px!important}
+ .reader{font-size:24px;max-width:79ch}
+}
+@media(max-width:1260px){
+ header{grid-template-columns:minmax(0,1fr) auto;min-height:unset}
+ header>div:first-child{grid-column:1;grid-row:1}
+ header>.pills{grid-column:2;grid-row:1}
+ header>.topnav{grid-column:1/-1;grid-row:2;justify-content:center}
+ .layout{grid-template-columns:minmax(0,1fr) 290px!important}
+ .layout>main{padding:23px}
+ .layout>.details{padding:20px}
+}
+@media(max-width:790px){
+ header{display:block!important;padding:14px 16px 9px}
+ header>.pills{display:none}
+ header>.topnav{
+  display:flex;overflow:auto;justify-content:flex-start;
+  margin-top:13px;padding-bottom:4px;
+  white-space:nowrap;
+ }
+ header>.topnav button{font-size:12px;padding:9px 11px}
+ .layout{display:flex!important;flex-direction:column;padding:10px;gap:0}
+ .layout>main{width:100%;padding:18px}
+ .layout>.details{width:100%;position:static;padding:18px}
+ .reader{margin:12px 0 20px;font-size:21px;line-height:1.95}
+}
+</style><style>
+.lr-term{display:inline;border:0;background:#f3e5d9;color:#834d34;padding:0 4px;border-radius:4px;font:inherit;text-decoration:underline;text-decoration-style:dotted;cursor:pointer}
+.lr-term:hover{background:#dec4b1}
+.lr-modal{border:1px solid #ddd1c3;border-radius:12px;background:#fffcf8;color:#382e27;width:min(820px,calc(100vw - 24px));max-height:88vh;overflow:auto;padding:0;box-shadow:0 20px 80px #0005}
+.lr-modal::backdrop{background:#292420ac}
+.lr-modal-head{position:sticky;top:0;z-index:2;background:#faf6ef;border-bottom:1px solid #e5dacc;padding:13px 20px;display:flex;align-items:center;justify-content:space-between}
+.lr-modal-head h2{font:500 25px Georgia,serif;margin:0}
+.lr-modal-close{cursor:pointer;border:1px solid #ddd0c2;border-radius:6px;background:#f5eee5;font-size:23px;line-height:1;padding:5px 11px}
+.lr-modal-content{padding:18px 22px 25px}
+.lr-modal-content p{color:#65574b;line-height:1.6}
+.lr-sentence{font:23px/1.7 Georgia,serif;color:#332b23;background:#f1ede4;padding:17px;border-radius:8px;margin:12px 0;overflow-wrap:anywhere}
+.lr-section{font:800 11px/1.5 system-ui;letter-spacing:1.3px;text-transform:uppercase;color:#967159;margin:20px 0 10px}
+.lr-example{background:#f4eee6;border-left:3px solid #ad896b;padding:14px;font:19px/1.6 Georgia,serif}
+.lr-words{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.lr-word{border:1px solid #e5ddd2;border-radius:7px;padding:12px;min-width:0}
+.lr-word strong{font:600 20px Georgia,serif;color:#382c23}
+.lr-word .lr-gloss{color:#4c3a2e;font-size:14px;margin:6px 0}
+.lr-word .lr-meta{color:#87766b;font-size:12px;line-height:1.5}
+.lr-syntax{background:#f5f0e8;border-left:2px solid #b58b70;padding:12px;margin:8px 0;font-size:14px;line-height:1.6}
+.lr-trans{padding:15px;background:#f7f2ea;border:1px solid #e3d8cc;border-radius:9px}
+.lr-trans-result{font-size:18px;color:#3b3029;line-height:1.6;padding-top:10px;white-space:pre-wrap}
+.lr-muted{color:#8c7c70;font-size:12px;line-height:1.55;padding-top:8px}
+.lr-bubble{position:fixed;z-index:10;background:#302a27;border-radius:8px;display:none;padding:4px;box-shadow:0 7px 24px #0005}
+.lr-bubble button{border:0;background:none;color:#fff;font:600 13px system-ui;padding:9px;cursor:pointer}
+.lr-bubble button:hover{background:#554a44;border-radius:5px}
+@media(max-width:650px){.lr-words{grid-template-columns:1fr}.lr-modal-content{padding:15px}.lr-modal-head{padding:12px 15px}.lr-sentence{font-size:20px}}
+</style><style>
+/* Langrad 0.7: library + morphology + noun forms */
+header .topnav{gap:2px;flex-wrap:wrap}
+header .topnav button{font-size:13px;padding:9px 10px}
+.lr-wordparts{padding:14px 0 18px;border-bottom:1px solid #e6dbce;margin-bottom:15px}
+.lr-parts{display:flex;gap:5px;flex-wrap:wrap;margin:9px 0 13px;align-items:center}
+.lr-part{font:600 21px/1.25 Georgia,serif;color:#604535;background:#f1e9de;padding:8px 10px;border:1px solid #e2d3c2;border-radius:6px}
+.lr-plus{color:#b0a69b}
+.lr-partrow{display:flex;gap:10px;padding:6px 0;align-items:baseline;font-size:13px;color:#5a4b3e;line-height:1.45}
+.lr-partrow strong{min-width:52px;color:#7a4e39;font-weight:680}
+.lr-partnote{font-size:12px;color:#938376;line-height:1.5;margin-top:9px}
+.lr-nounhint{font-size:12px;color:#795a46;line-height:1.5;margin-top:11px;padding:9px;background:#f5efe7;border-radius:6px}
+.lr-library-top{display:flex;align-items:start;justify-content:space-between;flex-wrap:wrap;gap:14px}
+.lr-library-entry{display:flex;align-items:center;justify-content:space-between;gap:15px;padding:19px 0;border-bottom:1px solid #eae1d6}
+.lr-library-title{font:600 21px/1.4 Georgia,serif;color:#342d26;margin-bottom:5px;overflow-wrap:anywhere}
+.lr-library-preview{font-size:13px;color:#86796c;line-height:1.5;overflow-wrap:anywhere;max-width:75ch}
+.lr-library-actions{display:flex;gap:6px;align-items:center;flex-shrink:0}
+.lr-library-actions button{white-space:nowrap}
+.lr-library-empty{padding:28px 0;color:#74675b}
+.lr-library-current{display:inline-block;border:1px solid #c9b9a5;border-radius:6px;padding:3px 6px;font-size:11px;margin-top:7px;color:#73563d}
+@media(max-width:900px){header{grid-template-columns:1fr!important}header>.topnav{grid-column:1!important;grid-row:2!important;justify-content:flex-start}header>.pills{grid-column:1!important;grid-row:3!important;justify-content:flex-start}}
+@media(max-width:700px){header>.topnav{flex-wrap:nowrap}.lr-library-entry{display:block}.lr-library-actions{margin-top:12px}}
+</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400;500;600;700&family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+<script>try{document.documentElement.dataset.theme=localStorage.getItem("langrad-theme")==="tfr"?"tfr":"classic"}catch(e){document.documentElement.dataset.theme="classic"}</script>
+<style id="lr-theme-tfr-css">
+html[data-theme="tfr"]{
+ color-scheme:dark;
+ --bg:#090713;--panel:#151023;--line:#51355f;--muted:#bdabce;--txt:#f5edff;
+ --accent:#fb48eb;--blue:#b78cff;--good:#80efd1;--warn:#fcb7e7;
+}
+html[data-theme="tfr"] body{
+ color:#eee6fc!important;
+ background:
+  radial-gradient(ellipse at 15% 8%,rgba(195,30,205,.15),transparent 38%),
+  radial-gradient(ellipse at 87% 23%,rgba(73,33,130,.18),transparent 40%),
+  repeating-linear-gradient(0deg,rgba(255,63,220,.014) 0px,rgba(255,63,220,.014) 1px,transparent 1px,transparent 38px),
+  linear-gradient(145deg,#080510,#121025 52%,#07060d)!important;
+ background-attachment:fixed!important;
+ font-family:system-ui,"Segoe UI",sans-serif;
+}
+html[data-theme="tfr"] body::after{
+ content:"";pointer-events:none;position:fixed;inset:0;z-index:5000;
+ background:repeating-linear-gradient(0deg,transparent 0px,transparent 3px,rgba(0,0,0,.09) 3px,rgba(0,0,0,.09) 4px);
+ opacity:.42;mix-blend-mode:multiply;
+}
+html[data-theme="tfr"] header{
+ background:linear-gradient(95deg,#0d0a16 10%,#20102e 52%,#090615)!important;
+ border-bottom:1px solid #8d338d!important;
+ box-shadow:0 2px 28px #e428df22,inset 0 -1px 0 #f477ee3c;
+}
+html[data-theme="tfr"] header .brand{
+ font-family:"Press Start 2P",ui-monospace,monospace!important;font-size:clamp(15px,1.55vw,23px)!important;
+ line-height:1.6!important;letter-spacing:-1px!important;color:#f9ebff!important;
+ text-shadow:2px 0 #fc3be8aa,-2px 1px #67d8ec7e,0 0 13px #f134fc90!important;
+}
+html[data-theme="tfr"] header .brand em{color:#fb4de5!important}
+html[data-theme="tfr"] .subbrand{
+ font-family:"VT323",monospace!important;font-size:18px!important;letter-spacing:3px!important;
+ color:#c5adff!important;text-shadow:0 0 9px #df40e560!important
+}
+html[data-theme="tfr"] .lr-tfr-globe{
+ position:absolute;right:10px;top:-9px;width:100px;height:100px;
+ opacity:.42;pointer-events:none;filter:drop-shadow(0 0 13px #f24bf3);
+}
+html[data-theme="tfr"] header>div:first-child{position:relative;min-height:80px;padding-top:12px;padding-right:115px}
+html[data-theme="tfr"] .panel{
+ border:1px solid #5b3566!important;border-radius:3px!important;
+ background:linear-gradient(145deg,rgba(23,17,35,.97),rgba(11,11,23,.98))!important;
+ box-shadow:inset 0 1px #c448e022,0 8px 32px #05030999,0 0 10px #ac25ca12!important;
+ color:#f4eaff!important;
+}
+html[data-theme="tfr"] h1,html[data-theme="tfr"] h2{
+ color:#f6e7ff!important;
+ font-family:"VT323",ui-monospace,monospace!important;font-size:clamp(23px,2vw,34px)!important;
+ font-weight:400!important;letter-spacing:1px!important;text-shadow:0 0 8px #d659ff4f;
+}
+html[data-theme="tfr"] h2{font-size:clamp(21px,1.7vw,28px)!important}
+html[data-theme="tfr"] .eyebrow{color:#fc80eb!important;font-family:ui-monospace,monospace!important;font-size:10px!important;letter-spacing:2px!important}
+html[data-theme="tfr"] p,html[data-theme="tfr"] small,html[data-theme="tfr"] .tiny,
+html[data-theme="tfr"] .label{color:#b9a8ca!important}
+html[data-theme="tfr"] .nav,html[data-theme="tfr"] header .topnav{background:transparent!important}
+html[data-theme="tfr"] .nav button{
+ font-family:"VT323",ui-monospace,monospace!important;font-size:22px!important;letter-spacing:.4px!important;
+ color:#bcaaca!important;border-radius:2px!important;
+}
+html[data-theme="tfr"] .nav button.active,
+html[data-theme="tfr"] .nav button:hover{
+ background:linear-gradient(90deg,#57246066,#b42a9f25)!important;
+ color:#ffb9f5!important;box-shadow:inset 0 -2px #ea63df80;text-shadow:0 0 8px #f838f3aa;
+}
+html[data-theme="tfr"] header .pills .pill,html[data-theme="tfr"] .pill{
+ color:#d1bbef!important;background:#20152f!important;border:1px solid #75457e!important;
+ box-shadow:0 0 8px #ca35ec1b;border-radius:2px!important
+}
+html[data-theme="tfr"] .btn,html[data-theme="tfr"] button:not(.token){
+ background:linear-gradient(180deg,#382342,#261834)!important;
+ color:#eadcff!important;border:1px solid #81528d!important;border-radius:2px!important;
+ box-shadow:inset 0 1px #e567dd20!important;text-shadow:0 0 4px #cf82e677;
+}
+html[data-theme="tfr"] .btn:hover,html[data-theme="tfr"] button:not(.token):hover{
+ background:linear-gradient(180deg,#672f6b,#3d1d4a)!important;
+ color:#fff!important;border-color:#f36ce5!important;box-shadow:0 0 13px #e02dec40!important;
+}
+html[data-theme="tfr"] .btn.primary{background:linear-gradient(180deg,#893b88,#60205b)!important;border-color:#ff67ee!important;color:#fff!important}
+html[data-theme="tfr"] .btn:disabled,html[data-theme="tfr"] button:disabled{opacity:.52!important}
+html[data-theme="tfr"] .input,html[data-theme="tfr"] select,html[data-theme="tfr"] textarea,
+html[data-theme="tfr"] input:not([type="range"]){
+ background:#100d1d!important;border:1px solid #6a3f79!important;border-radius:2px!important;
+ color:#f1e9fb!important;
+}
+html[data-theme="tfr"] .input:focus,html[data-theme="tfr"] select:focus{outline:1px solid #e55ce4!important}
+html[data-theme="tfr"] #read #reader{
+ max-width:none!important;margin:18px 0 25px!important;padding:39px clamp(15px,3vw,34px)!important;
+ background:
+  radial-gradient(ellipse at 18% -30%,#cd38df20,transparent 60%),
+  repeating-linear-gradient(0deg,#a870d104 0px,#a870d104 2px,transparent 2px,transparent 6px),
+  linear-gradient(180deg,#10101f,#0a0b19)!important;
+ color:#eaf1ff!important;
+ border:1px solid #ad4fb6!important;border-radius:2px!important;
+ outline:1px solid #452450!important;outline-offset:3px!important;
+ box-shadow:0 0 38px #ed31dd20,inset 0 0 34px #0b081a,0 0 0 2px #2b1632!important;
+ font-family:"VT323",ui-monospace,Consolas,monospace!important;
+ font-size:clamp(25px,2.8vw,35px)!important;
+ font-weight:400!important;line-height:1.42!important;
+ letter-spacing:.35px!important;
+ text-shadow:0 0 4px #dcbbff88,1px 0 1px #f331cb3f,-1px 0 1px #4cc8f144!important;
+ white-space:pre-wrap!important;overflow-wrap:break-word!important;word-break:normal!important;
+}
+html[data-theme="tfr"] #read #reader::before{
+ content:"▣   TRANSMISSION / DEUTSCH TEXT ARCHIVE";
+ display:block;border-bottom:1px solid #a742a754;color:#f475ed!important;
+ font:13px/1.5 "VT323",ui-monospace,monospace!important;letter-spacing:1.6px;
+ text-shadow:0 0 7px #ff51ef88;padding-bottom:9px;margin-bottom:22px;
+}
+html[data-theme="tfr"] #reader .token{
+ border-radius:0!important;padding:0 2px!important;
+ color:inherit!important;box-decoration-break:clone;
+ text-shadow:inherit!important;border-bottom:1px solid #ba6fc94d!important;
+}
+html[data-theme="tfr"] #reader .token.new{border-bottom:1px dashed #ce67e6aa!important}
+html[data-theme="tfr"] #reader .token.learning{background:#fa47c330!important;border-bottom:1px solid #f758dc!important}
+html[data-theme="tfr"] #reader .token.known{background:#6deecb16!important;border-bottom:1px solid #55e3d0!important}
+html[data-theme="tfr"] #reader .token:hover,html[data-theme="tfr"] #reader .token.sel{
+ background:#e534ce60!important;color:white!important;text-shadow:0 0 9px #fff!important;
+}
+html[data-theme="tfr"] #lr-player,
+html[data-theme="tfr"] #lr-level-panel,
+html[data-theme="tfr"] #lr-wiki-import-panel,
+html[data-theme="tfr"] #lr-project-brief,
+html[data-theme="tfr"] #lr-theme-settings,
+html[data-theme="tfr"] #lr-ai-settings{
+ background:linear-gradient(145deg,#201328,#120f1f)!important;
+ border:1px solid #8c3b8d!important;border-radius:2px!important;
+ color:#f5e5ff!important;
+ box-shadow:inset 0 0 15px #ef3bdb0d!important
+}
+html[data-theme="tfr"] #lr-player .lr-status,
+html[data-theme="tfr"] #lr-player .lr-help,
+html[data-theme="tfr"] #lr-level-panel .lr-level-hint,
+html[data-theme="tfr"] #lr-wiki-status,
+html[data-theme="tfr"] #lr-wiki-credit{
+ color:#c4aed6!important;
+}
+html[data-theme="tfr"] #lr-level-panel strong{color:#f9d5f8!important}
+html[data-theme="tfr"] #detail .term{font-family:"VT323",monospace!important;color:#ffacfa!important;font-size:38px!important;text-shadow:0 0 9px #d642e496}
+html[data-theme="tfr"] #detail .gram,html[data-theme="tfr"] .alert,
+html[data-theme="tfr"] .stat,html[data-theme="tfr"] .empty{
+ background:#1d1429!important;border-color:#8a4a8f!important;color:#e6d9f0!important;border-radius:2px!important
+}
+html[data-theme="tfr"] .translation{color:#f4eaff!important}
+html[data-theme="tfr"] .lr-wordparts,html[data-theme="tfr"] .lr-library-entry,html[data-theme="tfr"] .sep{
+ border-color:#543157!important
+}
+html[data-theme="tfr"] .lr-part,html[data-theme="tfr"] .tag{background:#41264e!important;color:#ffd3f8!important;border-color:#a75fa0!important}
+html[data-theme="tfr"] .lr-library-title{color:#f7dffc!important}
+html[data-theme="tfr"] .lr-library-preview,html[data-theme="tfr"] .lr-partnote{color:#bba8ca!important}
+html[data-theme="tfr"] .lr-modal{background:#140e22!important;color:#f4e8ff!important;border-color:#9e489b!important}
+html[data-theme="tfr"] a{color:#ff91f6!important}
+html[data-theme="tfr"] .foot{color:#a66eaf!important;font-family:"VT323",monospace;font-size:17px;letter-spacing:1px}
+@media(max-width:800px){
+ html[data-theme="tfr"] #read #reader{padding:23px 15px!important}
+ html[data-theme="tfr"] header>div:first-child{padding-right:70px}
+ html[data-theme="tfr"] .lr-tfr-globe{right:0;top:0;width:62px;height:62px}
+ html[data-theme="tfr"] #read #reader::before{font-size:10px}
+ html[data-theme="tfr"] .nav button{font-size:18px!important}
+}
+@media(prefers-reduced-motion:reduce){html[data-theme="tfr"] *{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<header><div><div class="brand">LANG<em>RAD</em></div><div class="subbrand">THE LANGUAGE RISES</div></div><div class="pills"><span class="pill">Deutsch → Русский</span><span class="pill">Локальное хранение</span><span class="pill">Без платного ИИ</span></div>
+<nav class="panel nav topnav" aria-label="Разделы">
+<button class="active" data-tab="read">Читалка</button><button data-tab="words">Словарь</button><button data-tab="practice">Повторение</button><button data-tab="stats">Прогресс</button><button data-tab="settings">Настройки</button>
+</nav>
+</header>
+<div class="layout">
+<main class="panel">
+<section id="read">
+<div class="spread"><div><div class="eyebrow">Чтение с пониманием</div><h1>Читалка</h1></div><span id="score" class="pill">—</span></div>
+<p>Нажимай на слова. Сохраняй незнакомые, проверяй себя и постепенно заполняй свой словарь.</p>
+<div class="row"><button class="btn primary" id="addText">＋ Добавить текст</button><button class="btn" id="example">Пример</button><button class="btn" id="speak">🔊 Слушать</button></div>
+<div id="editor" class="hidden" style="margin-top:18px"><label class="label" for="title">Название</label><input class="input" id="title" value="Mein Text"><label class="label" for="textInput">Текст на немецком</label><textarea id="textInput" class="input" rows="8" placeholder="Вставь немецкий текст или загрузи TXT"></textarea><div class="row" style="margin-top:10px"><label class="btn" for="txtfile" style="cursor:pointer">📄 Выбрать TXT</label><input id="txtfile" type="file" accept=".txt,text/plain" class="hidden"><button class="btn primary" id="saveText">Открыть текст</button><button class="btn ghost" id="cancelEdit">Отмена</button></div></div>
+<hr class="sep"><div class="spread"><h2 id="docTitle">Ein kleiner Anfang</h2><div class="levelbox"><label class="tiny" for="aid">Подсказки:</label><select id="aid"><option>A1</option><option>A2</option><option selected>B1</option><option>B2</option><option>C1</option></select></div></div>
+<div id="reader" class="reader" aria-label="Текст для чтения"></div><div id="readingHint" class="alert"></div>
+<div id="sentenceHelp"></div>
+</section>
+<section id="words" class="hidden"><div class="eyebrow">Твоя лексика</div><h1>Словарь</h1><p>Вкладка показывает встреченные и сохранённые слова. Сам факт просмотра перевода не означает, что слово известно.</p><input class="input" id="wordSearch" placeholder="Искать слово"><div class="row" style="margin-top:12px"><button class="btn" id="exportCsv">↓ CSV для Anki/Excel</button></div><div id="wordList"></div></section>
+<section id="practice" class="hidden"><div class="eyebrow">Активная память</div><h1>Повторение</h1><p>Здесь нужно вспомнить перевод без подсказки. Слова, освоенные в разные дни, переходят на более длинные интервалы.</p><div class="spread"><span id="quizCount" class="pill"></span><span id="quizStep" class="pill"></span></div><div id="quiz" style="margin:24px 0"></div><button class="btn primary" id="startQuiz">Начать тест</button></section>
+<section id="stats" class="hidden"><div class="eyebrow">Твой прогресс</div><h1>Статистика</h1><div class="statgrid"><div class="stat"><strong id="seenNumber">0</strong><span>Встречено</span></div><div class="stat"><strong id="studyNumber">0</strong><span>Изучается</span></div><div class="stat"><strong id="knownNumber">0</strong><span>Проверено</span></div></div><div class="label">Доля правильных ответов</div><div class="progress"><div id="accuracyFill"></div></div><p id="accuracy"></p><div class="alert">Количество слов и результаты тестов — не объективное определение уровня A1–C1. В будущих версиях появится полноценная диагностика.</div></section>
+<section id="settings" class="hidden"><div class="eyebrow">Твоя библиотека</div><h1>Настройки</h1><p>Слова и тексты сейчас сохраняются локально в этом браузере. Для другого устройства используй резервную копию.</p><button class="btn primary" id="backup">↓ Скачать резервную копию</button><div class="row" style="margin-top:10px"><label for="restore" class="btn" style="cursor:pointer">↑ Восстановить</label><input class="hidden" type="file" id="restore" accept=".json"></div><hr class="sep"><div class="alert">Версия 0.8: немецкий язык, расширенный словарь. Учебная адаптация текста работает по приблизительным правилам и не гарантирует соответствия CEFR; проверяй грамматику.</div></section>
+</main>
+<aside class="panel details"><div class="eyebrow">Грамматика и значения</div><div id="detail"><h2 style="margin-top:18px">Выбери слово</h2><p>Нажми на слово в читалке — здесь появятся перевод, начальная форма и грамматическая справка.</p></div></aside>
+</div><div class="foot">LANGRAD v0.7.2 · THE LANGUAGE RISES · Вся обработка на твоём устройстве</div>
+<script>
+"use strict";
+const lex={
+"ich":["ich","я","местоимение","1-е лицо, единственное число, Nominativ"],
+"du":["du","ты","местоимение","2-е лицо, единственное число, Nominativ"],
+"er":["er","он","местоимение","Nominativ, мужской род"],
+"sie":["sie","она; они; Вы","местоимение","Форма и значение зависят от контекста"],
+"wir":["wir","мы","местоимение","Nominativ, множественное число"],
+"es":["es","оно; это","местоимение","Nominativ или Akkusativ"],
+"der":["der","определённый артикль","артикль","Nominativ, муж. род; другие значения зависят от контекста"],
+"die":["die","определённый артикль","артикль","Nominativ/Akkusativ жен. рода или мн. числа"],
+"das":["das","это; определённый артикль","артикль","Nominativ/Akkusativ, сред. род"],
+"den":["der","определённый артикль","артикль","Akkusativ муж. рода; Dativ мн. числа"],
+"dem":["der","определённый артикль","артикль","Dativ муж. или сред. рода"],
+"des":["der","определённый артикль","артикль","Genitiv муж. или сред. рода"],
+"ein":["ein","один; неопределённый артикль","артикль","Nominativ муж./сред. рода"],
+"eine":["ein","одна; неопределённый артикль","артикль","Nominativ/Akkusativ жен. рода"],
+"einen":["ein","неопределённый артикль","артикль","Akkusativ муж. рода"],
+"einem":["ein","неопределённый артикль","артикль","Dativ муж./сред. рода"],
+"und":["und","и","союз","Сочинительный союз, порядок слов не меняет"],
+"oder":["oder","или","союз","Сочинительный союз"],
+"aber":["aber","но","союз","Сочинительный союз"],
+"weil":["weil","потому что","союз","В придаточном предложении спрягаемый глагол обычно стоит в конце"],
+"obwohl":["obwohl","хотя","союз","Спрягаемый глагол в конце придаточного предложения"],
+"dass":["dass","что","союз","Спрягаемый глагол в конце придаточного предложения"],
+"wenn":["wenn","если; когда","союз","Вводит придаточное предложение"],
+"denn":["denn","ведь; потому что","союз","Сочинительный союз; обычный порядок слов"],
+"nicht":["nicht","не","частица","Отрицание"],
+"auch":["auch","тоже; также","наречие","Неизменяемое"],
+"sehr":["sehr","очень","наречие","Неизменяемое"],
+"gestern":["gestern","вчера","наречие","Обстоятельство времени"],
+"heute":["heute","сегодня","наречие","Обстоятельство времени"],
+"morgen":["morgen","завтра","наречие","Обстоятельство времени"],
+"jetzt":["jetzt","сейчас","наречие","Неизменяемое"],
+"hier":["hier","здесь","наречие","Обстоятельство места"],
+"dort":["dort","там","наречие","Обстоятельство места"],
+"plötzlich":["plötzlich","вдруг; внезапно","наречие","Неизменяемое"],
+"zusammen":["zusammen","вместе","наречие","Неизменяемое"],
+"draußen":["draußen","снаружи; на улице","наречие","Обстоятельство места"],
+"in":["in","в","предлог","Dativ: где? Akkusativ: куда?"],
+"auf":["auf","на","предлог","Dativ: где? Akkusativ: куда?"],
+"an":["an","на; у; возле","предлог","Dativ: где? Akkusativ: куда?"],
+"mit":["mit","с","предлог","Требует Dativ"],
+"aus":["aus","из","предлог","Требует Dativ"],
+"nach":["nach","после; в (направление)","предлог","Требует Dativ"],
+"zu":["zu","к; в","предлог","Требует Dativ"],
+"von":["von","от; из","предлог","Требует Dativ"],
+"bei":["bei","у; при","предлог","Требует Dativ"],
+"für":["für","для; за","предлог","Требует Akkusativ"],
+"ohne":["ohne","без","предлог","Требует Akkusativ"],
+"durch":["durch","через; сквозь","предлог","Требует Akkusativ"],
+"seit":["seit","с (момента времени)","предлог","Требует Dativ"],
+"um":["um","в (время); вокруг","предлог","Требует Akkusativ"],
+"ist":["sein","есть; является","глагол","Präsens, 3-е лицо ед. ч.; sein — war — ist gewesen"],
+"sind":["sein","есть; являются","глагол","Präsens, мн. число"],
+"war":["sein","был","глагол","Präteritum, 1/3-е лицо ед. ч."],
+"bin":["sein","(я) есть","глагол","Präsens, 1-е лицо ед. ч."],
+"sein":["sein","быть","глагол","sein — war — ist gewesen"],
+"habe":["haben","имею","глагол","Präsens, 1-е лицо ед. ч."],
+"hat":["haben","имеет","глагол","Präsens, 3-е лицо ед. ч."],
+"hatte":["haben","имел; вспомогательный глагол","глагол","Präteritum, 1/3-е лицо ед. ч."],
+"haben":["haben","иметь","глагол","haben — hatte — hat gehabt"],
+"gehen":["gehen","идти; ходить","глагол","gehen — ging — ist gegangen"],
+"geht":["gehen","идёт","глагол","Präsens, 3-е лицо ед. ч."],
+"ging":["gehen","шёл; пошёл","глагол","Präteritum, 1/3-е лицо ед. ч."],
+"gingen":["gehen","шли; пошли","глагол","Präteritum, множественное число"],
+"gegangen":["gehen","пошёл; ходил","глагол","Partizip II, употребляется с sein"],
+"kommen":["kommen","приходить; приезжать","глагол","kommen — kam — ist gekommen"],
+"kommt":["kommen","приходит; приезжает","глагол","Präsens, 3-е лицо ед. ч."],
+"kam":["kommen","пришёл; приехал","глагол","Präteritum, 1/3-е лицо ед. ч."],
+"sehen":["sehen","видеть","глагол","sehen — sah — hat gesehen"],
+"sah":["sehen","видел","глагол","Präteritum, 1/3-е лицо ед. ч."],
+"gesehen":["sehen","видел; увиденный","глагол","Partizip II"],
+"lesen":["lesen","читать","глагол","lesen — las — hat gelesen"],
+"liest":["lesen","читает; читаешь","глагол","Präsens, 2/3-е лицо ед. ч."],
+"lernen":["lernen","учить; изучать","глагол","lernen — lernte — hat gelernt"],
+"lerne":["lernen","(я) учу","глагол","Präsens, 1-е лицо ед. ч."],
+"sprechen":["sprechen","говорить; разговаривать","глагол","sprechen — sprach — hat gesprochen"],
+"spricht":["sprechen","говорит","глагол","Präsens, 3-е лицо ед. ч."],
+"wollen":["wollen","хотеть","модальный глагол","wollen — wollte — hat gewollt"],
+"wollte":["wollen","хотел","модальный глагол","Präteritum, 1/3-е лицо ед. ч."],
+"kann":["können","могу; может","модальный глагол","Präsens, 1/3-е лицо ед. ч."],
+"muss":["müssen","должен","модальный глагол","Präsens, 1/3-е лицо ед. ч."],
+"besuchen":["besuchen","посещать; навещать","глагол","Управление: jemanden besuchen + Akkusativ"],
+"bemerkte":["bemerken","заметил","глагол","Präteritum, 1/3-е лицо ед. ч.; bemerken — bemerkte — hat bemerkt"],
+"bemerken":["bemerken","замечать","глагол","bemerken — bemerkte — hat bemerkt"],
+"freund":["der Freund","друг","существительное","Муж. род; мн. число: die Freunde"],
+"freunde":["der Freund","друзья","существительное","Nominativ/Akkusativ, мн. число"],
+"stadt":["die Stadt","город","существительное","Жен. род; мн. число: die Städte"],
+"haus":["das Haus","дом","существительное","Сред. род; мн. число: die Häuser"],
+"mann":["der Mann","мужчина","существительное","Муж. род; мн. число: die Männer"],
+"tag":["der Tag","день","существительное","Муж. род; мн. число: die Tage"],
+"zeit":["die Zeit","время","существительное","Жен. род; мн. число: die Zeiten"],
+"jahr":["das Jahr","год","существительное","Сред. род; мн. число: die Jahre"],
+"jahren":["das Jahr","годам; годах","существительное","Dativ, мн. число"],
+"schule":["die Schule","школа","существительное","Жен. род; мн. число: die Schulen"],
+"buch":["das Buch","книга","существительное","Сред. род; мн. число: die Bücher"],
+"wort":["das Wort","слово","существительное","Сред. род; мн. число: Wörter (отдельные слова) / Worte (речь)"],
+"sprache":["die Sprache","язык; речь","существительное","Жен. род; мн. число: die Sprachen"],
+"wasser":["das Wasser","вода","существительное","Сред. род"],
+"kaffee":["der Kaffee","кофе","существительное","Муж. род"],
+"café":["das Café","кафе","существительное","Сред. род; мн. число: die Cafés"],
+"menschen":["der Mensch","люди","существительное","Мн. число; единственное: der Mensch"],
+"leben":["leben / das Leben","жить; жизнь","глагол / существительное","Часть речи зависит от контекста"],
+"arbeit":["die Arbeit","работа","существительное","Жен. род; мн. число: die Arbeiten"],
+"gut":["gut","хороший; хорошо","прилагательное","gut — besser — am besten"],
+"alt":["alt","старый","прилагательное","alt — älter — am ältesten"],
+"alten":["alt","старый (склонённая форма)","прилагательное","Окончание -en; точный падеж зависит от артикля и контекста"],
+"klein":["klein","маленький","прилагательное","klein — kleiner — am kleinsten"],
+"kleines":["klein","маленькое (склонённая форма)","прилагательное","Окончание -es; например ein kleines Café (Akkusativ, ср. р.)"],
+"kalt":["kalt","холодный; холодно","прилагательное","kalt — kälter — am kältesten"],
+"groß":["groß","большой","прилагательное","groß — größer — am größten"],
+"schnell":["schnell","быстрый; быстро","прилагательное","schnell — schneller — am schnellsten"],
+"langsam":["langsam","медленный; медленно","прилагательное","langsam — langsamer — am langsamsten"],
+"seinem":["sein","своему; его","притяжательное слово","Dativ, муж./сред. род"],
+"seinen":["sein","своего; его","притяжательное слово","Akkusativ муж. рода или Dativ мн. числа"],
+"ersten":["erst","первый (склонённая форма)","порядковое числительное","Окончание -en; падеж зависит от контекста"]
+};
+const sample="Gestern ging Paul durch die Stadt. Plötzlich bemerkte er einen alten Freund, den er seit Jahren nicht gesehen hatte.\n\nObwohl es draußen kalt war, wollte er mit seinem Freund sprechen. Sie gingen zusammen in ein kleines Café.";
+const storageKey="langrad-v01";
+const blank=()=>({title:"Ein kleiner Anfang",text:sample,words:{},results:{total:0,correct:0},aid:"B1"});
+let state=blank();
+try{const old=JSON.parse(localStorage.getItem(storageKey)||"null");if(old&&typeof old.text==="string"&&old.words&&old.results)state=Object.assign(state,old)}catch(e){}
+const $=x=>document.getElementById(x);
+const normal=w=>w.toLocaleLowerCase("de-DE");
+const tokens=s=>s.match(/[\p{L}]+(?:['’-][\p{L}]+)*|[^\p{L}]+/gu)||[];
+const words=s=>tokens(s).filter(w=>/\p{L}/u.test(w));
+function persist(){try{localStorage.setItem(storageKey,JSON.stringify(state))}catch(e){alert("Хранилище браузера заполнено. Сделай резервную копию.")}}
+function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+function record(w){const k=normal(w);if(!state.words[k])state.words[k]={display:w,stage:0,correct:0,wrong:0,next:0,lastDay:"",reported:false,translation:""};return state.words[k]}
+function labelStage(r){return ["Просмотрено","Изучается","Повторяется","Знакомо","Усвоено"][Math.min(Math.max(r.stage,0),4)]}
+let currentSelection=null;
+function renderReader(){
+$("docTitle").textContent=state.title;
+$("reader").replaceChildren();
+const list=tokens(state.text), unique=[...new Set(words(state.text).map(normal))];let familiar=0;
+for(const word of unique)if(state.words[word]&&state.words[word].stage>=3)familiar++;
+const aid=state.aid||"B1";
+$("aid").value=aid;
+for(const t of list){
+if(!/\p{L}/u.test(t)){$("reader").append(document.createTextNode(t));continue}
+const s=document.createElement("span"),r=state.words[normal(t)];s.textContent=t;s.tabIndex=0;s.className="token "+(!r?"new":r.stage>=3?"known":r.stage>=1?"learning":"new");
+if(aid==="A1"||aid==="A2")s.title=lex[normal(t)]?.[1]||"Нажми для информации";
+s.addEventListener("click",()=>selectWord(t,s));s.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();selectWord(t,s)}});
+$("reader").append(s)
+}
+$("score").textContent=familiar+" из "+unique.length+" знакомых";
+$("readingHint").textContent="Режим подсказок "+aid+". Подсветка: фиолетовый — неизвестное, жёлтый — изучается, зелёный — подтверждено тестами. Исходный текст можно упростить по уровню ниже и в любой момент вернуть.";
+$("sentenceHelp").replaceChildren();
+}
+function selectWord(w,el){
+document.querySelectorAll(".token.sel").forEach(x=>x.classList.remove("sel"));if(el)el.classList.add("sel");
+currentSelection=w;
+const r=record(w);persist();const d=lex[normal(w)],translated=r.translation||d?.[1]||"Нет офлайн-перевода";
+$("detail").innerHTML='<div class="term">'+escapeHtml(w)+'</div><span class="tag">'+escapeHtml(d?.[2]||"Нет разбора")+'</span><div class="sep"></div><div class="translation">'+escapeHtml(translated)+'</div><div class="label">Начальная форма</div><h2>'+escapeHtml(d?.[0]||"Не определена")+'</h2><div class="label">Грамматика</div><div class="gram">'+escapeHtml(d?.[3]||"Встроенный словарь пока не знает это слово. Укажи собственное значение или проверь словарную статью.")+'</div><div class="label">Статус</div><p>'+labelStage(r)+(r.reported?' · Самооценка «знаю»':'')+'</p><div class="row"><button class="btn primary sm" id="study">＋ Учить</button><button class="btn sm" id="report">✓ Я знаю</button><a class="btn sm" rel="noopener noreferrer" target="_blank" href="https://de.wiktionary.org/wiki/'+encodeURIComponent(w)+'">Wiktionary ↗</a></div><label class="label" for="manual">Свой перевод (для неизвестных слов)</label><input class="input" id="manual" maxlength="200" placeholder="Например, удивляться" value="'+escapeHtml(r.translation||"")+'"><button class="btn sm" id="saveManual" style="margin-top:8px">Сохранить перевод</button><hr class="sep"><button class="btn sm ghost" id="context">Разобрать контекст</button><div id="contextOutput"></div>';
+$("study").onclick=()=>{r.stage=Math.max(1,r.stage);r.next=0;persist();renderReader();selectWord(w)};
+$("report").onclick=()=>{r.reported=true;r.stage=Math.max(1,r.stage);r.next=0;persist();renderReader();selectWord(w)};
+$("saveManual").onclick=()=>{r.translation=$("manual").value.trim();persist();renderReader();selectWord(w)};
+$("context").onclick=()=>contextHelp(w)
+}
+function contextHelp(w){
+const esc=escapeHtml;
+const rx=/[^.!?]+[.!?]?/gu, sentences=state.text.match(rx)||[state.text],sentence=sentences.find(s=>words(s).map(normal).includes(normal(w)))||state.text.slice(0,160);
+const notes=[];
+if(/\b(obwohl|weil|dass|wenn)\b/i.test(sentence))notes.push("weil, obwohl, dass, wenn вводят придаточные предложения. В немецком языке личная форма глагола в них обычно стоит в конце.");
+if(/\b(mit|nach|von|aus|bei|seit)\b/i.test(sentence))notes.push("mit, nach, von, aus, bei, seit требуют Dativ. Определи зависимое существительное и его артикль.");
+if(/\b(für|ohne|durch)\b/i.test(sentence))notes.push("für, ohne, durch требуют Akkusativ.");
+if(/\b(habe|hat|haben|hatte|bin|ist|sind)\b/i.test(sentence)&&/\b(ge\p{L}+t|ge\p{L}+en|gesehen|gegangen)\b/iu.test(sentence))notes.push("Возможна составная глагольная форма с Partizip II. Уточни, Perfekt это или Plusquamperfekt, по форме вспомогательного глагола.");
+if(!notes.length)notes.push("В этом предложении встроенный анализатор не нашёл готового правила. Полноценный синтаксический разбор пока недоступен.");
+$("contextOutput").innerHTML='<div class="breakdown"><div class="eyebrow">Предложение</div><p style="color:white">'+esc(sentence.trim())+'</p>'+notes.map(n=>'<div class="hint">• '+esc(n)+'</div>').join("")+'<p class="tiny">Это подсказки по признакам предложения, не полный автоматический синтаксический разбор.</p></div>'
+}
+function showTab(name){
+for(const t of ["read","words","practice","stats","settings"])$(t).classList.toggle("hidden",t!==name);
+document.querySelectorAll(".nav button").forEach(b=>b.classList.toggle("active",b.dataset.tab===name));
+if(name==="words")renderWords();if(name==="practice")quizHome();if(name==="stats")stats();if(name==="read")renderReader()
+}
+document.querySelectorAll(".nav button").forEach(b=>b.onclick=()=>showTab(b.dataset.tab));
+$("addText").onclick=()=>{$("editor").classList.remove("hidden");$("title").value=state.title;$("textInput").value=state.text};
+$("cancelEdit").onclick=()=>$("editor").classList.add("hidden");
+$("txtfile").onchange=async e=>{const f=e.target.files[0];if(!f)return;if(f.size>3000000)return alert("Максимальный размер TXT: 3 МБ");$("textInput").value=await f.text();$("title").value=f.name.replace(/\.txt$/i,"")};
+$("saveText").onclick=()=>{const t=$("textInput").value.trim();if(!t)return alert("Нужен текст");state.text=t;state.title=$("title").value.trim()||"Mein Text";persist();$("editor").classList.add("hidden");renderReader()};
+$("example").onclick=()=>{if(confirm("Открыть пример? Словарь и статистика сохранятся.")){state.text=sample;state.title="Ein kleiner Anfang";persist();renderReader()}};
+$("aid").onchange=e=>{state.aid=e.target.value;persist();renderReader()};
+$("speak").onclick=()=>{if(!("speechSynthesis" in window))return alert("В этом браузере озвучивание недоступно");speechSynthesis.cancel();const utter=new SpeechSynthesisUtterance(state.text);utter.lang="de-DE";utter.rate=.85;speechSynthesis.speak(utter)};
+function renderWords(){
+const q=normal($("wordSearch").value);const list=Object.entries(state.words).filter(([w,r])=>w.includes(q)).sort((a,b)=>b[1].stage-a[1].stage);
+$("wordList").innerHTML=list.length?list.map(([w,r])=>'<div class="table-entry"><div class="spread"><strong>'+escapeHtml(r.display)+'</strong><span class="tag">'+labelStage(r)+'</span></div><p style="margin:4px 0">'+escapeHtml(r.translation||lex[w]?.[1]||"Пока нет перевода")+'</p><div class="tiny">'+r.correct+' правильных · '+r.wrong+' ошибок</div></div>').join(""):'<div class="empty">Пока нет слов. Начни с читалки: нажми на слово и выбери «Учить».</div>'
+}
+$("wordSearch").oninput=renderWords;
+function candidates(){return Object.entries(state.words).filter(([w,r])=>r.stage>=1&&r.stage<4&&(r.next||0)<=Date.now()&&Boolean(r.translation||lex[w]?.[1])).map(([w])=>w)}
+let queue=[],index=0,answerLocked=false;
+function shuffle(a){const x=a.slice();for(let i=x.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[x[i],x[j]]=[x[j],x[i]]}return x}
+function quizHome(){$("quizCount").textContent=candidates().length+" слов к повторению";$("quizStep").textContent="";$("quiz").innerHTML='<div class="alert">Сначала добавь несколько слов через читалку. Для неизвестных слов можно указать собственный перевод.</div>';$("startQuiz").classList.remove("hidden");$("startQuiz").disabled=!candidates().length}
+$("startQuiz").onclick=()=>{queue=shuffle(candidates()).slice(0,10);index=0;$("startQuiz").classList.add("hidden");question()};
+function question(){
+answerLocked=false;if(index>=queue.length){$("quizStep").textContent="Готово";$("quiz").innerHTML='<h2>Отлично, занятие завершено!</h2><p>Следующие повторения запланированы по результатам. Подтверждённое знание требует верных ответов в разные дни.</p>';$("startQuiz").classList.remove("hidden");$("startQuiz").disabled=!candidates().length;return}
+const w=queue[index],correct=state.words[w].translation||lex[w]?.[1],pool=[...new Set(Object.entries(lex).map(([k,v])=>v[1]).concat(Object.values(state.words).map(r=>r.translation).filter(Boolean)))].filter(x=>x!==correct);const opts=shuffle([correct,...shuffle(pool).slice(0,3)]);
+$("quizStep").textContent=(index+1)+"/"+queue.length;$("quiz").innerHTML='<div class="eyebrow">Выбери значение</div><div class="term">'+escapeHtml(state.words[w].display)+'</div>'+opts.map((o,i)=>'<button class="choice" data-index="'+i+'">'+escapeHtml(o)+'</button>').join("")+'<div id="feedback"></div><button id="nextQuestion" class="btn primary hidden">Продолжить →</button>';
+$("quiz").querySelectorAll(".choice").forEach(b=>b.onclick=()=>{
+if(answerLocked)return;answerLocked=true;const ok=opts[Number(b.dataset.index)]===correct;const r=state.words[w];state.results.total++;
+if(ok){
+state.results.correct++;r.correct++;const day=new Date().toISOString().slice(0,10);if(r.lastDay!==day){r.stage=Math.min(4,Math.max(2,r.stage+1));r.lastDay=day}r.next=Date.now()+({1:6,2:24,3:72,4:168}[r.stage]||24)*3600000
+}else{r.wrong++;r.stage=1;r.next=Date.now()+6*3600000}
+persist();
+$("quiz").querySelectorAll(".choice").forEach(el=>{el.disabled=true;if(opts[Number(el.dataset.index)]===correct)el.classList.add("correct");else if(el===b)el.classList.add("wrong")});
+$("feedback").innerHTML='<p>'+(ok?"✓ Верно!":"✗ Правильный ответ: "+escapeHtml(correct))+'</p>';$("nextQuestion").classList.remove("hidden");$("nextQuestion").onclick=()=>{index++;question()}
+})
+}
+function stats(){
+const a=Object.values(state.words);$("seenNumber").textContent=a.length;$("studyNumber").textContent=a.filter(r=>r.stage===1||r.stage===2).length;$("knownNumber").textContent=a.filter(r=>r.stage>=3).length;
+const percent=state.results.total?Math.round(100*state.results.correct/state.results.total):0;$("accuracyFill").style.width=percent+"%";$("accuracy").textContent=percent+"% правильных ответов из "+state.results.total+" проверок."
+}
+function download(name,data,type){const blob=new Blob([data],{type}),url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)}
+$("exportCsv").onclick=()=>{const rows=[["word","lemma","translation","status","correct","errors"],...Object.entries(state.words).map(([w,r])=>[w,lex[w]?.[0]||"",r.translation||lex[w]?.[1]||"",labelStage(r),r.correct,r.wrong])];const csv=rows.map(row=>row.map(x=>'"'+String(x).replace(/"/g,'""')+'"').join(",")).join("\r\n");download("langrad-words.csv","\ufeff"+csv,"text/csv;charset=utf-8")};
+$("backup").onclick=()=>download("langrad-backup.json",JSON.stringify(state,null,2),"application/json");
+$("restore").onchange=async e=>{try{const obj=JSON.parse(await e.target.files[0].text());if(typeof obj.text!=="string"||typeof obj.title!=="string"||!obj.words||typeof obj.results?.total!=="number"||typeof obj.results?.correct!=="number")throw Error("format");if(!confirm("Заменить сохранённые данные?"))return;state=obj;persist();showTab("read");alert("Данные восстановлены")}catch(e){alert("Некорректный файл резервной копии")}};
+renderReader();persist();
+</script>
+<script>
+/* Langrad 0.2 — opt-in free word translation and cautious morphology hints */
+(function(){
+"use strict";
+const originalSelectWord = selectWord;
+function newNode(tag, cls, text){
+  const n=document.createElement(tag);
+  if(cls)n.className=cls;
+  if(text!==undefined)n.textContent=text;
+  return n;
+}
+function possibleForms(w){
+  const low=normal(w);const notes=[];
+  if(/^[A-ZÄÖÜ]/.test(w) && !/^(Ich|Er|Sie|Wir|Das|Der|Die|Ein|Eine|Es|Du|Obwohl|Gestern|Plötzlich|Heute|Morgen|Wenn|Weil|Und|Aber|Für|Mit|Nach|In|Aus)$/u.test(w))
+    notes.push("С заглавной буквы: возможно существительное (но также начало предложения).");
+  if(/(?:ung|heit|keit|schaft|tion)$/u.test(low)) notes.push("Суффикс часто встречается у существительных женского рода.");
+  if(/(?:chen|lein)$/u.test(low))notes.push("Уменьшительный суффикс: существительные с ним обычно среднего рода.");
+  if(/^ge.+(?:t|en)$/u.test(low))notes.push("Возможно Partizip II — форма глагола для Perfekt/Passiv.");
+  if(/(?:te|test|ten|tet)$/u.test(low))notes.push("Возможно форма слабого глагола в Präteritum или склонённое прилагательное.");
+  if(/(?:em|en|er|es)$/u.test(low))notes.push("Возможно падежное окончание прилагательного, местоимения или существительного.");
+  return [...new Set(notes)].slice(0,3)
+}
+async function translateFree(w,output,button){
+  button.disabled=true;output.textContent="Перевожу…";
+  try{
+    const url=new URL("https://api.mymemory.translated.net/get");
+    url.searchParams.set("q",w);
+    url.searchParams.set("langpair","de|ru");
+    const controller=new AbortController();
+    const timer=setTimeout(()=>controller.abort(),12000);
+    let response;
+    try{response=await fetch(url.toString(),{signal:controller.signal})}
+    finally{clearTimeout(timer)}
+    if(!response.ok)throw new Error("HTTP "+response.status);
+    const data=await response.json();
+    if(Number(data.responseStatus)>=400)throw new Error(data.responseDetails||"Сервис временно недоступен");
+    const answer=String(data.responseData?.translatedText||"").trim();
+    if(!answer||/^(MYMEMORY WARNING|QUERY LENGTH LIMIT)/i.test(answer))throw new Error("Сервис не дал подходящего перевода");
+    const alternate=[...new Set((data.matches||[]).map(x=>String(x.translation||"").trim()).filter(x=>x&&x!==answer&&!/^(MYMEMORY WARNING|QUERY LENGTH LIMIT)/i.test(x)))].slice(0,5);
+    const r=record(w);
+    r.translation=answer;
+    persist();
+    output.replaceChildren();
+    output.append(newNode("strong","",answer));
+    if(alternate.length)output.append(newNode("div","tiny","Другие варианты из базы: "+alternate.join("; ")));
+    output.append(newNode("div","tiny","Основной перевод сохранён. Проверь значение в контексте — машинный перевод может ошибаться."));
+  }catch(e){
+    output.textContent="Не получилось получить перевод: "+(e.name==="AbortError"?"истекло время ожидания":e.message)+". Попробуй позже или открой Wiktionary.";
+  }finally{button.disabled=false}
+}
+selectWord=function(w,el){
+  originalSelectWord(w,el);
+  const detail=document.getElementById("detail");
+  if(!detail)return;
+  const box=newNode("div","langrad-online");
+  const heading=newNode("div","label","Бесплатный перевод (онлайн)");
+  const text=newNode("div","tiny","Нажатие отправит только выбранное слово сервису MyMemory. Без запроса ничего не отправляется. Есть дневной лимит; ответы требуют проверки.");
+  const button=newNode("button","btn sm","↻ Перевести онлайн");
+  button.type="button";
+  button.style.marginTop="10px";
+  const output=newNode("div","langrad-online-result","");
+  button.addEventListener("click",()=>translateFree(w,output,button));
+  box.append(heading,text,button,output);
+  const offline=lex[normal(w)];
+  if(!offline){
+    const hints=possibleForms(w);
+    if(hints.length){
+      const morphology=newNode("div","gram","");
+      morphology.append(newNode("strong","","Возможные грамматические признаки (не подтверждено):"));
+      for(const h of hints)morphology.append(newNode("div","hint","• "+h));
+      box.prepend(morphology);
+    }
+  }
+  detail.append(box);
+}
+const help=document.getElementById("readingHint");
+if(help)help.textContent="Нажми на слово, чтобы открыть значения. Для редких слов доступен перевод через бесплатный онлайн-сервис по кнопке; текст книги автоматически не отправляется.";
+})();
+</script><script>
+/* Langrad v0.5: expanded offline dictionary */
+(function(){
+"use strict";
+let bigDict=null,loadError=null;
+const oldSelect=selectWord;
+const forms={
+wurden:"werden",wurde:"werden",wird:"werden",wirst:"werden",
+abgelöst:"ablösen",liegen:"liegen",liegt:"liegen",lag:"liegen",lagen:"liegen",
+weißer:"weiß",weiße:"weiß",weißen:"weiß",weißem:"weiß",weiße:"weiß",
+bohnen:"Bohne",magen:"Magen",abends:"Abend",jedem:"jeder",
+schafft:"schaffen",dagewesen:"dasein",bietet:"bieten",
+ihm:"er",weiß:"wissen",leergekriegen:"leerkriegen",soll:"sollen",
+seine:"sein",seinen:"sein",gestrichen:"streichen",aufgetrieben:"auftreiben",
+waschschüsseln:"Waschschüssel",brotportionen:"Brotportion",
+tomatenkopf:"Tomatenkopf",küchenbulle:"Küchenbulle",winkt:"winken",
+füllt:"füllen",kräftigen:"kräftig",verzweifelt:"verzweifeln",
+doppelte:"doppelt",gibt:"geben",fassen:"fassen",
+front:"Front",kilometer:"Kilometer",rindfleisch:"Rindfleisch"
+};
+function norm(x){return String(x).toLocaleLowerCase("de-DE")}
+function candidates(word){
+ const w=norm(word),out=[w];
+ if(forms[w])out.push(norm(forms[w]));
+ for(const end of ["innen","ungen","heiten","keiten","schaften","ern","ens","en","em","er","es","e","n","s"]){
+  if(w.length>7&&w.endsWith(end)){
+   const base=w.slice(0,-end.length);out.push(base,base+"e",base+"en",base+"er");
+  }
+ }
+ if(/te(n|st|t)?$/.test(w))out.push(w.replace(/te(n|st|t)?$/,"en"));
+ if(/(st|t)$/.test(w))out.push(w.replace(/(st|t)$/,"en"));
+ if(/^ge.+t$/.test(w))out.push(w.slice(2,-1)+"en");
+ return [...new Set(out)].slice(0,40);
+}
+function lookup(word){
+ if(!bigDict)return null;
+ const w=norm(word);
+ for(const key of candidates(word)){
+  if(bigDict[key])return {key,data:bigDict[key],exact:key===w};
+ }
+ return null;
+}
+function add(type,txt,parent){
+ const el=document.createElement("div");if(type)el.className=type;el.textContent=txt;parent.append(el);return el;
+}
+selectWord=function(word,el){
+ oldSelect(word,el);
+ const result=lookup(word),detail=document.getElementById("detail");
+ if(!detail)return;
+ const box=document.createElement("div");box.className="langrad-online";box.id="freedict-result";
+ if(result){
+  const {key,data,exact}=result;
+  const [translations,pos,gender,form]=data;
+  const recordRow=state.words[norm(word)];
+  const translated=translations.slice(0,7).join("; ");
+  const slot=detail.querySelector(".translation");
+  if(slot&&!recordRow?.translation)slot.textContent=translated;
+  add("label","Большой словарь · FreeDict / WikDict",box);
+  add("translation",translated,box);
+  const labels=[...detail.querySelectorAll(".label")];
+  const lemmaLabel=labels.find(l=>l.textContent==="Начальная форма");
+  if(lemmaLabel?.nextElementSibling)lemmaLabel.nextElementSibling.textContent=(gender?gender+" ":"")+(form||key);
+  const grLabel=labels.find(l=>l.textContent==="Грамматика");
+  if(grLabel?.nextElementSibling&&!lex[norm(word)]?.[3])grLabel.nextElementSibling.textContent=(pos||"Словарная статья")+(exact?"":" · Возможная исходная форма, нужна проверка в контексте");
+  if(!exact)add("tiny","Возможная начальная форма: "+(form||key)+". Это предположение по форме слова.",box);
+  add("tiny","Значения из открытого словаря, не автоматический перевод предложения.",box);
+ }else{
+  add("tiny",bigDict?"Этого слова нет в большой базе или не удалось определить его форму.":"Словарь загружается…",box);
+  if(loadError)add("tiny","Не получилось загрузить базу: "+loadError,box);
+ }
+ detail.insertBefore(box,detail.querySelector(".langrad-online")||null);
+};
+const status=document.createElement("span");status.className="pill";status.textContent="Словарь загружается";
+document.querySelector("header .pills")?.append(status);
+fetch("/dictionary.json",{cache:"force-cache"}).then(r=>{if(!r.ok)throw Error("HTTP "+r.status);return r.json()}).then(json=>{
+ bigDict=json;status.textContent="Словарь: "+Object.keys(json).length.toLocaleString("ru")+" слов";
+ if(currentSelection)selectWord(currentSelection);
+}).catch(e=>{loadError=e.message;status.textContent="Словарь недоступен"});
+const settings=document.getElementById("settings");
+if(settings){
+ const p=document.createElement("p"),a=document.createElement("a");a.href="/dictionary-license.txt";a.textContent="FreeDict: источник и лицензия словарных данных";a.target="_blank";a.rel="noopener noreferrer";p.append(a);settings.append(p);
+}
+})();
+</script><script>
+/* Langrad v0.5: curated word-forms and grammar for beginner and literary German. */
+Object.assign(lex,{"front":["die Front","фронт; линия фронта","существительное","Женский род. В der Front после hinter — Dativ, так как речь о местоположении."],"wurden":["werden","были; стали; использованы в страдательном залоге","глагол","Präteritum, множественное число. В «wurden wir abgelöst» — Passiv: werden + Partizip II."],"wurde":["werden","стал; был","глагол","Präteritum, 1-е или 3-е лицо единственного числа."],"abgelöst":["ablösen","сменили; заменили; освободили от дежурства","глагол","Partizip II глагола ablösen. В «wir wurden abgelöst» — нас сменили (Passiv)."],"liegen":["liegen","лежать; находиться; располагаться","глагол","Präsens: wir liegen — мы находимся. liegen — lag — hat gelegen."],"neun":["neun","девять","числительное","Количественное числительное. Не склоняется в данном употреблении."],"hinter":["hinter","позади; за","предлог","Dativ (где?) или Akkusativ (куда?). «hinter der Front» — Dativ."],"bohnen":["die Bohne","фасоль; бобы","существительное","Множественное число: die Bohnen. В «voll weißer Bohnen» — Genitiv, мн. число."],"weißer":["weiß","белых; белый","прилагательное","Форма прилагательного weiß. В «voll weißer Bohnen» — Genitiv, мн. число, сильное склонение."],"kochgeschirr":["das Kochgeschirr","солдатский котелок; походная посуда","существительное","Средний род. В военном контексте — солдатский котелок."],"brotportionen":["die Brotportion","порции хлеба","существительное","Множественное число: die Brotportionen."],"doppelte":["doppelt","двойные; удвоенные","прилагательное","Склонённая форма doppelt. В «doppelte Wurst- und Brotportionen» — множественное число."],"schafft":["schaffen","справляется; устраивает; создаёт","глагол","Präsens, 3-е лицо ед. числа. Здесь «das schafft» — «это получается/удаётся»."],"dagewesen":["da gewesen","случалось; бывало","глагольное выражение","В «ist lange nicht mehr dagewesen» — «давно такого не было»."],"küchenbulle":["der Küchenbulle","повар (солдатский жаргон)","существительное","Мужской род. Разговорное военное прозвище повара."],"tomatenkopf":["der Tomatenkopf","голова красная, как помидор; «помидорная голова»","существительное","Мужской род. Образное прозвище или описание внешности."],"roten":["rot","красный (склонённая форма)","прилагательное","После «seinem» в Dativ: seinem roten Tomatenkopf."],"bietet":["bieten / anbieten","предлагает; подаёт","глагол","Präsens, 3-е лицо ед. числа. В «bietet ... an» — отделяемый глагол anbieten."],"vorbeikommt":["vorbeikommen","проходит мимо; подходит","глагол","Präsens, 3-е лицо ед. числа. В придаточном предложении приставка не отделяется."],"winkt":["winken","машет; подзывает","глагол","Präsens, 3-е лицо ед. числа; jemandem winken + Dativ."],"füllt":["füllen / einfüllen","наполняет; наливает","глагол","Präsens, 3-е лицо ед. числа. С приставкой ein-: «füllt ... ein»."],"kräftigen":["kräftig","солидный; обильный; сильный","прилагательное","В «einen kräftigen Schlag» — Akkusativ, мужской род, окончание -en."],"schlag":["der Schlag","удар; порция (в контексте)","существительное","Мужской род. Значение зависит от контекста."],"verzweifelt":["verzweifeln","в отчаянии; отчаявшийся","прилагательное / глагол","«Er ist ganz verzweifelt» — он совершенно в отчаянии."],"gulaschkanone":["die Gulaschkanone","полевая кухня","существительное","Женский род. Разговорное название передвижной полевой кухни."],"leergekriegen":["leerkriegen","израсходовать до конца; опустошить","глагол","Разговорный глагол: leer + kriegen; здесь «опустошить полевую кухню»."],"waschschüsseln":["die Waschschüssel","тазы для умывания; умывальные миски","существительное","Множественное число: die Waschschüsseln."],"aufgetrieben":["auftreiben","раздобыли; достали","глагол","Partizip II от auftreiben. С глаголом haben образует Perfekt."],"gestrichen":["streichen","набили до краёв (в контексте); намазали","глагол","Partizip II от streichen. «gestrichen voll» — совсем полный, до краёв."],"zum":["zu dem","до; к","предлог + артикль","Слитная форма zu + dem, Dativ."],"einen":["ein","одного; неопределённый артикль","артикль","Akkusativ, мужской род."],"seinem":["sein","своему; его","притяжательное слово","Dativ мужского или среднего рода."],"seine":["sein","свои; её? (здесь «свою»)","притяжательное слово","Склоняемая форма sein. В «seine Gulaschkanone» — Akkusativ, женский род."],"jedem":["jeder","каждому","местоимение","Dativ, мужской/средний род."],"gibt":["geben","даёт; имеется","глагол","Präsens, 3-е лицо ед. числа. «es gibt» + Akkusativ — имеется."],"hat":["haben","имеет; (вспомогательный глагол)","глагол","Präsens, 3-е лицо ед. числа."],"als":["als","как; когда; в качестве","союз / предлог","В контексте «als Reserve» — «в качестве запаса»."],"essen":["das Essen / essen","еда; есть","существительное / глагол","С большой буквы Essen — существительное, средний род."],"schon":["schon","уже; давно","наречие","Неизменяемое."],"satt":["satt","сытый; досыта","прилагательное","«satt sein» — быть сытым."],"voll":["voll","полный; до отказа","прилагательное","«voll» может употребляться с Genitiv в литературном стиле."],"zufrieden":["zufrieden","довольный","прилагательное","«zufrieden sein» — быть довольным."],"fassen":["fassen","вмещать; наполнять; схватить","глагол","В выражении «voll fassen» — наполнять."],"abends":["abends","вечером; по вечерам","наречие","Обстоятельство времени."],"direkt":["direkt","прямо; непосредственно","наречие / прилагательное","Неизменяемая наречная форма."],"waschschüssel":["die Waschschüssel","таз; миска для умывания","существительное","Женский род; мн. число: die Waschschüsseln."],"rand":["der Rand","край","существительное","Мужской род. «bis zum Rand» — до краёв."],"tjaden":["Tjaden","Тьяден (фамилия персонажа)","имя собственное","Фамилия персонажа из романа."],"im":["in dem","в; внутри","предлог + артикль","Сокращение in + dem, Dativ."],"westen":["der Westen","запад","существительное","Мужской род; «im Westen» — на западе."],"weiß":["wissen / weiß","знает; знаю; белый","глагол / прилагательное","В «er weiß» — Präsens, 3-е лицо, ед. ч., от wissen. Может также быть прилагательным «белый»."],"hatte":["haben","имел; был (вспомогательный)","глагол","Präteritum, 1-е или 3-е лицо ед. ч."],"hatten":["haben","имели","глагол","Präteritum, множественное число."],"anfangen":["anfangen","начинать","глагол","Отделяемый глагол: anfangen — fing an — hat angefangen."]});
+</script><script>
+/* Langrad v0.5.1: show German noun articles, not raw TEI gender codes */
+(function(){
+const original=selectWord;
+selectWord=function(word,el){
+ original(word,el);
+ const root=document.getElementById("detail");
+ if(!root)return;
+ const title=[...root.querySelectorAll(".label")].find(n=>n.textContent==="Начальная форма");
+ const value=title?.nextElementSibling;
+ if(!value)return;
+ const special=lex[String(word).toLocaleLowerCase("de-DE")];
+ const raw=value.textContent||"";
+ if(special&&/^(der|die|das)\s/i.test(special[0])){
+   value.textContent=special[0];
+ }else if(/^fem\s/i.test(raw)){
+   value.textContent=raw.replace(/^fem\s/i,"die ");
+ }else if(/^masc\s/i.test(raw)){
+   value.textContent=raw.replace(/^masc\s/i,"der ");
+ }else if(/^neut\s/i.test(raw)){
+   value.textContent=raw.replace(/^neut\s/i,"das ");
+ }
+};
+})();
+</script><script>
+/* Langrad v0.6 — grammar guide and selected-text reader */
+(function(){
+"use strict";
+const glossary={
+Nominativ:["Именительный падеж","Wer? Was? — кто? что?","Чаще всего подлежащее: кто выполняет действие. Артикли: der, die, das.","Der Mann liest. — Мужчина читает."],
+Akkusativ:["Винительный падеж","Wen? Was? — кого? что?","Часто прямое дополнение. В мужском роде der становится den, ein — einen. Используется после für, ohne, gegen, durch, um.","Ich sehe den Mann. — Я вижу мужчину."],
+Dativ:["Дательный падеж","Wem? — кому? чему?","Нужен после mit, aus, nach, von, zu, bei, seit. В вопросе местоположения после hinter, in, auf и других двухпадежных предлогов также возможен Dativ.","Wir sind hinter der Front. — Мы за линией фронта."],
+Genitiv:["Родительный падеж","Wessen? — чей?","Выражает принадлежность. Мужской/средний род с des, женский с der.","Das Buch des Mannes. — Книга мужчины."],
+Präsens:["Настоящее время","Что происходит сейчас?","Время настоящего, привычек и иногда будущих планов.","Wir liegen neun Kilometer hinter der Front."],
+Präteritum:["Простое прошедшее время","Что происходило?","Часто употребляется в литературе. Примеры: gehen → ging, sein → war.","Er ging nach Hause. — Он пошёл домой."],
+Perfekt:["Составное прошедшее время","Что произошло?","Образуется через haben/sein + Partizip II.","Er hat das Buch gelesen."],
+"Partizip II":["Причастие II","Что это за форма?","Глагольная форма для Perfekt и Passiv: gemacht, gesehen, abgelöst.","Wir wurden abgelöst. — Нас сменили."],
+Passiv:["Страдательный залог","Что сделали с подлежащим?","В конструкции werden + Partizip II действие направлено на подлежащее.","Wir wurden abgelöst. — Нас сменили."],
+Adverb:["Наречие","Как? Где? Когда?","Наречие обычно не изменяется по падежу, роду и числу. adv — словарное сокращение от adverb.","Er kommt noch heute. — Он придёт ещё сегодня."],
+"Konjunktiv II":["Сослагательное наклонение","Что было бы?","Выражает гипотетические ситуации, просьбы и желания.","Ich würde lesen. — Я бы почитал."]
+};
+const doc=document,root=doc.getElementById("reader");
+const dialog=doc.createElement("dialog");dialog.className="lr-modal";doc.body.append(dialog);
+function node(tag,cls,text,parent){
+ const n=doc.createElement(tag);if(cls)n.className=cls;
+ if(text!==undefined)n.textContent=text;
+ if(parent)parent.append(n);return n;
+}
+function showDialog(title){
+ dialog.replaceChildren();
+ const head=node("div","lr-modal-head",undefined,dialog);
+ node("h2","",title,head);
+ const x=node("button","lr-modal-close","×",head);
+ x.type="button";x.setAttribute("aria-label","Закрыть");x.onclick=()=>dialog.close();
+ const content=node("div","lr-modal-content",undefined,dialog);
+ if(!dialog.open)dialog.showModal();
+ return content;
+}
+function openGlossary(key){
+ const item=glossary[key];if(!item)return;
+ const body=showDialog("Грамматический справочник");
+ node("div","lr-section",key,body);
+ node("h2","",item[0],body);
+ node("p","",item[1],body);node("p","",item[2],body);
+ node("div","lr-example",item[3],body);
+ if(["Nominativ","Akkusativ","Dativ","Genitiv"].includes(key)){
+ const row=node("div","row",undefined,body);
+ for(const k of ["Nominativ","Akkusativ","Dativ","Genitiv"]){
+ const b=node("button","btn sm",k,row);if(key===k)b.disabled=true;else b.onclick=()=>openGlossary(k);
+ }
+ }
+}
+const terms=Object.keys(glossary);
+const rx=/(Partizip II|Konjunktiv II|Nominativ|Akkusativ|Genitiv|Dativ|Präsens|Präteritum|Perfekt|Passiv|Adverb)/gi;
+function activateTerms(container){
+ const walker=doc.createTreeWalker(container,NodeFilter.SHOW_TEXT),matched=[];
+ while(walker.nextNode()){
+ const n=walker.currentNode;
+ if(n.parentElement?.closest("button,a,.lr-term"))continue;
+ rx.lastIndex=0;if(rx.test(n.textContent||""))matched.push(n);
+ }
+ for(const n of matched){
+ const frag=doc.createDocumentFragment(),str=n.textContent||"";let last=0,m;rx.lastIndex=0;
+ while((m=rx.exec(str))){
+ if(m.index>last)frag.append(doc.createTextNode(str.slice(last,m.index)));
+ const key=terms.find(t=>t.toLowerCase()===m[0].toLowerCase());
+ const b=node("button","lr-term",m[0]);b.type="button";b.onclick=e=>{e.stopPropagation();openGlossary(key)};
+ frag.append(b);last=m.index+m[0].length;
+ }
+ frag.append(doc.createTextNode(str.slice(last)));n.replaceWith(frag);
+ }
+}
+const prev=selectWord;
+selectWord=function(word,el){
+ prev(word,el);
+ if(!selectedRange())selected="";
+ const pane=doc.getElementById("detail"),gram=pane?.querySelector(".gram");
+ if(gram){
+ const txt=gram.textContent.trim().toLowerCase();
+ const pos={adv:["наречие","Adverb: обычно не склоняется."],n:["существительное","Существительное: падеж и число зависят от контекста."],v:["глагол","Глагол: форма зависит от времени, лица и числа."],adj:["прилагательное","Прилагательное может склоняться."],pn:["имя собственное","Имя собственное."]};
+ if(pos[txt]){
+ gram.textContent=pos[txt][1];
+ const tag=pane.querySelector(".tag");
+ if(tag&&/нет разбора/i.test(tag.textContent))tag.textContent=pos[txt][0];
+ }
+ }
+ activateTerms(pane);
+};
+let dictionary=null;
+fetch("/dictionary.json",{cache:"force-cache"}).then(r=>{if(!r.ok)throw Error("not loaded");return r.json()}).then(x=>dictionary=x).catch(()=>{});
+const bubble=node("div","lr-bubble",undefined,doc.body);
+const bubbleButton=node("button","","◩ Разобрать выделенное",bubble);
+const toolbar=node("button","btn","◩ Разобрать предложение",doc.querySelector("#read .row"));
+let selected="";
+function selectedRange(){
+ const sel=window.getSelection();if(!sel||sel.isCollapsed||!sel.rangeCount)return null;
+ if(!root.contains(sel.anchorNode)||!root.contains(sel.focusNode))return null;
+ const text=sel.toString().trim().replace(/\s+/g," ");
+ if(text.length<8||text.split(/\s+/).length<2)return null;
+ return {text,rect:sel.getRangeAt(0).getBoundingClientRect()};
+}
+function selectionReady(){
+ const s=selectedRange();if(!s){bubble.style.display="none";return}
+ selected=s.text;
+ bubble.style.top=Math.max(8,Math.min(innerHeight-48,s.rect.top-45))+"px";
+ bubble.style.left=Math.max(8,Math.min(innerWidth-235,s.rect.left))+"px";
+ bubble.style.display="block";
+}
+root.addEventListener("mouseup",()=>setTimeout(selectionReady,0));
+root.addEventListener("keyup",()=>setTimeout(selectionReady,0));
+root.addEventListener("touchend",()=>setTimeout(selectionReady,220));
+root.addEventListener("click",e=>{const s=selectedRange();if(s){selected=s.text;e.stopImmediatePropagation();e.preventDefault()}},true);
+doc.addEventListener("pointerdown",e=>{if(!root.contains(e.target)&&!bubble.contains(e.target))bubble.style.display="none"});
+function sentenceFor(word){
+ const all=state.text||"";
+ const sentences=all.match(/[^.!?]+[.!?]+|[^.!?]+$/g)||[];
+ return sentences.find(t=>t.toLowerCase().split(/[^\p{L}]+/u).includes(word.toLowerCase()))?.trim()||"";
+}
+toolbar.onclick=()=>{
+ const s=selectedRange()?.text||selected||(typeof currentSelection==="string"?sentenceFor(currentSelection):"");
+ if(s){bubble.style.display="none";showSentence(s)}else alert("Выдели предложение в тексте. После выделения появится кнопка разбора.");
+};
+bubbleButton.onclick=()=>{bubble.style.display="none";if(selected)showSentence(selected)};
+function findWord(word){
+ const k=word.toLocaleLowerCase("de-DE"),known=lex[k];
+ if(known)return {lemma:known[0],meaning:known[1],part:known[2],morph:known[3]||""};
+ const item=dictionary?.[k];
+ if(item)return {lemma:item[3]||word,meaning:item[0].slice(0,4).join("; "),part:({n:"существительное",v:"глагол",adv:"наречие",adj:"прилагательное"})[item[1]]||item[1]||"не определена",morph:"Словарная форма; её роль в предложении не установлена"};
+ const stem=k.replace(/(ern|ens|en|es|em|er|e|n|s)$/u,"");
+ for(const proposed of [stem,stem+"e",stem+"en",stem+"er"]){
+ const other=dictionary?.[proposed];
+ if(other)return {lemma:other[3]||proposed,meaning:other[0].slice(0,3).join("; "),part:"возможная словарная форма",morph:"Предположительная форма, контекст не проверен"};
+ }
+ return {lemma:word,meaning:"Пока нет перевода",part:"не определено",morph:""};
+}
+function syntax(sentence){
+ const s=sentence.toLocaleLowerCase("de-DE"),items=[];
+ if(s.includes("wir liegen"))items.push("wir — подлежащее (Nominativ), liegen — сказуемое (Präsens).");
+ if(s.includes("hinter der front"))items.push("hinter der Front: der Front — Dativ женского рода, здесь «за линией фронта».");
+ if(s.includes("wurden")&&s.includes("abgelöst"))items.push("wurden ... abgelöst — Präteritum Passiv: «нас сменили».");
+ if(/\b(mit|nach|aus|von|zu|bei|seit)\b/u.test(s))items.push("mit, nach, aus, von, zu, bei, seit как предлоги требуют Dativ.");
+ if(/\b(für|ohne|durch|gegen|um)\b/u.test(s))items.push("für, ohne, durch, gegen, um как предлоги требуют Akkusativ.");
+ if(/\b(weil|dass|obwohl|wenn)\b/u.test(s))items.push("weil, dass, obwohl, wenn вводят придаточные предложения, где личная форма глагола обычно стоит в конце.");
+ if(/\b(hinter|in|auf|an|unter|vor|neben|über|zwischen)\b/u.test(s))items.push("Двухпадежные предлоги могут использовать Dativ (где?) и Akkusativ (куда?).");
+ if(!items.length)items.push("Для этого предложения полный автоматический синтаксический разбор пока недоступен. Ниже показаны известные значения слов.");
+ return items;
+}
+const translationCache=new Map();
+async function translate(s,view,button){
+ if(new TextEncoder().encode(s).length>500){view.textContent="Выдели более короткий фрагмент: бесплатный сервис принимает не больше 500 байт.";return}
+ if(translationCache.has(s)){view.textContent=translationCache.get(s);return}
+ button.disabled=true;view.textContent="Перевожу…";
+ const url=new URL("https://api.mymemory.translated.net/get");url.searchParams.set("q",s);url.searchParams.set("langpair","de|ru");
+ const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),15000);
+ try{
+ const response=await fetch(url.toString(),{signal:controller.signal});
+ if(!response.ok)throw Error("HTTP "+response.status);
+ const result=await response.json();
+ if(Number(result.responseStatus)>=400)throw Error(result.responseDetails||"Сервис недоступен");
+ const answer=String(result.responseData?.translatedText||"").trim();
+ if(!answer||/^(MYMEMORY WARNING|QUERY LENGTH LIMIT)/i.test(answer))throw Error("Нет перевода");
+ view.textContent=answer;translationCache.set(s,answer);
+ }catch(e){view.textContent="Перевод недоступен: "+(e.name==="AbortError"?"превышено время ожидания":e.message)+". Пословные значения ниже доступны офлайн."}
+ finally{clearTimeout(timer);button.disabled=false}
+}
+function showSentence(s){
+ s=String(s).trim().replace(/\s+/g," ").slice(0,900);
+ if(!s)return;
+ const body=showDialog("Разбор предложения");
+ node("div","lr-section","Оригинал",body);
+ node("div","lr-sentence",s,body);
+ node("div","lr-section","Перевод целиком",body);
+ const trans=node("div","lr-trans",undefined,body);
+ const request=node("button","btn primary","Перевести предложение бесплатно",trans);
+ const result=node("div","lr-trans-result","Нажми кнопку для перевода. Разбор слов ниже работает без запроса к серверу.",trans);
+ node("div","lr-muted","Только по нажатию текст отправляется в MyMemory. Бесплатный лимит — 5 000 символов в сутки, запрос до 500 байт. Качество перевода зависит от сервиса.",trans);
+ request.onclick=()=>translate(s,result,request);
+ node("div","lr-section","Грамматические конструкции",body);
+ for(const t of syntax(s)){const note=node("div","lr-syntax",t,body);activateTerms(note)}
+ node("div","lr-section","Каждое слово",body);
+ const grid=node("div","lr-words",undefined,body);
+ const words=(s.match(/[\p{L}]+(?:[’'-][\p{L}]+)*/gu)||[]).slice(0,80);
+ for(const w of words){
+ const info=findWord(w),card=node("div","lr-word",undefined,grid);
+ node("strong","",w,card);
+ node("div","lr-gloss",state.words[w.toLocaleLowerCase("de-DE")]?.translation||info.meaning,card);
+ node("div","lr-meta",info.part+" · "+info.lemma,card);
+ if(info.morph)node("div","lr-meta",info.morph,card);
+ activateTerms(card);
+ }
+ if(words.length>=80)node("div","lr-muted","Показаны первые 80 слов выделения.",body);
+}
+})();
+</script><script>
+/* Langrad v0.7 – morphemes, clean navigation, text library, lemma-aware nouns */
+(function(){
+"use strict";
+const find=id=>document.getElementById(id),nkey=s=>String(s||"").toLocaleLowerCase("de-DE");
+const nounGender={fem:"die",masc:"der",neut:"das"};
+const irregularPlurals={männer:"Mann",frauen:"Frau",hände:"Hand",bücher:"Buch",häuser:"Haus",kinder:"Kind",mäuse:"Maus",städte:"Stadt",väter:"Vater",mütter:"Mutter",wörter:"Wort",züge:"Zug",äpfel:"Apfel",leute:"Leute"};
+let morphologyDict=null;
+const navLabels={read:"Читалка",library:"Тексты",words:"Словарь",practice:"Повторение",stats:"Прогресс",settings:"Настройки"};
+for(const button of document.querySelectorAll("header nav button[data-tab]")){
+ button.textContent=navLabels[button.dataset.tab]||button.textContent;
+}
+for(const pill of document.querySelectorAll("header .pills .pill")){
+ const raw=pill.textContent.trim().replace(/^[^\p{L}]+/u,"");
+ if(/Deutsch/.test(raw))pill.textContent="Deutsch → Русский";
+ else if(/Данные/.test(raw))pill.textContent="Локальное хранение";
+ else if(/словар/i.test(raw))pill.textContent=raw.replace(/^[^\d\p{L}]+/u,"");
+}
+const nav=document.querySelector("header nav");
+const b=document.createElement("button");b.dataset.tab="library";b.textContent="Тексты";
+nav.insertBefore(b,nav.querySelector('[data-tab="words"]'));
+const library=document.createElement("section");library.id="library";library.className="hidden";
+library.innerHTML='<div class="lr-library-top"><div><div class="eyebrow">Моя библиотека</div><h1>Тексты</h1><p>Все добавленные тексты в одном месте. Открой любой, чтобы продолжить чтение.</p></div><button id="lr-add-text" class="btn primary">Добавить текст</button></div><div id="lr-library-list"></div><p class="tiny">Тексты хранятся только в этом браузере. Для больших книг и переноса на другое устройство используй резервную копию в настройках.</p>';
+document.querySelector("#read").before(library);
+function makeId(){return "doc-"+Date.now()+"-"+Math.random().toString(36).slice(2,9)}
+function migrateLibrary(){
+ if(!Array.isArray(state.library))state.library=[];
+ state.library=state.library.filter(d=>d&&typeof d.title==="string"&&typeof d.text==="string");
+ if(state.library.length===0){
+  const id="original-text";state.library.push({id,title:state.title||"Первый текст",text:state.text||"",addedAt:Date.now()});
+  state.activeTextId=id;
+ }
+ if(!state.activeTextId||!state.library.find(d=>d.id===state.activeTextId)){
+  const match=state.library.find(d=>d.text===state.text&&d.title===state.title);
+  state.activeTextId=(match||state.library[0]).id;
+ }
+}
+migrateLibrary();persist();
+function renderLibrary(){
+ const list=find("lr-library-list");list.replaceChildren();
+ if(!state.library.length){const p=document.createElement("p");p.className="lr-library-empty";p.textContent="Пока нет добавленных текстов.";list.append(p);return}
+ for(const item of [...state.library].reverse()){
+  const article=document.createElement("article");article.className="lr-library-entry";list.append(article);
+  const left=document.createElement("div");left.style.minWidth="0";article.append(left);
+  const title=document.createElement("div");title.className="lr-library-title";title.textContent=item.title;left.append(title);
+  const info=document.createElement("div");info.className="lr-library-preview";
+  info.textContent=(item.text.match(/\p{L}+/gu)||[]).length+" слов · "+item.text.replace(/\s+/g," ").slice(0,150);
+  left.append(info);
+  if(item.id===state.activeTextId){const active=document.createElement("span");active.className="lr-library-current";active.textContent="Сейчас читаешь";left.append(active)}
+  const actions=document.createElement("div");actions.className="lr-library-actions";article.append(actions);
+  function button(txt,cb,primary=false){const x=document.createElement("button");x.className="btn sm"+(primary?" primary":"");x.textContent=txt;x.onclick=cb;actions.append(x)}
+  button("Открыть",()=>{state.activeTextId=item.id;state.text=item.text;state.title=item.title;persist();showTab("read")},true);
+  button("Название",()=>{const v=prompt("Новое название текста:",item.title);if(v===null)return;const title=v.trim();if(!title)return;item.title=title;if(state.activeTextId===item.id)state.title=title;persist();renderLibrary()});
+  button("Удалить",()=>{if(!confirm("Удалить текст «"+item.title+"» из библиотеки? Словарь не пострадает."))return;state.library=state.library.filter(d=>d.id!==item.id);if(state.activeTextId===item.id){const next=state.library[0];if(next){state.activeTextId=next.id;state.title=next.title;state.text=next.text}else{state.activeTextId="";state.title="";state.text=""}}persist();renderLibrary()});
+ }
+}
+const oldShowTab=showTab;
+showTab=function(name){
+ if(name==="library"){
+  for(const sec of ["read","words","practice","stats","settings","library"])find(sec).classList.toggle("hidden",sec!=="library");
+  document.querySelectorAll("header nav button").forEach(btn=>btn.classList.toggle("active",btn.dataset.tab==="library"));
+  renderLibrary();
+ }else{library.classList.add("hidden");oldShowTab(name)}
+};
+b.onclick=()=>showTab("library");
+find("lr-add-text").onclick=()=>{showTab("read");find("addText").click()};
+const oldSave=find("saveText").onclick;
+find("saveText").onclick=()=>{
+ const text=find("textInput").value.trim();if(!text)return alert("Сначала добавь текст");
+ const title=find("title").value.trim()||"Новый текст";
+ const id=makeId();const item={id,title,text,addedAt:Date.now()};
+ state.library.push(item);state.activeTextId=id;
+ oldSave(); // сохраняет активный текст и вызывает renderReader
+ if(state.text!==text){state.text=text;state.title=title;persist();renderReader()}
+};
+const oldExample=find("example").onclick;
+find("example").onclick=()=>{
+ oldExample(); // keeps original confirmation behavior
+ const found=state.library.find(d=>d.text===state.text&&d.title===state.title);
+ if(found){state.activeTextId=found.id;persist();return}
+ const doc={id:makeId(),title:state.title,text:state.text,addedAt:Date.now()};
+ state.library.push(doc);state.activeTextId=doc.id;persist();
+};
+function isNounPart(x){return x==="n"||/существительное/.test(String(x||"").toLowerCase())}
+function canonicalNoun(word){
+ const lower=nkey(word),lexical=lex[lower];
+ if(lexical&&!isNounPart(lexical[2]))return null;
+ if(lexical&&isNounPart(lexical[2])){
+  const form=String(lexical[0]||"");
+  const match=form.match(/^(der|die|das)\s+(.+)$/i);
+  if(match)return {title:match[1].toLowerCase()+" "+match[2],lemma:match[2],gender:match[1].toLowerCase(),confident:true};
+ }
+ if(!morphologyDict)return null;
+ const candidateList=[lower];
+ if(irregularPlurals[lower])candidateList.push(nkey(irregularPlurals[lower]));
+ for(const ending of ["ern","nen","en","er","es","n","e","s"]){
+  if(lower.length>ending.length+2&&lower.endsWith(ending)){
+   const root=lower.slice(0,-ending.length);
+   candidateList.push(root,root+"e",root+"en",root+"er");
+  }
+ }
+ const unique=[...new Set(candidateList)];
+ for(const candidate of unique){
+  const entry=morphologyDict[candidate];if(!entry||!isNounPart(entry[1]))continue;
+  const lemma=String(entry[3]||candidate),gender=nounGender[entry[2]];
+  if(!gender)continue;
+  return {title:gender+" "+lemma,lemma,gender,confident:candidate===lower};
+ }
+ return null;
+}
+function lemmaKey(meta){return nkey(meta.title)}
+function ensureCanonical(word,meta,beginStudy){
+ const rawKey=nkey(word),key=lemmaKey(meta),old=state.words[rawKey]||record(word);
+ let canonical=state.words[key];
+ if(!canonical){
+  canonical={display:meta.title,stage:0,correct:0,wrong:0,next:0,lastDay:"",reported:false,translation:""};
+  state.words[key]=canonical;
+ }
+ if(rawKey!==key){
+  canonical.stage=Math.max(canonical.stage,old.stage);
+  canonical.correct=Math.max(canonical.correct,old.correct);
+  canonical.wrong=Math.max(canonical.wrong,old.wrong);
+  canonical.next=canonical.next||old.next||0;
+  canonical.translation=canonical.translation||old.translation||lex[rawKey]?.[1]||morphologyDict?.[nkey(meta.lemma)]?.[0]?.[0]||"";
+  old.aliasOf=key;
+ }
+ canonical.display=meta.title;
+ canonical.lemma=meta.lemma;
+ canonical.gender=meta.gender;
+ canonical.isNoun=true;
+ if(beginStudy)canonical.stage=Math.max(canonical.stage,1);
+ return canonical;
+}
+function migrateExistingNouns(){
+ for(const [key,entry] of [...Object.entries(state.words)]){
+  if(entry.aliasOf)continue;
+  const meta=canonicalNoun(entry.display||key);
+  if(meta&&(entry.stage>=1||entry.translation))ensureCanonical(entry.display||key,meta,false);
+ }
+ persist();
+ renderReader();
+}
+fetch("/dictionary.json",{cache:"force-cache"}).then(r=>r.ok?r.json():Promise.reject(Error("dictionary unavailable"))).then(data=>{
+ morphologyDict=data;migrateExistingNouns();
+ if(currentSelection)selectWord(currentSelection);
+}).catch(()=>{});
+const oldRenderWords=renderWords;
+renderWords=function(){
+ const query=nkey(find("wordSearch").value),list=find("wordList");list.replaceChildren();
+ const all=Object.entries(state.words).filter(([k,r])=>(r.stage>=1||r.reported||r.translation)&&!r.aliasOf);
+ all.sort((a,b)=>b[1].stage-a[1].stage);
+ const filtered=all.filter(([k,r])=>nkey(r.display||k).includes(query));
+ if(!filtered.length){const p=document.createElement("p");p.className="empty";p.textContent="Пока нет сохранённых слов. В читалке нажми на слово и выбери «Учить».";list.append(p);return}
+ for(const [key,r] of filtered){
+  const article=document.createElement("div");article.className="table-entry";list.append(article);
+  const line=document.createElement("div");line.className="spread";article.append(line);
+  const title=document.createElement("strong");title.textContent=r.display||key;line.append(title);
+  const stateLabel=document.createElement("span");stateLabel.className="tag";stateLabel.textContent=labelStage(r);line.append(stateLabel);
+  const meaning=document.createElement("p");meaning.style.margin="4px 0";meaning.textContent=r.translation||lex[key]?.[1]||morphologyDict?.[nkey(r.lemma||key)]?.[0]?.slice(0,3).join("; ")||"Перевод не сохранён";article.append(meaning);
+  const foot=document.createElement("div");foot.className="tiny";foot.textContent=(r.isNoun?"Существительное · ":"")+r.correct+" правильных · "+r.wrong+" ошибок";article.append(foot);
+ }
+};
+find("wordSearch").oninput=()=>renderWords();
+const oldRenderReader=renderReader;
+renderReader=function(){
+ oldRenderReader();
+ for(const token of document.querySelectorAll("#reader .token")){
+  const meta=canonicalNoun(token.textContent);
+  if(!meta)continue;
+  const r=state.words[lemmaKey(meta)];
+  if(!r||r.stage<1)continue;
+  token.classList.remove("new","learning","known");token.classList.add(r.stage>=3?"known":"learning");
+ }
+};
+const oldExport=find("exportCsv").onclick;
+find("exportCsv").onclick=()=>{
+ const lines=[["word","lemma","translation","status","correct","errors"]];
+ for(const [k,r] of Object.entries(state.words)){
+  if(r.aliasOf||!(r.stage>=1||r.translation))continue;
+  lines.push([r.display||k,r.lemma||lex[k]?.[0]||k,r.translation||lex[k]?.[1]||"",labelStage(r),r.correct,r.wrong]);
+ }
+ const csv=lines.map(line=>line.map(x=>'"'+String(x||"").replace(/"/g,'""')+'"').join(",")).join("\r\n");
+ download("langrad-words.csv","\ufeff"+csv,"text/csv;charset=utf-8");
+};
+const morphologicalNotes={
+ab:["от-, прочь, отдельно; отделяемая приставка"],an:["к-, на-, начало действия; отделяемая приставка"],auf:["вверх, открыть, начать; отделяемая приставка"],aus:["из-, наружу; отделяемая приставка"],ein:["внутрь; отделяемая приставка"],vor:["вперёд, перед; отделяемая приставка"],mit:["вместе; отделяемая приставка"],zurück:["назад, обратно; отделяемая приставка"],weg:["прочь; отделяемая приставка"],nach:["следом; отделяемая приставка"],ge:["маркер Partizip II у многих глаголов; сам по себе не переводится"],
+un:["отрицание, аналог «не-»"],miss:["ошибочное или отрицательное значение"],heit:["суффикс абстрактного существительного, часто женский род"],keit:["суффикс абстрактного существительного, часто женский род"],ung:["суффикс существительного действия или результата, обычно женского рода"],chen:["уменьшительный суффикс, существительное среднего рода"],lich:["суффикс прилагательного, часто «-ный»"],bar:["суффикс прилагательного, значение возможности"],los:["суффикс «без»"]
+};
+function morphemes(word,meta){
+ const w=nkey(word),out=[];
+ const add=(piece,meaning)=>out.push([piece,meaning]);
+ if(w==="abgelöst"){
+  add("ab","от-, прочь, замена или отделение; отделяемая приставка глагола ablösen");
+  add("ge","маркер Partizip II (причастия II), отдельно не переводится");
+  add("löst","основа lösen («освобождать, отделять, решать») с окончанием -t; вместе — abgelöst («сменённый, заменённый»)");
+  return {items:out,note:"В предложении «wir wurden abgelöst» используется Präteritum Passiv: «нас сменили»."};
+ }
+ const prefixes=["zurück","unter","über","durch","vor","nach","aus","auf","ein","mit","weg","ab","an","zu"];
+ const prefix=prefixes.find(p=>w.startsWith(p+"ge")&&w.length>p.length+5);
+ if(prefix&&!meta){
+  add(prefix,morphologicalNotes[prefix]||"отделяемая приставка, оттенок смысла зависит от глагола");
+  add("ge",morphologicalNotes.ge);
+  add(word.slice(prefix.length+2),"основа и окончание причастия; значение уточняется по глаголу");
+  return {items:out,note:"Вероятная структура Partizip II отделяемого глагола. Не всякая форма с ge- — причастие."};
+ }
+ if(!meta&&/^ge.+(?:t|en)$/u.test(w)&&w.length>5){
+  add("ge",morphologicalNotes.ge);
+  add(word.slice(2),"основа и окончание; точная структура зависит от исходного глагола");
+  return {items:out,note:"Предположение по типичной модели Partizip II."};
+ }
+ if(meta&&meta.title){
+  const lemma=meta.lemma,wlow=nkey(word),llow=nkey(lemma);
+  if(wlow!==llow&&wlow.startsWith(llow)){
+   add(lemma,"основа существительного "+meta.title);
+   add(word.slice(lemma.length),"возможное окончание множественного числа или падежа");
+   return {items:out,note:"При определении числа и падежа нужен контекст. Здесь показана вероятная модель."};
+  }
+ }
+ if(morphologyDict){
+  const parts=[];
+  for(let at=3;at<=w.length-3;at++){
+   const a=w.slice(0,at),c=w.slice(at);
+   const d1=morphologyDict[a],d2=morphologyDict[c];
+   if(d1&&d2&&isNounPart(d1[1])&&isNounPart(d2[1])){
+    parts.push({a,c,d1,d2});
+   }
+  }
+  if(parts.length){
+   parts.sort((x,y)=>Math.abs(y.a.length-y.c.length)-Math.abs(x.a.length-x.c.length));
+   const {a,c,d1,d2}=parts[0];
+   add(word.slice(0,a.length),d1[0].slice(0,2).join(", "));
+   add(word.slice(a.length),d2[0].slice(0,2).join(", "));
+   return {items:out,note:"Возможные части сложного существительного. Перевод всего слова может отличаться от суммы переводов частей."};
+  }
+ }
+ for(const ending of ["keit","heit","ung","chen","lich","bar","los"]){
+  if(w.endsWith(ending)&&w.length>ending.length+3){
+   add(word.slice(0,-ending.length),"основа слова");
+   add(word.slice(-ending.length),morphologicalNotes[ending]);
+   return {items:out,note:"Разбор по типичному словообразовательному суффиксу; возможны исключения."};
+  }
+ }
+ if(w.startsWith("un")&&w.length>5){
+  add("un",morphologicalNotes.un);add(word.slice(2),"основа слова");
+  return {items:out,note:"Предположение о приставке, не всегда применимо."};
+ }
+ return null;
+}
+function buildMorphology(word){
+ const meta=canonicalNoun(word),detail=find("detail");
+ if(!detail)return;
+ detail.querySelector("#lr-morphology")?.remove();
+ const block=document.createElement("div");block.id="lr-morphology";block.className="lr-wordparts";
+ const heading=document.createElement("div");heading.className="label";heading.textContent="Из чего состоит слово";block.append(heading);
+ const info=morphemes(word,meta);
+ if(info){
+  const parts=document.createElement("div");parts.className="lr-parts";block.append(parts);
+  info.items.forEach(([piece,description],i)=>{
+   if(i){const plus=document.createElement("span");plus.className="lr-plus";plus.textContent="+";parts.append(plus)}
+   const token=document.createElement("span");token.className="lr-part";token.textContent=piece;parts.append(token);
+   const line=document.createElement("div");line.className="lr-partrow";const strong=document.createElement("strong");strong.textContent=piece;line.append(strong);line.append(document.createTextNode(description));block.append(line);
+  });
+  const note=document.createElement("div");note.className="lr-partnote";note.textContent=info.note;block.append(note);
+ }else{
+  const note=document.createElement("div");note.className="lr-partnote";note.textContent="Для этой формы пока нет надёжного деления. Не стану придумывать приставки или корни.";block.append(note);
+ }
+ if(meta){
+  const note=document.createElement("div");note.className="lr-nounhint";note.textContent="В личный словарь: "+meta.title+" (артикль и единственное число).";block.append(note);
+ }
+ const status=[...detail.querySelectorAll(".label")].find(e=>e.textContent==="Статус");
+ if(status)detail.insertBefore(block,status);else detail.append(block);
+ return meta;
+}
+const priorSelect=selectWord;
+selectWord=function(word,el){
+ priorSelect(word,el);
+ const meta=buildMorphology(word);
+ if(!meta)return;
+ const study=find("study"),know=find("report"),saveManual=find("saveManual");
+ const existing=state.words[nkey(word)]||record(word);
+ function sync(){
+  ensureCanonical(word,meta,false);persist();renderReader();
+ }
+ if(study){
+  study.onclick=()=>{
+   const r=ensureCanonical(word,meta,true);r.next=0;existing.stage=Math.max(1,existing.stage);persist();renderReader();selectWord(word);
+  };
+ }
+ if(know){
+  know.onclick=()=>{
+   const r=ensureCanonical(word,meta,true);r.reported=true;existing.reported=true;persist();renderReader();selectWord(word);
+  };
+ }
+ if(saveManual){
+  saveManual.onclick=()=>{
+   const translation=find("manual").value.trim();
+   const r=ensureCanonical(word,meta,false);r.translation=translation;existing.translation=translation;
+   persist();renderReader();selectWord(word);
+  };
+ }
+};
+const originalRestore=find("restore").onchange;
+find("restore").onchange=async e=>{
+ await originalRestore(e);
+ migrateLibrary();persist();renderLibrary();
+};
+renderReader();
+})();
+</script><script>
+/* Langrad v0.7.2: reflect known noun forms in the reader and detail */
+(function(){
+"use strict";
+const oldReader=renderReader;
+function findStudied(k){
+ const direct=state.words[k];
+ if(direct?.aliasOf&&state.words[direct.aliasOf])return state.words[direct.aliasOf];
+ if(direct?.isNoun&&direct.stage>=1)return direct;
+ for(const record of Object.values(state.words)){
+  if(!record.isNoun||!record.lemma||record.stage<1)continue;
+  const stem=String(record.lemma).toLocaleLowerCase("de-DE");
+  if(k===stem||k===stem+"n"||k===stem+"en"||k===stem+"e"||k===stem+"s")return record;
+ }
+ return direct;
+}
+renderReader=function(){
+ oldReader();
+ const all=[...new Set(words(state.text).map(normal))];
+ let learned=0;
+ for(const w of all){
+  const s=findStudied(w);
+  if(s&&s.stage>=3)learned++;
+ }
+ const score=document.getElementById("score");
+ if(score)score.textContent=learned+" из "+all.length+" знакомых";
+ for(const token of document.querySelectorAll("#reader .token")){
+  const rec=findStudied(normal(token.textContent));
+  if(!rec||rec.stage<1)continue;
+  token.classList.remove("known","learning","new");
+  token.classList.add(rec.stage>=3?"known":"learning");
+ }
+};
+const prevSelect=selectWord;
+selectWord=function(word,el){
+ prevSelect(word,el);
+ const rec=findStudied(normal(word));
+ if(!rec||rec.stage<1)return;
+ const pane=document.getElementById("detail");
+ if(!pane)return;
+ const label=[...pane.querySelectorAll(".label")].find(x=>x.textContent==="Статус");
+ if(label?.nextElementSibling)label.nextElementSibling.textContent=labelStage(rec)+(rec.reported?" · Самооценка «знаю»":"");
+};
+renderReader();
+})();
+</script>
+<style>
+#lr-player{margin:15px 0 0;padding:14px;border:1px solid #364667;border-radius:13px;background:#101b30}
+#lr-player .lr-line{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+#lr-player .lr-track{display:flex;align-items:center;gap:13px;margin-top:13px}
+#lr-player input[type="range"]{width:100%;min-width:0;accent-color:#9f91ff;cursor:pointer}
+#lr-player output{font-size:12px;color:#d3dafa;min-width:78px;text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+#lr-player select{background:#0d1525;border:1px solid #465678;border-radius:9px;padding:8px;color:#fff}
+#lr-player .lr-help{font-size:12px;color:#9eaecc;line-height:1.5;margin:9px 0 0}
+#lr-player .lr-status{font-size:12px;color:#b9c7de}
+#lr-player button{min-width:82px}
+#lr-player input:focus-visible,#lr-player select:focus-visible{outline:2px solid #a99cff;outline-offset:2px}
+</style>
+<script>
+/* Langrad v0.7.3 — TTS player, seeking by text position */
+(function(){
+"use strict";
+const playButton=document.getElementById("speak");
+if(!playButton)return;
+const panel=document.createElement("section");
+panel.id="lr-player";
+panel.setAttribute("aria-label","Управление озвучиванием");
+panel.innerHTML=[
+'<div class="lr-line"><button class="btn sm" id="lr-pause" disabled>Ⅱ Пауза</button>',
+'<button class="btn sm" id="lr-stop" disabled>■ Стоп</button>',
+'<label class="tiny" for="lr-rate">Скорость</label><select id="lr-rate">',
+'<option value=".5">0,5×</option><option value=".75">0,75×</option>',
+'<option value=".85" selected>0,85×</option><option value="1">1×</option>',
+'<option value="1.25">1,25×</option><option value="1.5">1,5×</option>',
+'</select><span class="lr-status" id="lr-status" aria-live="polite">Готово к прослушиванию</span></div>',
+'<div class="lr-track"><input id="lr-seek" type="range" min="0" max="1000" step="1" value="0" aria-label="Перемотка по тексту">',
+'<output id="lr-percent" for="lr-seek">0% текста</output></div>',
+'<p class="lr-help">Перемотка по месту в тексте — приблизительная: голос создаёт браузер, а не аудиофайл.</p>'
+].join("");
+playButton.parentElement.insertAdjacentElement("afterend",panel);
+const pauseButton=panel.querySelector("#lr-pause"),stopButton=panel.querySelector("#lr-stop");
+const seek=panel.querySelector("#lr-seek"),percent=panel.querySelector("#lr-percent");
+const rate=panel.querySelector("#lr-rate"),status=panel.querySelector("#lr-status");
+const synth=window.speechSynthesis;
+let source=String(state.text||""),pos=0,mode="stopped",ticket=0,utterance=null,dragging=false;
+function draw(){
+ if(!dragging)seek.value=String(Math.round(1000*pos/Math.max(1,source.length)));
+ percent.textContent=Math.round(Number(seek.value)/10)+"% текста";
+ pauseButton.disabled=mode==="stopped";
+ stopButton.disabled=mode==="stopped"&&pos===0;
+ playButton.textContent=mode==="playing"?"▶ Читаю":mode==="paused"?"▶ Продолжить":pos>=source.length&&source.length?"↻ Сначала":"▶ Слушать";
+ pauseButton.textContent=mode==="paused"?"▶ Продолжить":"Ⅱ Пауза";
+ status.textContent=mode==="playing"?"Читаю":mode==="paused"?"На паузе":pos>0&&pos<source.length?"С выбранного места":"Готово к прослушиванию";
+}
+function cancel(){
+ ticket++;
+ if(synth)try{if(synth.paused)synth.resume();synth.cancel()}catch(e){}
+ utterance=null;
+}
+function sync(){
+ const next=String(state.text||"");
+ if(next!==source){cancel();source=next;pos=0;mode="stopped";draw()}
+}
+function splitAt(start){
+ const limit=Math.min(source.length,start+220);
+ if(limit===source.length)return limit;
+ const text=source.slice(start,limit);
+ const sentence=Math.max(text.lastIndexOf(". "),text.lastIndexOf("? "),text.lastIndexOf("! "),text.lastIndexOf("; "),text.lastIndexOf("\n"));
+ if(sentence>=95)return start+sentence+1;
+ const blank=Math.max(text.lastIndexOf(" "),text.lastIndexOf("\n"),text.lastIndexOf("\t"));
+ return blank>=95?start+blank+1:limit;
+}
+function speakPart(id){
+ if(id!==ticket||mode!=="playing")return;
+ while(pos<source.length&&/\s/.test(source[pos]))pos++;
+ if(pos>=source.length){mode="stopped";pos=source.length;utterance=null;draw();return}
+ const start=pos,end=splitAt(start);
+ const u=new SpeechSynthesisUtterance(source.slice(start,end));
+ utterance=u;u.lang="de-DE";u.rate=Number(rate.value);
+ u.onboundary=e=>{if(id!==ticket||utterance!==u)return;if(Number.isFinite(e.charIndex))pos=Math.min(end,start+e.charIndex);draw()};
+ u.onend=()=>{if(id!==ticket||utterance!==u)return;utterance=null;pos=end;draw();if(mode==="playing")speakPart(id)};
+ u.onerror=e=>{if(id!==ticket||utterance!==u||e.error==="canceled"||e.error==="interrupted")return;utterance=null;mode="stopped";draw();status.textContent="Ошибка озвучивания"};
+ draw();
+ try{synth.speak(u)}catch(e){mode="stopped";draw();status.textContent="Голос недоступен"}
+}
+function play(){
+ if(!synth||!window.SpeechSynthesisUtterance){alert("В этом браузере озвучивание недоступно");return}
+ sync();
+ if(!source.trim()){alert("Сначала добавь немецкий текст");return}
+ if(mode==="playing")return;
+ if(mode==="paused"&&utterance&&synth.paused){mode="playing";synth.resume();draw();return}
+ if(pos>=source.length)pos=0;
+ cancel();mode="playing";speakPart(ticket);
+}
+function pause(){
+ if(mode==="paused"){play();return}
+ if(mode!=="playing")return;
+ mode="paused";try{synth.pause()}catch(e){}draw();
+}
+function stop(){cancel();pos=0;mode="stopped";source=String(state.text||"");draw()}
+function jump(v){
+ sync();let target=Math.round(source.length*Math.max(0,Math.min(1000,Number(v)||0))/1000);
+ if(target>0&&target<source.length&&/\S/.test(source[target])&&/\S/.test(source[target-1])){
+  let n=0;while(target>0&&n++<60&&/\S/.test(source[target-1]))target--;
+ }
+ const wasPlaying=mode==="playing",wasPaused=mode==="paused";
+ cancel();pos=target;mode=wasPaused?"paused":"stopped";
+ if(wasPlaying&&pos<source.length){mode="playing";speakPart(ticket)}else draw();
+}
+playButton.onclick=play;
+pauseButton.onclick=pause;
+stopButton.onclick=stop;
+seek.addEventListener("input",()=>{dragging=true;percent.textContent=Math.round(Number(seek.value)/10)+"% текста"});
+seek.addEventListener("change",()=>{const value=seek.value;dragging=false;jump(value)});
+rate.addEventListener("change",()=>{
+ if(mode==="playing"){cancel();mode="playing";speakPart(ticket)}
+ else if(mode==="paused"){cancel();mode="paused";draw()}
+});
+const previousRender=renderReader;
+renderReader=function(){sync();return previousRender.apply(this,arguments)};
+draw();
+})();
+</script>
+<script>
+/* Link to a durable project brief */
+(function(){
+const settings=document.getElementById("settings");
+if(!settings||document.getElementById("lr-project-brief"))return;
+const box=document.createElement("div");box.id="lr-project-brief";
+box.style.cssText="margin-top:20px;padding:15px;border:1px solid #bda992;border-radius:10px;background:#f7f1e9";
+const heading=document.createElement("strong");heading.textContent="Паспорт проекта";box.appendChild(heading);
+const info=document.createElement("p");info.textContent="Что умеет Langrad и что мы планируем. Ссылку можно открыть в новом чате ChatGPT.";info.style.fontSize="13px";box.appendChild(info);
+const link=document.createElement("a");link.className="btn";link.href="/project.html";link.textContent="Открыть паспорт Langrad";box.appendChild(link);
+settings.appendChild(box);
+})();
+</script>
+<style>
+#lr-player:not(.lr-open){display:none!important}
+#lr-wiki-import-panel[hidden]{display:none!important}
+#lr-wiki-import-panel{padding:14px;margin:12px 0;border-radius:11px;border:1px solid #dccdbb;background:#faf7f1}
+#lr-wiki-import-panel .lr-imp-row{display:flex;gap:8px;flex-wrap:wrap}
+#lr-wiki-import-panel input{min-width:180px;flex:1}
+#lr-wiki-status,#lr-wiki-credit{font-size:12px;color:#75685b;line-height:1.6}
+</style>
+<script>
+/* Langrad v0.8: Wikipedia and foldable audio */
+(function(){
+"use strict";
+const el=id=>document.getElementById(id);
+const player=el("lr-player"),listen=el("speak"),read=el("read"),editor=el("editor");
+if(!player||!listen||!read||!editor)return;
+player.classList.remove("lr-open");
+listen.addEventListener("click",()=>player.classList.add("lr-open"));
+const close=document.createElement("button");close.type="button";close.className="btn sm";
+close.textContent="Скрыть плеер";
+close.onclick=()=>{el("lr-stop")?.click();player.classList.remove("lr-open")};
+player.querySelector(".lr-line")?.append(close);
+const action=document.createElement("button");action.type="button";action.className="btn";
+action.textContent="Импорт из Википедии";
+listen.parentElement.append(action);
+const panel=document.createElement("div");panel.id="lr-wiki-import-panel";panel.hidden=true;
+panel.innerHTML='<label class="label" for="lr-wiki-url">Ссылка на немецкую статью Википедии</label>'+
+'<div class="lr-imp-row"><input id="lr-wiki-url" class="input" type="url" placeholder="https://de.wikipedia.org/wiki/Berlin">'+
+'<button id="lr-wiki-load" class="btn primary" type="button">Импортировать</button>'+
+'<button id="lr-wiki-hide" class="btn" type="button">Закрыть</button></div>'+
+'<p id="lr-wiki-status">Текст откроется в редакторе. После проверки его можно сохранить.</p>';
+listen.parentElement.insertAdjacentElement("afterend",panel);
+action.onclick=()=>{panel.hidden=!panel.hidden;if(!panel.hidden)el("lr-wiki-url").focus()};
+el("lr-wiki-hide").onclick=()=>panel.hidden=true;
+const stateLabel=el("lr-wiki-status"),load=el("lr-wiki-load");
+let pending=null;
+function sourceLink(item){
+ if(!item||!item.sourceURL||!/^https:\/\/de\.wikipedia\.org\/wiki\//.test(item.sourceURL))return null;
+ const a=document.createElement("a");a.href=item.sourceURL;a.target="_blank";a.rel="noopener noreferrer";
+ a.textContent="Источник: Wikipedia / "+(item.sourceTitle||item.title)+" (CC BY-SA)";return a;
+}
+function credit(){
+ let node=el("lr-wiki-credit");
+ if(!node){node=document.createElement("p");node.id="lr-wiki-credit";el("readingHint").after(node)}
+ node.replaceChildren();
+ const item=Array.isArray(state.library)?state.library.find(x=>x.id===state.activeTextId):null;
+ const link=sourceLink(item);if(link)node.append(link);
+}
+function readTitle(value){
+ let uri;try{uri=new URL(value.trim())}catch(e){throw Error("Вставь полную ссылку, начиная с https://")}
+ if(uri.protocol!=="https:"||uri.hostname.toLowerCase()!=="de.wikipedia.org"||uri.port||uri.username||uri.password)throw Error("Поддерживается только de.wikipedia.org");
+ let title="";
+ if(uri.pathname.startsWith("/wiki/"))title=decodeURIComponent(uri.pathname.slice(6));
+ else if(uri.pathname==="/w/index.php")title=uri.searchParams.get("title")||"";
+ title=title.replace(/_/g," ").trim();
+ if(!title||title.length>230||/^(Datei|Kategorie|Benutzer|Spezial):/i.test(title))throw Error("Нужна ссылка на обычную статью");
+ return title;
+}
+async function importWiki(){
+ let title;try{title=readTitle(el("lr-wiki-url").value)}catch(e){stateLabel.textContent=e.message;return}
+ load.disabled=true;stateLabel.textContent="Загружаю статью…";
+ const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),20000);
+ try{
+  const url=new URL("https://de.wikipedia.org/w/api.php");
+  const params={action:"query",format:"json",formatversion:"2",origin:"*",redirects:"1",prop:"extracts",explaintext:"1",exsectionformat:"plain",titles:title};
+  Object.keys(params).forEach(k=>url.searchParams.set(k,params[k]));
+  const response=await fetch(url.toString(),{signal:controller.signal,credentials:"omit"});
+  if(!response.ok)throw Error("Wikipedia: HTTP "+response.status);
+  const data=await response.json();
+  if(data.error)throw Error(data.error.info||"Ошибка Wikipedia API");
+  const article=data.query?.pages?.[0];
+  if(!article||article.invalid||article.missing)throw Error("Статья не найдена");
+  const text=String(article.extract||"").replace(/\r/g,"").replace(/\u00a0/g," ").replace(/\n{3,}/g,"\n\n").trim();
+  if(text.length<50)throw Error("Статья не содержит доступного текстового содержимого");
+  const articleTitle=article.title;
+  pending={sourceURL:"https://de.wikipedia.org/wiki/"+encodeURIComponent(articleTitle.replace(/ /g,"_")),sourceTitle:articleTitle};
+  el("editor").classList.remove("hidden");
+  el("title").value=articleTitle+" — Wikipedia";
+  el("textInput").value=text.length>48000?text.slice(0,48000).replace(/\s+\S*$/,"")+"…":text;
+  panel.hidden=true;
+  editor.scrollIntoView({block:"start",behavior:"smooth"});
+  if(text.length>48000)alert("Статья слишком длинная: загружены первые 48 тысяч символов");
+  stateLabel.textContent="Готово: открой и при необходимости исправь текст перед сохранением";
+ }catch(e){stateLabel.textContent="Не удалось загрузить: "+(e.name==="AbortError"?"время ожидания истекло":e.message)}
+ finally{clearTimeout(timer);load.disabled=false}
+}
+load.onclick=importWiki;
+el("lr-wiki-url").addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();importWiki()}});
+const saveOld=el("saveText").onclick;
+el("saveText").onclick=function(){
+ const before=new Set((state.library||[]).map(x=>x.id));
+ saveOld?.call(this);
+ if(pending){
+  const item=(state.library||[]).find(x=>x.id===state.activeTextId&&!before.has(x.id));
+  if(item){Object.assign(item,pending);persist()}
+  pending=null;credit();
+ }
+};
+const cancelOld=el("cancelEdit").onclick;
+el("cancelEdit").onclick=function(){pending=null;cancelOld?.call(this)};
+const exampleOld=el("example").onclick;
+el("example").onclick=function(){pending=null;exampleOld?.call(this)};
+const addOld=el("addText").onclick;
+el("addText").onclick=function(){pending=null;addOld?.call(this)};
+const renderOld=renderReader;
+renderReader=function(){const result=renderOld.apply(this,arguments);credit();return result};
+credit();
+})();
+</script>
+
+<style>
+#lr-level-panel{border:1px solid #dcd1c1;background:#faf7f1;padding:14px;border-radius:12px;margin:16px 0}
+#lr-level-panel .lr-level-row{display:flex;align-items:center;flex-wrap:wrap;gap:9px}
+#lr-level-panel .lr-level-hint{font-size:12px;line-height:1.55;color:#75685c;margin:10px 0 0}
+#lr-level-panel strong{font-size:13px}
+#lr-level-panel button:disabled{opacity:.55}
+</style>
+<script>
+/* Langrad v0.9.1: restored paragraphs + AI-supported CEFR adaptation */
+(function(){
+"use strict";
+const el=id=>document.getElementById(id),sel=el("aid"),reader=el("reader"),settings=el("settings");
+if(!sel||!reader||!settings)return;
+const pane=document.createElement("section");pane.id="lr-level-panel";
+pane.innerHTML='<div class="lr-level-row" style="display:flex;gap:9px;align-items:center;flex-wrap:wrap">'+
+'<strong>Адаптация текста</strong><button id="lr-level-run" type="button" class="btn primary sm">Адаптировать</button>'+
+'<button id="lr-level-local" type="button" class="btn sm">Без ИИ</button>'+
+'<button id="lr-level-original" type="button" class="btn sm" disabled>Вернуть оригинал</button></div>'+
+'<p id="lr-level-hint" class="lr-level-hint" aria-live="polite"></p>';
+reader.before(pane);
+const run=el("lr-level-run"),local=el("lr-level-local"),back=el("lr-level-original"),hint=el("lr-level-hint");
+const ai=document.createElement("section");ai.id="lr-ai-settings";
+ai.style.cssText="padding:16px;margin:18px 0;border-radius:10px;border:1px solid #d8cfc3;background:#faf7f2";
+ai.innerHTML='<div class="eyebrow">Настройка адаптации</div><h2>Gemini — по желанию</h2>'+
+'<p class="tiny">Для настоящего перефразирования под A1–C1 вставь личный API-ключ Gemini. Бесплатный тариф существует, но у него есть ограничения. Без ключа работает только небольшое локальное упрощение.</p>'+
+'<label class="label" for="lr-ai-key">Gemini API-ключ</label>'+
+'<div class="row"><input class="input" id="lr-ai-key" type="password" autocomplete="off" spellcheck="false" style="flex:1;min-width:200px" placeholder="Ключ из Google AI Studio">'+
+'<button type="button" id="lr-ai-clear" class="btn sm">Очистить</button></div>'+
+'<p class="tiny">Ключ не сохраняется на сайте и стирается при обновлении вкладки. При использовании Gemini твой текст отправляется Google. Бесплатные запросы могут использоваться для улучшения продуктов. <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener noreferrer">Создать ключ</a>.</p>';
+const anchor=el("lr-project-brief");anchor?settings.insertBefore(ai,anchor):settings.append(ai);
+const key=el("lr-ai-key");let busy=false;
+function original(){const a=state.adaptation;if(a&&a.sourceId===state.activeTextId&&a.original)return a.original;
+return (state.library||[]).find(x=>x.id===state.activeTextId)?.text||state.text}
+function active(){const a=state.adaptation;return a&&a.sourceId===state.activeTextId&&a.variant===state.text?a:null}
+function count(s){return (String(s).match(/\p{L}+/gu)||[]).length}
+function changed(a,b){return a.replace(/\s+/g," ").trim()!==b.replace(/\s+/g," ").trim()}
+function view(text){
+ const a=active();
+ run.textContent=key.value.trim()?"Адаптировать с Gemini · "+sel.value:"Адаптировать · "+sel.value;
+ run.disabled=busy;local.disabled=busy;back.disabled=busy||!a;
+ hint.textContent=text||(a?"Версия "+a.level+" ("+a.method+"): "+count(a.variant)+" слов; оригинал сохранён.":"Уровень "+sel.value+". Без ИИ меняются лишь известные конструкции. Для полноценного переписывания вставь ключ Gemini в настройках.");
+}
+key.oninput=()=>view();el("lr-ai-clear").onclick=()=>{key.value="";view()};
+function safeParagraph(p,level){
+ let s=p.trim().replace(/[ \t]*\n[ \t]*/g," ").replace(/ {2,}/g," ");
+ if(level==="C1")return s;
+ if(["A1","A2","B1"].includes(level)){
+ s=s.replace(/\bWir liegen neun Kilometer hinter der Front\./giu,"Wir sind neun Kilometer von der Front entfernt.");
+ s=s.replace(/\bGestern wurden wir abgelöst;\s*jetzt haben wir den Magen voll weißer Bohnen mit Rindfleisch und sind satt und zufrieden\./giu,
+   "Gestern kamen andere Soldaten für uns. Jetzt haben wir weiße Bohnen mit Rindfleisch gegessen. Wir sind satt und zufrieden.");
+ s=s.replace(/\bSogar für abends hat jeder noch ein Kochgeschirr voll fassen können;\s*dazu gibt es außerdem doppelte Wurst- und Brotportionen,?\s*[–—-]?\s*das schafft\./giu,
+   "Jeder hat Essen für den Abend bekommen. Es gibt mehr Wurst und Brot als sonst.");
+ s=s.replace(/\bSo ein Fall ist schon lange nicht mehr dagewesen\b/giu,"So etwas ist lange nicht passiert");
+ s=s.replace(/\bbefindet sich\b/giu,"ist");
+ }
+ const words=[["beispielsweise","zum Beispiel"],["insbesondere","vor allem"],["heutzutage","heute"],
+ ["gegenwärtig","heute"],["zahlreiche","viele"],["lediglich","nur"],["häufig","oft"],
+ ["bereits","schon"],["anschließend","danach"],["zunächst","zuerst"],["circa","etwa"],
+ ["jährlich","jedes Jahr"],["ebenfalls","auch"],["üblicherweise","normalerweise"]];
+ for(const [from,to] of words){
+  if(level==="B2"&&from!=="beispielsweise"&&from!=="gegenwärtig")continue;
+  const re=new RegExp("(^|[^\\p{L}])("+from+")(?=$|[^\\p{L}])","giu");
+  s=s.replace(re,(_,prefix,hit)=>prefix+(hit[0]===hit[0].toUpperCase()?to[0].toUpperCase()+to.slice(1):to));
+ }
+
+ if(level==="A1"||level==="A2")s=s.replace(/ ?\([^()]{0,80}\)/g,"");
+ if(level==="A1"){
+  s=s.replace(/Wir sind neun Kilometer von der Front entfernt\./giu,"Die Front ist neun Kilometer entfernt.");
+  s=s.replace(/Gestern kamen andere Soldaten für uns\./giu,"Gestern kamen andere Soldaten.");
+  s=s.replace(/Jetzt haben wir weiße Bohnen mit Rindfleisch gegessen\./giu,"Jetzt haben wir Bohnen und Fleisch gegessen.");
+  s=s.replace(/Wir sind satt und zufrieden\./giu,"Wir sind satt und froh.");
+  s=s.replace(/Jeder hat Essen für den Abend bekommen\./giu,"Jeder hat Essen für den Abend.");
+  s=s.replace(/So etwas ist lange nicht passiert/giu,"Das ist lange nicht passiert");
+ }
+ if(level==="A2"){
+  s=s.replace(/Jetzt haben wir weiße Bohnen mit Rindfleisch gegessen\./giu,"Jetzt haben wir weiße Bohnen mit Fleisch gegessen.");
+ }
+ if(level==="B1"){
+  s=s.replace(/Gestern kamen andere Soldaten für uns\./giu,"Gestern haben uns andere Soldaten abgelöst.");
+ }
+ return s.trim();
+}
+function offline(text,level){
+ if(level==="C1")return text;
+ return String(text).replace(/\r/g,"").trim().split(/\n[ \t]*\n+/g)
+ .map(p=>safeParagraph(p,level)).filter(Boolean).join("\n\n");
+}
+function apply(version,method,level,base){
+ state.adaptation={sourceId:state.activeTextId||"",original:base,variant:version.trim(),level,method};
+ state.text=version.trim();state.aid=level;persist();renderReader();
+}
+function adaptLocal(){
+ if(busy)return;
+ const base=original(),level=sel.value;
+ if(!base.trim()){view("Открой текст, прежде чем адаптировать.");return}
+ const result=offline(base,level);
+ if(!changed(base,result)){
+  state.text=base;state.adaptation=null;persist();renderReader();
+  view("Для "+level+" локальные правила не нашли полезных изменений. Качественная адаптация требует Gemini.");
+  return;
+ }
+ apply(result,"локально",level,base);
+ view("Локальная версия "+level+": "+count(result)+" слов. Абзацы сохранены. Это ограниченные правила, а не полноценная CEFR-адаптация.");
+}
+async function adaptGemini(){
+ if(busy)return;
+ const secret=key.value.trim();if(!secret){adaptLocal();return}
+ const base=original(),level=sel.value;
+ if(!base.trim()){view("Сначала открой текст.");return}
+ if(base.length>14000){view("Для Gemini пока ограничение 14 000 символов. Открой нужный фрагмент текста через редактор.");return}
+ busy=true;view("Gemini переписывает текст под "+level+"…");
+ const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),40000);
+ try{
+  const prompt=[
+   "Du bist professioneller DaF-Redakteur. Schreibe diesen deutschen Text wirklich neu für CEFR-Stufe "+level+".",
+   "Bewahre alle wichtigen Fakten und Ereignisse. Erfinde nichts. Keine reine Kürzung oder Auswahl unveränderter Sätze.",
+   "A1: sehr einfaches Deutsch, kurze Hauptsätze, Grundwortschatz. A2: einfache kurze Sätze.",
+   "B1: natürliche, klare Alltagssprache. B2: verständliche Standardsprache. C1: anspruchsvoll, klar.",
+   "Ersetze schwierige Ausdrücke durch wirklich einfache Formulierungen. Grammatik muss korrekt sein.",
+   "Behalte normale Absätze und füge nicht nach jedem Satz eine Leerzeile ein.",
+   "Antworte nur mit dem adaptierten deutschen Text, ohne Markdown.",
+   "Original:\n"+base
+  ].join("\n");
+  const res=await fetch("https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent",{
+   method:"POST",credentials:"omit",mode:"cors",signal:controller.signal,
+   headers:{"Content-Type":"application/json","x-goog-api-key":secret},
+   body:JSON.stringify({contents:[{parts:[{text:prompt}]}],generationConfig:{temperature:0.35,maxOutputTokens:4096}})
+  });
+  const payload=await res.json();
+  if(!res.ok)throw Error(payload.error?.message||"HTTP "+res.status);
+  const result=(payload.candidates?.[0]?.content?.parts||[]).map(x=>x.text||"").join("").trim();
+  if(count(result)<Math.min(15,count(base)*.12))throw Error("Gemini вернул слишком короткий ответ.");
+  if(!changed(base,result))throw Error("Gemini вернул оригинальный текст без изменений.");
+  apply(result,"Gemini",level,base);
+  view("Готова адаптация Gemini под "+level+": "+count(result)+" слов. Проверь факты и при необходимости верни оригинал.");
+ }catch(err){view("Ошибка Gemini: "+(err.name==="AbortError"?"превышено время ожидания":err.message)+". Оригинал сохранён.");}
+ finally{clearTimeout(timer);busy=false;run.disabled=false;local.disabled=false;back.disabled=!active();}
+}
+run.onclick=()=>key.value.trim()?adaptGemini():adaptLocal();
+local.onclick=adaptLocal;
+back.onclick=()=>{if(busy)return;const a=active();if(!a)return;state.text=a.original;state.adaptation=null;persist();renderReader();view("Оригинал возвращён.")};
+sel.onchange=()=>{state.aid=sel.value;persist();if(key.value.trim()){
+ state.text=original();state.adaptation=null;persist();renderReader();
+ view("Выбран "+sel.value+". Нажми «Адаптировать с Gemini» для новой версии.");
+}else adaptLocal()};
+const prevRender=renderReader;
+renderReader=function(){
+ const a=state.adaptation;
+ if(a&&(a.sourceId!==state.activeTextId||a.variant!==state.text))state.adaptation=null;
+ const out=prevRender.apply(this,arguments);
+ const h=el("readingHint");if(h)h.textContent="Уровень подсказок: "+sel.value+". Слова кликабельны, исходный текст всегда хранится в библиотеке.";
+ view();return out;
+};
+if(state.adaptation&&!state.adaptation.method&&state.adaptation.variant===state.text){
+ const base=state.adaptation.original;if(base){state.text=base;state.adaptation=null;persist();renderReader();}
+}
+view();
+})();
+</script>
+
+<script>
+/* Langrad v0.9: persistent theme switcher; TFR design */
+(function(){
+"use strict";
+const settings=document.getElementById("settings");
+if(!settings||document.getElementById("lr-theme-settings"))return;
+const themeBlock=document.createElement("section");
+themeBlock.id="lr-theme-settings";
+themeBlock.style.cssText="padding:16px;border:1px solid #d6cbbd;border-radius:10px;background:#f8f4ed;margin:18px 0";
+themeBlock.innerHTML='<div class="eyebrow">Внешний вид</div><h2>Тема оформления</h2>'+
+'<label for="lr-theme-select" class="label">Оформление приложения</label>'+
+'<select class="input" id="lr-theme-select" style="max-width:300px"><option value="classic">Классическая — светлая</option><option value="tfr">The Fire Rises — неон / CRT</option></select>'+
+'<p class="tiny" style="margin:10px 0 0">TFR — тёмная панель, розово-фиолетовый неон, пиксельные надписи и экранное свечение. Выбор сохраняется на этом устройстве.</p>';
+const anchor=document.getElementById("lr-project-brief");
+if(anchor)settings.insertBefore(themeBlock,anchor);else settings.append(themeBlock);
+const select=document.getElementById("lr-theme-select");
+function setTheme(name){
+ const theme=name==="tfr"?"tfr":"classic";
+ document.documentElement.dataset.theme=theme;
+ select.value=theme;
+ try{localStorage.setItem("langrad-theme",theme)}catch(e){}
+}
+select.value=document.documentElement.dataset.theme==="tfr"?"tfr":"classic";
+select.addEventListener("change",()=>setTheme(select.value));
+const brand=document.querySelector("header>div:first-child");
+if(brand){
+ const decor=document.createElement("div");
+ decor.className="lr-tfr-globe";
+ decor.setAttribute("aria-hidden","true");
+ decor.innerHTML='<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" fill="none" stroke="#f46cec" stroke-width="1.7">'+
+ '<circle cx="100" cy="100" r="82"/><ellipse cx="100" cy="100" rx="39" ry="82"/><ellipse cx="100" cy="100" rx="65" ry="82"/>'+
+ '<ellipse cx="100" cy="100" rx="82" ry="24"/><ellipse cx="100" cy="100" rx="82" ry="53"/>'+
+ '<path d="M18 100H182M100 18V182M32 56 Q100 98 168 56 M32 144Q100 102 168 144" stroke="#fc8bf5" opacity=".8"/>'+
+ '</svg>';
+ brand.append(decor);
+}
+})();
+</script>
+
+<style id="lr-cyrillic-tfr">
+html[data-theme="tfr"] body,html[data-theme="tfr"] body button,html[data-theme="tfr"] body input,
+html[data-theme="tfr"] body select,html[data-theme="tfr"] body textarea,html[data-theme="tfr"] body label,
+html[data-theme="tfr"] body p,html[data-theme="tfr"] body .tiny,html[data-theme="tfr"] body .tag,
+html[data-theme="tfr"] body .pill,html[data-theme="tfr"] body .alert,html[data-theme="tfr"] body .stat,
+html[data-theme="tfr"] body .translation,html[data-theme="tfr"] body .gram,
+html[data-theme="tfr"] body .lr-library-title,html[data-theme="tfr"] body .lr-library-preview {
+font-family:"Pixelify Sans",system-ui,sans-serif!important;letter-spacing:.2px;line-height:1.5;
+}
+html[data-theme="tfr"] body{font-size:17px!important}
+html[data-theme="tfr"] button:not(.token),html[data-theme="tfr"] .btn,
+html[data-theme="tfr"] input,html[data-theme="tfr"] select{font-family:"Pixelify Sans",sans-serif!important;font-size:17px!important}
+html[data-theme="tfr"] .nav button,html[data-theme="tfr"] header .topnav button{
+font-family:"Pixelify Sans",sans-serif!important;font-weight:600!important;font-size:19px!important}
+html[data-theme="tfr"] h1,html[data-theme="tfr"] h2{font-family:"Pixelify Sans",monospace!important;font-weight:600!important}
+html[data-theme="tfr"] .eyebrow,html[data-theme="tfr"] .label,html[data-theme="tfr"] .lr-level-hint{
+font-family:"Pixelify Sans",monospace!important;font-size:15px!important;letter-spacing:.4px!important}
+html[data-theme="tfr"] #read #reader,html[data-theme="tfr"] #read #reader .token{
+font-family:"VT323","Pixelify Sans",monospace!important}
+html[data-theme="tfr"] #read #reader::before{
+font-family:"Press Start 2P","Pixelify Sans",monospace!important;font-size:9px!important;line-height:1.6!important}
+html[data-theme="tfr"] #lr-import-anywhere{background:linear-gradient(130deg,#22142b,#160f22)!important;
+border-color:#90519c!important;color:#f5eaff!important}
+html[data-theme="tfr"] #lr-import-anywhere p{color:#bfaad3!important}
+html[data-theme="tfr"] #lr-level-choice{background:#1c1429!important}
+@media(max-width:540px){html[data-theme="tfr"] button:not(.token){font-size:15px!important}html[data-theme="tfr"] header .topnav button{font-size:15px!important}}
+</style>
+
+<script>
+/* Langrad v0.9.2: Chrome importer bridge and CEFR selector */
+(function(){
+"use strict";
+const $=id=>document.getElementById(id),settings=$("settings"),save=$("saveText");
+if(!settings||!save)return;
+const help=document.createElement("section");help.id="lr-import-anywhere";
+help.style.cssText="border:1px solid #d7cbbc;border-radius:9px;padding:16px;margin:20px 0;background:#faf6ef";
+help.innerHTML='<div class="eyebrow">Импорт материалов</div><h2>Тексты с любых сайтов</h2>'+
+'<p>Установи Langrad Importer для Chrome или Edge. Открой статью, нажми расширение и выбери «Импортировать страницу». Можно сначала выделить нужный отрывок. Текст откроется в редакторе Langrad.</p>'+
+'<div class="row"><a class="btn primary" href="/langrad-importer-chrome.zip" download>Скачать расширение ZIP</a>'+
+'<span class="tiny">Распакуй архив → chrome://extensions → Режим разработчика → Загрузить распакованное расширение.</span></div>'+
+'<p class="tiny">Работает с обычными статьями и выделенным текстом. Защищённые страницы, PDF, видео и платные материалы могут не поддерживаться.</p>';
+const theme=$("lr-theme-settings");theme?settings.insertBefore(help,theme):settings.append(help);
+const wiki=$("lr-wiki-import-panel");
+if(wiki){const note=document.createElement("p");note.className="tiny";note.textContent="Для других сайтов установи расширение Chrome — ссылка в настройках Langrad.";wiki.append(note)}
+let incoming=null;
+const oldSave=save.onclick;
+save.onclick=function(e){
+ const prior=new Set((state.library||[]).map(x=>x.id)),data=incoming;
+ const result=oldSave?.call(this,e);
+ if(data){
+  const item=(state.library||[]).find(x=>x.id===state.activeTextId&&!prior.has(x.id));
+  if(item){item.sourceURL=data.url;item.sourceTitle=data.title;item.importKind="browser-extension";persist()}
+  incoming=null;updateSource();
+ }
+ return result;
+};
+const cancel=$("cancelEdit"),oldCancel=cancel?.onclick;
+if(oldCancel)cancel.onclick=function(e){incoming=null;return oldCancel.call(this,e)};
+const add=$("addText"),oldAdd=add?.onclick;
+if(oldAdd)add.onclick=function(e){incoming=null;return oldAdd.call(this,e)};
+function sourceURL(raw){
+ try{const u=new URL(raw);return (u.protocol==="https:"||u.protocol==="http:")?u.href:null}catch(e){return null}
+}
+const credit=document.createElement("p");credit.id="lr-import-credit";credit.className="tiny";
+$("reader")?.after(credit);
+function updateSource(){
+ credit.replaceChildren();
+ const item=(state.library||[]).find(x=>x.id===state.activeTextId);
+ const url=sourceURL(item?.sourceURL);if(!url)return;
+ const a=document.createElement("a");a.href=url;a.textContent="Источник: "+(item.sourceTitle||new URL(url).hostname);a.target="_blank";a.rel="noopener noreferrer";credit.append(a);
+}
+window.addEventListener("langrad:extension-import",e=>{
+ const data=e.detail;
+ if(!data||typeof data.title!=="string"||typeof data.text!=="string"||!sourceURL(data.url))return;
+ const text=data.text.replace(/\r/g,"").replace(/\u0000/g,"").slice(0,65000).trim();
+ if(text.length<25)return;
+ incoming={url:sourceURL(data.url),title:data.title.slice(0,200)};
+ $("editor").classList.remove("hidden");$("title").value=incoming.title;$("textInput").value=text;
+ $("lr-import-banner")?.remove();
+ const banner=document.createElement("p");banner.id="lr-import-banner";banner.className="alert";
+ banner.textContent="Текст импортирован с "+new URL(incoming.url).hostname+(data.selection?" (выделенный фрагмент).":".")+" Проверь текст и нажми «Открыть текст».";
+ $("editor").prepend(banner);$("editor").scrollIntoView({behavior:"smooth",block:"start"});
+});
+const list=$("lr-library-list");
+function librarySources(){
+ const items=[...(state.library||[])].reverse();
+ list?.querySelectorAll(".lr-library-entry").forEach((node,i)=>{
+  const url=sourceURL(items[i]?.sourceURL);
+  if(!url||node.querySelector(".lr-import-source"))return;
+  const div=document.createElement("div");div.className="tiny lr-import-source";
+  const a=document.createElement("a");a.href=url;a.textContent="Источник: "+new URL(url).hostname;a.target="_blank";a.rel="noopener noreferrer";
+  div.append(a);node.querySelector(".lr-library-preview")?.after(div);
+ });
+}
+if(list)new MutationObserver(librarySources).observe(list,{childList:true});
+const previousReader=renderReader;
+renderReader=function(){const result=previousReader.apply(this,arguments);updateSource();return result};
+const aid=$("aid"),level=$("lr-level-panel");
+if(aid&&level){
+ const row=level.querySelector(".lr-level-row");
+ if(row){
+  const choice=document.createElement("select");choice.id="lr-level-choice";choice.className="input";
+  choice.setAttribute("aria-label","Выбор уровня адаптации");
+  choice.style.cssText="min-width:76px;width:auto;padding:7px 8px";
+  for(const value of ["A1","A2","B1","B2","C1"]){
+   const o=document.createElement("option");o.value=value;o.textContent=value;choice.append(o);
+  }
+  choice.value=aid.value;row.insertBefore(choice,$("lr-level-run"));
+  choice.onchange=()=>{aid.value=choice.value;aid.dispatchEvent(new Event("change",{bubbles:true}))};
+  aid.addEventListener("change",()=>choice.value=aid.value);
+  const oldReader=renderReader;
+  renderReader=function(){const result=oldReader.apply(this,arguments);choice.value=aid.value;return result};
+ }
+}
+updateSource();
+})();
+</script>
+
+<style id="lr-dictionary-v1-style">
+#lr-dict-sources{margin:12px 0 4px;padding:12px;border:1px solid #d4c8ba;border-radius:9px;background:#f9f5ed}
+#lr-dict-sources .lr-links{display:flex;gap:11px;flex-wrap:wrap;margin-top:6px;font-size:13px}
+#lr-dict-sources .lr-links a{font-weight:600;text-decoration:underline}
+#lr-dict-sources .lr-source-note{font-size:12px;line-height:1.45;color:#89786c;margin:5px 0 0}
+html[data-theme="tfr"] #lr-dict-sources{background:#201429!important;color:#eadcf7!important;border:1px solid #8f3d8e!important;border-radius:2px!important}
+html[data-theme="tfr"] #lr-dict-sources .lr-source-note{color:#c1aace!important}
+</style>
+<script>
+/* Langrad v0.9.3 — German inflections, reliable basic words and WikDict/Wiktionary links */
+(function(){
+"use strict";
+const vocab={
+beachten:["beachten","обращать внимание на; учитывать; соблюдать","глагол","Infinitiv. В сочетании «Bitte beachten» — «Пожалуйста, обратите внимание»."],
+beachte:["beachten","обрати внимание; учти; соблюдай","глагол — повелительное наклонение","В «Bitte beachte ...» — Imperativ для du (обрати внимание). В других предложениях может быть «ich beachte» (я учитываю)."],
+beachtest:["beachten","обращаешь внимание; учитываешь","глагол","Präsens, 2-е лицо единственного числа: du beachtest."],
+beachtet:["beachten","обращает внимание; учитывает; учитываете","глагол","Präsens, 3-е лицо ед. числа / 2-е лицо мн. числа; может также быть Partizip II."],
+beachtete:["beachten","обращал(а) внимание; учитывал(а)","глагол","Präteritum: ich/er/sie beachtete."],
+diese:["dieser","эта; эту; эти","указательное местоимение / определитель","Форма dieser. Женский род, Nominativ/Akkusativ ед. числа или Nominativ/Akkusativ мн. числа — определяется по контексту."],
+dieser:["dieser","этот; этой; этих","указательное местоимение / определитель","Форма и падеж зависят от следующего существительного: dieser Mann — этот мужчина; in dieser Stadt — в этом городе."],
+dieses:["dieser","это; этот; этого","указательное местоимение / определитель","Средний род, Nominativ/Akkusativ ед. числа: dieses Haus — этот дом."],
+diesem:["dieser","этому; этим","указательное местоимение / определитель","Dativ ед. числа мужского или среднего рода: in diesem Jahr — в этом году."],
+diesen:["dieser","этого; этим; этих","указательное местоимение / определитель","Akkusativ мужского рода ед. числа или Dativ мн. числа — зависит от контекста."],
+dies:["dieser","это","указательное местоимение","Краткая форма dieser/dieses: Dies ist wichtig — Это важно."],
+jene:["jener","та; те","указательное местоимение","Форма jener: тот, та, то, те. Падеж зависит от контекста."],
+welche:["welcher","какая; которые; какую","вопросительное / относительное местоимение","Форма welcher. Род, число и падеж определяются по контексту."],
+welcher:["welcher","какой; которого","вопросительное / относительное местоимение","Welche Bücher? — Какие книги? Welcher Tag? — Какой день?"],
+welches:["welcher","какое; который","вопросительное / относительное местоимение","Средний род, Nominativ/Akkusativ."],
+welchen:["welcher","какого; каким; которых","вопросительное / относительное местоимение","Склоняемая форма welcher."],
+solche:["solcher","такая; такие","указательное местоимение","Форма solcher: такой."],
+alle:["alle","все; всё","местоимение / определитель","Все люди: alle Menschen; всё: alles."],
+allen:["alle","всем; всех","местоимение / определитель","Dativ мн. числа: mit allen — со всеми."],
+alles:["alles","всё","местоимение","Alles ist gut — Всё хорошо."],
+einige:["einige","некоторые; несколько","неопределённое местоимение","Einige Menschen — Некоторые люди."],
+einer:["ein","один; одного; один из","местоимение / артикль","Форма ein, зависит от падежа и рода."],
+einem:["ein","одному; каким-то","неопределённый артикль","Dativ ед. числа мужского/среднего рода."],
+einen:["ein","одного; какой-то","неопределённый артикль","Akkusativ мужского рода."],
+eine:["ein","одна; какую-то","неопределённый артикль","Женский род Nominativ/Akkusativ."],
+eines:["ein","одного; какого-то","неопределённый артикль","Genitiv мужского/среднего рода."],
+den:["der","этого; тех; этим","определённый артикль","Мужской род Akkusativ ед. числа или Dativ мн. числа."],
+dem:["der","этому; этим","определённый артикль","Dativ мужского/среднего рода. В «dem Mann» — мужчине."],
+des:["der","этого; того","определённый артикль","Genitiv мужского/среднего рода."],
+der:["der","этот; тот; определённый артикль","артикль / местоимение","Мужской Nominativ, женский Dativ/Genitiv, множественный Genitiv и др."],
+die:["die","эта; эти; определённый артикль","артикль / местоимение","Женский Nominativ/Akkusativ, множественный Nominativ/Akkusativ."],
+das:["das","это; определённый артикль","артикль / местоимение","Средний род Nominativ/Akkusativ; также местоимение «это»."],
+wir:["wir","мы","личное местоимение","1-е лицо мн. числа, Nominativ."],
+uns:["wir","нас; нам","личное местоимение","Akkusativ или Dativ местоимения wir."],
+unser:["unser","наш","притяжательное местоимение / определитель","Grundform: unser — наш."],
+unsere:["unser","наша; наши; нашу","притяжательное местоимение / определитель","Форма unser. Род, число и падеж определяются по существительному."],
+unserem:["unser","нашему; нашим","притяжательное местоимение / определитель","Dativ ед. числа мужского/среднего рода."],
+unseren:["unser","нашего; наших; нашим","притяжательное местоимение / определитель","Склоняемая форма unser."],
+seine:["sein","его; свои","притяжательное местоимение","Форма sein. Род, число и падеж зависят от существительного."],
+meine:["mein","моя; мои; мою","притяжательное местоимение","Форма mein."],
+meinen:["mein","моего; моим; моих","притяжательное местоимение","Склоняемая форма mein."],
+deine:["dein","твоя; твои; твою","притяжательное местоимение","Форма dein."],
+eure:["euer","ваша; ваши; вашу","притяжательное местоимение","Форма euer."],
+ihre:["ihr","её; их; Ваши","притяжательное местоимение","Значение зависит от того, кому принадлежит предмет и написано ли Ihr с большой буквы."],
+ist:["sein","есть; является; находится","глагол","Präsens, 3-е лицо ед. числа: er/sie/es ist. В предложении перевод часто опускается."],
+sind:["sein","являемся; являются; есть","глагол","Präsens: wir/sie/Sie sind."],
+bin:["sein","есть; являюсь","глагол","Präsens, 1-е лицо ед. числа: ich bin."],
+bist:["sein","есть; являешься","глагол","Präsens, 2-е лицо ед. числа: du bist."],
+seid:["sein","есть; являетесь","глагол","Präsens, 2-е лицо мн. числа: ihr seid."],
+war:["sein","был; была; было","глагол","Präteritum, 1-е или 3-е лицо ед. числа: ich/er/sie/es war."],
+waren:["sein","были","глагол","Präteritum, множественное число: wir/sie/Sie waren."],
+habe:["haben","имею; у меня есть","глагол","Präsens: ich habe; также вспомогательный глагол Perfekt."],
+hast:["haben","имеешь; у тебя есть","глагол","Präsens: du hast."],
+hat:["haben","имеет; у него есть","глагол","Präsens: er/sie/es hat; вспомогательный глагол Perfekt."],
+haben:["haben","иметь; у нас/них есть","глагол","Infinitiv; Präsens wir/sie/Sie haben."],
+habt:["haben","имеете","глагол","Präsens: ihr habt."],
+hatte:["haben","имел; была возможность","глагол","Präteritum: ich/er/sie/es hatte."],
+hatten:["haben","имели","глагол","Präteritum, множественное число."],
+wird:["werden","становится; будет","глагол","Präsens: er/sie/es wird; также Futur I и пассив."],
+werden:["werden","становиться; будут","глагол","Инфинитив / Präsens мн. числа; вспомогательный глагол."],
+wurde:["werden","стал; была; был","глагол","Präteritum: wurde; также страдательный залог."],
+wurden:["werden","стали; были","глагол","Präteritum во множественном числе; также пассив."],
+geht:["gehen","идёт; уходит; получается","глагол","Präsens: er/sie/es geht."],
+gehe:["gehen","иду; ухожу","глагол","Präsens: ich gehe."],
+gehst:["gehen","идёшь","глагол","Präsens: du gehst."],
+ging:["gehen","шёл; ходил","глагол","Präteritum: ich/er/sie/es ging."],
+gegangen:["gehen","ушёл; пошёл; ходил","глагол","Partizip II: ist gegangen."],
+kann:["können","могу; может","модальный глагол","Präsens: ich/er/sie/es kann."],
+kannst:["können","можешь","модальный глагол","Präsens: du kannst."],
+können:["können","мочь; уметь","модальный глагол","Infinitiv / Präsens мн. числа."],
+muss:["müssen","должен; должна","модальный глагол","Präsens: ich/er/sie/es muss."],
+müssen:["müssen","быть должным; нужно","модальный глагол","Инфинитив / Präsens мн. числа."],
+will:["wollen","хочу; хочет","модальный глагол","Präsens: ich/er/sie/es will."],
+wollen:["wollen","хотеть","модальный глагол","Инфинитив / Präsens мн. числа."],
+soll:["sollen","должен; следует","модальный глагол","Präsens: ich/er/sie/es soll."],
+möchte:["mögen","хотел бы; хотела бы","модальный глагол","Вежливая форма желания: ich möchte."],
+möchten:["mögen","хотели бы","модальный глагол","Вежливая форма желания: wir/sie möchten."],
+wähle:["wählen","выбираю; выбери","глагол","Präsens (ich wähle) или Imperativ (wähle!)."],
+wählt:["wählen","выбирает; выбираете","глагол","Präsens: er/sie/es wählt или ihr wählt."],
+wählen:["wählen","выбирать; голосовать","глагол","Инфинитив."],
+verfügbar:["verfügbar","доступный; имеющийся","прилагательное","В «verfügbare Optionen» — доступные варианты."],
+verfügbaren:["verfügbar","доступных; доступным","прилагательное","Склоняемая форма verfügbar, окончание -en."],
+verschiedene:["verschieden","разные; различные","прилагательное","Склоняемая форма verschieden."],
+verschiedenen:["verschieden","разных; различным","прилагательное","Склоняемая форма verschieden, окончание -en."],
+bitte:["bitte","пожалуйста; прошу","частица / междометие","Bitte beachte ... — Пожалуйста, обрати внимание."],
+nur:["nur","только; лишь","частица","Ограничительная частица."],
+schon:["schon","уже; всё-таки","наречие / частица","Зависит от контекста."],
+noch:["noch","ещё; пока ещё","наречие / частица","Зависит от контекста."],
+daher:["daher","поэтому; отсюда","наречие","Следствие: Sie können daher ... — Поэтому вы можете ..."],
+unserem:["unser","нашему; нашим","притяжательное местоимение","Dativ мужского/среднего рода."],
+unseren:["unser","нашего; нашим; наших","притяжательное местоимение","Форма unser."]
+};
+Object.assign(lex,vocab);
+const norm=x=>String(x||"").toLocaleLowerCase("de-DE");
+let dictionary=null;
+fetch("/dictionary.json",{cache:"force-cache"}).then(r=>r.ok?r.json():null).then(data=>{dictionary=data}).catch(()=>{});
+function dictionaryEntry(key,type){
+ const x=dictionary?.[key];
+ if(!x||!Array.isArray(x)||!Array.isArray(x[0]))return null;
+ const pos=String(x[1]||"").toLowerCase();
+ if(!pos)return null;
+ if(type==="verb"&&!(/(^v$|глагол|verb)/.test(pos)))return null;
+ if(type==="adj"&&!(/(^adj$|прилагательн|adject)/.test(pos)))return null;
+ const translation=x[0].filter(Boolean).slice(0,5).join("; ");
+ if(!translation)return null;
+ return [String(x[3]||key),translation,type==="verb"?"глагол":"прилагательное",
+   type==="verb"?"Форма глагола "+(x[3]||key)+". Лицо и время уточни по контексту.":
+    "Склоняемая форма прилагательного "+(x[3]||key)+". Падеж, род и число определяются по существительному."];
+}
+function identify(word){
+ const w=norm(word),direct=vocab[w];
+ if(direct)return direct;
+ if(!dictionary)return null;
+ // Do not mistake morphological suffix entries for common words (e.g. ist).
+ const candidates=[];
+ const propose=(x,type)=>{if(x.length>3)candidates.push([x,type])};
+ if(w.endsWith("est"))propose(w.slice(0,-3)+"en","verb");
+ if(w.endsWith("st"))propose(w.slice(0,-2)+"en","verb");
+ if(w.endsWith("test"))propose(w.slice(0,-4)+"en","verb");
+ if(w.endsWith("ten"))propose(w.slice(0,-3)+"en","verb");
+ if(w.endsWith("te"))propose(w.slice(0,-2)+"en","verb");
+ if(w.endsWith("t"))propose(w.slice(0,-1)+"en","verb");
+ if(w.endsWith("e"))propose(w.slice(0,-1)+"en","verb");
+ for(const ending of ["en","em","er","es","e"]){
+  if(w.length>ending.length+3)propose(w.slice(0,-ending.length),"adj");
+ }
+ for(const [key,type] of candidates){
+  const found=dictionaryEntry(key,type);
+  if(found)return found;
+ }
+ return null;
+}
+const oldSelect=selectWord;
+selectWord=function(word,el){
+ oldSelect(word,el);
+ const box=document.getElementById("detail");if(!box)return;
+ const info=identify(word);
+ if(info){
+  const recordRow=state.words[norm(word)];
+  const translated=box.querySelector(".translation");
+  if(translated&&!recordRow?.translation)translated.textContent=info[1];
+  const tag=box.querySelector(".tag");if(tag)tag.textContent=info[2];
+  const label=[...box.querySelectorAll(".label")].find(x=>x.textContent==="Начальная форма");
+  if(label?.nextElementSibling)label.nextElementSibling.textContent=info[0];
+  const gram=box.querySelector(".gram");if(gram)gram.textContent=info[3];
+  const onlineBox=box.querySelector("#freedict-result");
+  if(onlineBox&&vocab[norm(word)])onlineBox.remove();
+ }
+ let sources=box.querySelector("#lr-dict-sources");
+ if(!sources){sources=document.createElement("div");sources.id="lr-dict-sources";box.append(sources)}
+ sources.replaceChildren();
+ const label=document.createElement("strong");label.textContent="Другие словари";sources.append(label);
+ const links=document.createElement("div");links.className="lr-links";sources.append(links);
+ const lemma=(info?.[0]||word).replace(/^(?:der|die|das)\s+/i,"");
+ const mk=(title,url)=>{
+  const a=document.createElement("a");a.textContent=title;a.href=url;a.target="_blank";a.rel="noopener noreferrer";links.append(a);
+ };
+ mk("WikDict DE–RU","https://www.wikdict.com/de-ru/"+encodeURIComponent(lemma));
+ mk("Викисловарь (DE)","https://de.wiktionary.org/wiki/"+encodeURIComponent(word));
+ mk("Викисловарь (RU)","https://ru.wiktionary.org/wiki/"+encodeURIComponent(lemma));
+ const note=document.createElement("p");note.className="lr-source-note";
+ note.textContent="WikDict использует данные Викисловаря (CC BY-SA). Внешняя статья открывается отдельно; её перевод не загружается автоматически.";
+ sources.append(note);
+};
+})();
+</script>
+
+<style id="lr-wty-dictionary-style">
+#lr-wty-settings{border:1px solid #d9cbbc;border-radius:10px;background:#f8f5ed;padding:17px;margin:18px 0}
+#lr-wty-settings .lr-wty-actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+#lr-wty-settings .lr-wty-progress{display:block;margin:12px 0 6px;width:100%;accent-color:#9451aa}
+#lr-wty-settings .lr-wty-status{font-size:13px;line-height:1.5;color:#6f635b;margin:9px 0}
+#lr-wty-settings .lr-wty-file{display:none}
+#lr-wty-result{padding:13px 14px;background:#faf6f0;border:1px solid #dbcabb;border-radius:9px;margin:12px 0}
+#lr-wty-result strong{font-size:13px}
+#lr-wty-result .lr-wty-translations{font-size:15px;line-height:1.65;color:#43362e;margin:5px 0}
+#lr-wty-result .lr-wty-grammar{font-size:12px;color:#7c6e5d}
+#lr-wty-result .lr-wty-attribution{margin:7px 0 0;font-size:12px;color:#806c60}
+html[data-theme="tfr"] #lr-wty-settings,html[data-theme="tfr"] #lr-wty-result{
+ background:linear-gradient(135deg,#24152e,#140d20)!important;color:#efdef5!important;border:1px solid #a74f9d!important;border-radius:2px!important;
+}
+html[data-theme="tfr"] #lr-wty-settings .lr-wty-status,html[data-theme="tfr"] #lr-wty-result .lr-wty-grammar,
+html[data-theme="tfr"] #lr-wty-result .lr-wty-attribution{color:#cbb2d9!important}
+html[data-theme="tfr"] #lr-wty-result .lr-wty-translations{color:#f5eaff!important}
+</style>
+<script>
+/* Langrad v0.10 — full WTY German-Russian dictionary installer; client-side ZIP/IndexedDB. */
+(function(){
+"use strict";
+const $=id=>document.getElementById(id);
+const panel=$("settings");
+if(!panel)return;
+const URL_WTY="https://huggingface.co/datasets/daxida/wty-release/resolve/main/latest/dict/de/ru/wty-de-ru.zip";
+const box=document.createElement("section");
+box.id="lr-wty-settings";
+box.innerHTML='<div class="eyebrow">Большой словарь</div><h2>Wiktionary Deutsch → Русский</h2>'+
+ '<p>Расширенный словарь из архива WTY (Викисловарь): переводы, части речи и многие формы слов. Установка бесплатна; первый раз загружается примерно 5 МБ, затем словарь хранится на этом устройстве.</p>'+
+ '<div class="lr-wty-actions"><button id="lr-wty-install" class="btn primary" type="button">Загрузить / обновить словарь</button>'+
+ '<label for="lr-wty-file" class="btn" style="cursor:pointer">Импортировать ZIP вручную</label>'+
+ '<input id="lr-wty-file" class="lr-wty-file" type="file" accept=".zip,application/zip"></div>'+
+ '<progress id="lr-wty-progress" class="lr-wty-progress" value="0" max="100" hidden></progress>'+
+ '<p class="lr-wty-status" id="lr-wty-status" role="status" aria-live="polite">Проверяем сохранённый словарь…</p>'+
+ '<p class="tiny"><a href="'+URL_WTY+'" target="_blank" rel="noopener noreferrer">Скачать исходный архив</a> · <a href="https://huggingface.co/datasets/daxida/wty-release" target="_blank" rel="noopener noreferrer">Источник WTY</a> · <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener noreferrer">CC BY-SA 4.0</a>. Данные Викисловаря, извлечены через Kaikki/Wiktextract и WTY. Переводы могут быть неполными, а значение зависит от контекста.</p>';
+const before=$("lr-ai-settings")||$("lr-theme-settings")||$("lr-project-brief");
+if(before)panel.insertBefore(box,before);else panel.append(box);
+const status=$("lr-wty-status"),button=$("lr-wty-install"),bar=$("lr-wty-progress"),input=$("lr-wty-file");
+let dictionary=null,loading=false,activeWord=null,worker=null;
+const KEY="langrad-wty-de-ru-2026-10-22",DBNAME="langrad-wty-cache";
+const special={
+ "eingenommen":["einnehmen","захваченный; занятый; принятый (например, лекарство)","v","Partizip II от einnehmen. «Die Stadt wurde eingenommen» — город был захвачен."],
+ "eingenomen":["eingenommen","возможно, имелось в виду eingenommen — захваченный, занятый","v","В слове eingenomen, вероятно, пропущена буква m. Правильно: eingenommen."],
+ "einnehmen":["einnehmen","занимать; захватывать (город); принимать (лекарство); получать (деньги)","v","Отделяемый глагол: einnehmen, nahm ein, hat eingenommen. Значение зависит от дополнения."],
+ "Überfall":["Überfall","нападение; налёт; набег","n","Мужской род: der Überfall. Военное нападение — ein militärischer Überfall."],
+ "überfall":["Überfall","нападение; налёт; набег","n","Существительное мужского рода: der Überfall."]
+};
+function openDB(){
+ return new Promise((resolve,reject)=>{
+  if(!("indexedDB" in window)){reject(Error("Хранилище IndexedDB недоступно"));return}
+  const req=indexedDB.open(DBNAME,1);
+  req.onupgradeneeded=()=>req.result.createObjectStore("saved");
+  req.onerror=()=>reject(req.error||Error("Не удалось открыть хранилище"));
+  req.onsuccess=()=>resolve(req.result);
+ });
+}
+async function readDB(){
+ const db=await openDB();
+ return new Promise((resolve,reject)=>{
+  const tx=db.transaction("saved","readonly"),req=tx.objectStore("saved").get(KEY);
+  req.onsuccess=()=>{db.close();resolve(req.result||null)};
+  req.onerror=()=>{db.close();reject(req.error||Error("Ошибка хранилища"))};
+ });
+}
+async function writeDB(value){
+ const db=await openDB();
+ return new Promise((resolve,reject)=>{
+  const tx=db.transaction("saved","readwrite");
+  tx.objectStore("saved").put(value,KEY);
+  tx.oncomplete=()=>{db.close();resolve()};
+  tx.onerror=()=>{db.close();reject(tx.error||Error("Недостаточно места на устройстве"))};
+ });
+}
+function info(message,value){
+ status.textContent=message;
+ if(value===undefined){bar.hidden=true;return}
+ bar.hidden=false;bar.value=Math.max(0,Math.min(100,value));
+}
+function getEntry(word){
+ if(!dictionary)return null;
+ const key=String(word||"").trim();
+ if(!key)return null;
+ const candidates=[key,key.toLocaleLowerCase("de-DE"),key[0].toUpperCase()+key.slice(1),key[0].toLocaleUpperCase("de-DE")+key.slice(1)];
+ let row=null;
+ for(const c of candidates){if(dictionary[c]){row=dictionary[c];break}}
+ for(let i=0;i<4&&row&&row[0]==="r";i++){
+  const lemma=row[1];
+  if(!lemma||!dictionary[lemma])break;
+  const next=dictionary[lemma];
+  if(next[0]==="r"&&next[1]===lemma)break;
+  row=next;
+  if(row[0]==="d")return {entry:row,lemma,redirect:true};
+ }
+ return row&&row[0]==="d"?{entry:row,lemma:key,redirect:false}:null;
+}
+function displayWord(word){
+ const pane=$("detail");if(!pane||activeWord!==word)return;
+ pane.querySelector("#lr-wty-result")?.remove();
+ const key=String(word||"").trim();
+ const specialValue=special[key]||special[key.toLocaleLowerCase("de-DE")];
+ const wty=getEntry(key);
+ if(!specialValue&&!wty)return;
+ const entry=specialValue?["d",[specialValue[1]],specialValue[2],specialValue[0]==="Überfall"?"m":""]:wty.entry;
+ const lemma=specialValue?specialValue[0]:wty.lemma;
+ const glosses=entry[1]||[];
+ const translation=glosses.slice(0,5).join("; ");
+ const gender=entry[3]||"";
+ const isNoun=entry[2]?.startsWith("n")||Boolean(gender);
+ const article={m:"der",f:"die",n:"das"}[gender]||(key.toLocaleLowerCase("de-DE")==="überfall"?"der":"");
+ const form=isNoun&&article?article+" "+lemma:lemma;
+ const existing=state.words[key.toLocaleLowerCase("de-DE")];
+ const alreadyCurated=Boolean(lex[key.toLocaleLowerCase("de-DE")]);
+ const slot=pane.querySelector(".translation");
+ const uninformative=/^(нет офлайн-перевода|неизвестное слово|нет перевода)/i.test(slot?.textContent||"");
+ if(slot&&!existing?.translation&&(specialValue||(!alreadyCurated||uninformative)))slot.textContent=translation;
+ const heading=[...pane.querySelectorAll(".label")].find(x=>x.textContent==="Начальная форма");
+ if(heading?.nextElementSibling&&(specialValue||!alreadyCurated||uninformative))heading.nextElementSibling.textContent=form;
+ const gram=pane.querySelector(".gram"),tag=pane.querySelector(".tag");
+ const posNames={n:"существительное",v:"глагол",adj:"прилагательное",adv:"наречие",pron:"местоимение",interj:"междометие"};
+ const pos=posNames[entry[2]]||entry[2]||"часть речи не определена";
+ if(tag&&(specialValue||!alreadyCurated||uninformative))tag.textContent=pos;
+ if(gram&&(specialValue||!alreadyCurated||uninformative)){
+  gram.textContent=specialValue?specialValue[3]:((wty?.redirect?"Форма слова "+lemma+". ":"")+(isNoun&&article?"Род: "+article+". ":"")+"Значение зависит от контекста.");
+ }
+ const box=document.createElement("div");box.id="lr-wty-result";
+ const title=document.createElement("strong");title.textContent="Расширенный словарь — Викисловарь (WTY)";box.append(title);
+ const text=document.createElement("div");text.className="lr-wty-translations";text.textContent=translation;box.append(text);
+ const meta=document.createElement("div");meta.className="lr-wty-grammar";
+ meta.textContent=(isNoun&&article?article+" ":"")+lemma+" · "+pos+(wty?.redirect?" · найдена исходная форма":"");box.append(meta);
+ const att=document.createElement("p");att.className="lr-wty-attribution";
+ att.textContent=specialValue?"Уточнение Langrad; дополнительные значения можно проверить во внешнем словаре.":"Данные из WTY / Wiktionary, CC BY-SA 4.0. Значения даны без анализа контекста.";
+ box.append(att);
+ const other=pane.querySelector("#lr-dict-sources");if(other)pane.insertBefore(box,other);else pane.append(box);
+}
+const previousSelect=selectWord;
+selectWord=function(word,element){
+ activeWord=word;const result=previousSelect(word,element);displayWord(word);return result;
+};
+function ready(source,count){
+ if(!dictionary)return;
+ button.disabled=false;
+ loading=false;
+ button.textContent="Обновить словарь";
+ info("Подключено: "+count.toLocaleString("ru-RU")+" словарных написаний. Источник: "+source+". Слова доступны даже без интернета.");
+ if(activeWord)displayWord(activeWord);
+}
+function importerWorker(){
+ const srcURL="https://huggingface.co/datasets/daxida/wty-release/resolve/main/latest/dict/de/ru/wty-de-ru.zip";
+ function textOf(node){
+  if(typeof node==="string")return node;
+  if(Array.isArray(node))return node.map(textOf).join("");
+  if(!node||typeof node!=="object")return "";
+  if(["a","details","script","style"].includes(node.tag)||node.data?.content==="backlink")return "";
+  return textOf(node.content||"");
+ }
+ function findGlosses(node,list){
+  if(Array.isArray(node)){for(const x of node)findGlosses(x,list);return}
+  if(!node||typeof node!=="object")return;
+  if(node.tag==="ol"&&node.data?.content==="glosses"){
+   for(const li of node.content||[]){
+    const text=textOf(li.content||[]).replace(/\s+/g," ").trim();
+    if(text.length>1&&text.length<800&&!list.includes(text))list.push(text.slice(0,240));
+   }
+   return;
+  }
+  if(node.tag==="details"||node.tag==="a")return;
+  findGlosses(node.content||[],list);
+ }
+ function parseRows(rows,dict){
+  for(const row of rows){
+   if(!Array.isArray(row)||typeof row[0]!=="string"||row[0].length>110||!row[0].trim())continue;
+   const name=row[0],body=row[5];
+   if(Array.isArray(body)&&Array.isArray(body[0])&&typeof body[0][0]==="string"){
+    const ref=body[0][0];if(ref!==name&&ref&&ref.length<110&&!dict[name])dict[name]=["r",ref];continue;
+   }
+   const glosses=[];findGlosses(body,glosses);
+   if(!glosses.length)continue;
+   const tags=String(row[2]||"");
+   const gender=tags.includes("masc")?"m":tags.includes("fem")?"f":tags.includes("neut")?"n":"";
+   const pos=String(row[3]||row[2]||"").split(" ")[0].slice(0,17);
+   const old=dict[name];
+   if(!old||old[0]!=="d"){dict[name]=["d",glosses.slice(0,7),pos,gender];continue}
+   for(const g of glosses)if(old[1].length<8&&!old[1].includes(g))old[1].push(g);
+   if(!old[2])old[2]=pos;
+   if(!old[3])old[3]=gender;
+  }
+ }
+ async function unzipFile(buffer){
+  const v=new DataView(buffer),bytes=new Uint8Array(buffer),len=bytes.length;
+  let end=-1;
+  for(let i=len-22;i>=Math.max(0,len-66000);i--){if(v.getUint32(i,true)===0x06054b50){end=i;break}}
+  if(end<0)throw Error("Не найден ZIP-каталог. Убедись, что это архив wty-de-ru.zip");
+  const count=v.getUint16(end+10,true),start=v.getUint32(end+16,true),decoder=new TextDecoder();
+  const files=[];let pos=start;
+  for(let i=0;i<count;i++){
+   if(v.getUint32(pos,true)!==0x02014b50)throw Error("ZIP содержит повреждённую запись");
+   const method=v.getUint16(pos+10,true),compressed=v.getUint32(pos+20,true),
+    nameLen=v.getUint16(pos+28,true),extraLen=v.getUint16(pos+30,true),commentLen=v.getUint16(pos+32,true),
+    localOffset=v.getUint32(pos+42,true),name=decoder.decode(bytes.slice(pos+46,pos+46+nameLen));
+   if(name.startsWith("term_bank_")&&name.endsWith(".json"))files.push({name,method,compressed,localOffset});
+   pos+=46+nameLen+extraLen+commentLen;
+  }
+  files.sort((a,b)=>a.name.localeCompare(b.name,undefined,{numeric:true}));
+  if(!files.length)throw Error("Это ZIP, но в нём нет словаря term_bank_*.json");
+  return async function*(){
+   for(const f of files){
+    if(v.getUint32(f.localOffset,true)!==0x04034b50)throw Error("Некорректная ZIP-запись");
+    const nameLen=v.getUint16(f.localOffset+26,true),extraLen=v.getUint16(f.localOffset+28,true);
+    const p=f.localOffset+30+nameLen+extraLen;
+    if(p+f.compressed>len)throw Error("ZIP повреждён");
+    const data=bytes.subarray(p,p+f.compressed);
+    let content;
+    if(f.method===0)content=decoder.decode(data);
+    else if(f.method===8){
+     if(!("DecompressionStream" in self))throw Error("Нужен современный Chrome, Edge или Firefox с поддержкой распаковки ZIP");
+     content=await new Response(new Blob([data]).stream().pipeThrough(new DecompressionStream("deflate-raw"))).text();
+    }else throw Error("ZIP использует неподдерживаемое сжатие");
+    yield JSON.parse(content);
+   }
+  };
+ }
+ self.onmessage=async event=>{
+  const {local,buffer}=event.data||{};
+  try{
+   self.postMessage({type:"progress",value:3,msg:"Подготовка архива…"});
+   const binary=local?buffer:await(async()=>{
+    const r=await fetch(srcURL,{mode:"cors",credentials:"omit"});
+    if(!r.ok)throw Error("Hugging Face: HTTP "+r.status);
+    return r.arrayBuffer();
+   })();
+   self.postMessage({type:"progress",value:18,msg:"Архив получен. Извлекаю словарные записи…"});
+   const iterate=await unzipFile(binary);
+   const records=Object.create(null);let n=0;
+   for await(const rows of iterate()){
+    parseRows(rows,records);n++;
+    self.postMessage({type:"progress",value:18+Math.round(75*n/5),msg:"Обработано файлов: "+n+" / 5"});
+   }
+   const keys=Object.keys(records).length;
+   self.postMessage({type:"progress",value:98,msg:"Сохраняю словарь…"});
+   const encoded=JSON.stringify(records);
+   self.postMessage({type:"complete",dictionary:encoded,count:keys});
+  }catch(e){self.postMessage({type:"error",message:String(e.message||e)})}
+ };
+}
+async function start(localBuffer){
+ if(loading)return;
+ if(!("Worker" in window)){info("Этот браузер не поддерживает фоновую распаковку ZIP");return}
+ loading=true;button.disabled=true;button.textContent="Обработка…";
+ info("Подключаю расширенный словарь…",1);
+ let objectURL=null;
+ try{
+  objectURL=URL.createObjectURL(new Blob(["("+importerWorker.toString()+")()"],{type:"text/javascript"}));
+  worker=new Worker(objectURL);
+  const url=objectURL;
+  worker.onerror=e=>{info("Ошибка фонового обработчика: "+(e.message||"неизвестная ошибка"));loading=false;button.disabled=false;worker?.terminate();URL.revokeObjectURL(url)};
+  worker.onmessage=async ev=>{
+   const msg=ev.data;if(!msg)return;
+   if(msg.type==="progress"){info(msg.msg,msg.value);return}
+   worker.terminate();URL.revokeObjectURL(url);worker=null;
+   if(msg.type==="error"){
+    loading=false;button.disabled=false;button.textContent="Повторить загрузку";
+    info("Не удалось установить словарь: "+msg.message+". Можно скачать ZIP по ссылке и выбрать файл вручную.");
+    return;
+   }
+   if(msg.type==="complete"){
+    try{
+     dictionary=JSON.parse(msg.dictionary);
+     await writeDB(msg.dictionary);
+     ready("WTY / Wiktionary",msg.count);
+    }catch(e){
+     loading=false;button.disabled=false;
+     info("Словарь распакован, но сохранить не удалось: "+(e.message||e)+". Возможно, в браузере недостаточно свободного места.");
+    }
+   }
+  };
+  if(localBuffer)worker.postMessage({local:true,buffer:localBuffer},[localBuffer]);
+  else worker.postMessage({local:false});
+ }catch(e){loading=false;button.disabled=false;info("Ошибка запуска загрузки: "+(e.message||e));if(objectURL)URL.revokeObjectURL(objectURL)}
+}
+button.onclick=()=>start();
+input.onchange=async()=>{
+ const file=input.files?.[0];if(!file)return;
+ if(file.size>25000000){info("Архив слишком большой (максимум 25 МБ)");return}
+ try{await start(await file.arrayBuffer())}catch(e){info("Ошибка чтения файла: "+e.message)}
+ input.value="";
+};
+(async()=>{
+ try{
+  const old=await readDB();
+  if(old&&typeof old==="string"){
+   dictionary=JSON.parse(old);
+   ready("сохранённый WTY",Object.keys(dictionary).length);
+  }else start();
+ }catch(e){
+  info("Сохранённый словарь недоступен: "+e.message+". Повторяю загрузку из Hugging Face…");
+  start();
+ }
+})();
+})();
+</script>
+
+<style id="lr-video-integration-style">
+#lr-video-settings{padding:16px;border:1px solid #d5c6bc;background:#f7f3ee;border-radius:11px;margin:18px 0}
+#lr-video-settings p{line-height:1.55}
+#lr-video-settings strong{color:#69507a}
+html[data-theme="tfr"] #lr-video-settings{background:linear-gradient(115deg,#23152e,#100c1d)!important;border:1px solid #af5eb0!important;border-radius:2px!important;color:#f4e7fb!important}
+html[data-theme="tfr"] #lr-video-settings strong{color:#ff9bea!important}
+#lr-video-import-toast{position:fixed;right:20px;bottom:22px;z-index:9999;color:#fff;background:#24152d;border:1px solid #db77df;border-radius:7px;padding:10px 15px;box-shadow:0 6px 25px #0007;font:600 14px system-ui}
+</style>
+<script>
+/* Langrad v0.11: accepts words saved by Langrad Video in the same browser profile. */
+(function(){
+"use strict";
+const settings=document.getElementById("settings");
+if(settings&&!document.getElementById("lr-video-settings")){
+ const box=document.createElement("section");box.id="lr-video-settings";
+ box.innerHTML='<div class="eyebrow">Видео и субтитры</div><h2>Langrad Video · YouTube</h2>'+
+ '<p>В Chrome можно установить отдельное расширение Langrad Video. Оно делает включённые субтитры YouTube кликабельными, показывает перевод слов и частотность, позволяет менять скорость, повторять фрагменты и добавлять слова в изучение.</p>'+
+ '<p class="tiny"><strong>Синхронизация:</strong> нажми «Учить» в видео, затем открой Langrad в том же профиле Chrome. Добавленные слова появятся в словаре автоматически. Видеофайлы, аудио и субтитры не загружаются на наш сервер. Для русского перевода строк используется внешний сервис только после включения RU.</p>'+
+ '<p class="tiny">Расширение доступно отдельным ZIP-архивом в чате разработки. YouTube должен показывать субтитры CC; Netflix пока не поддерживается.</p>';
+ const target=document.getElementById("lr-import-anywhere")||document.getElementById("lr-project-brief");
+ if(target)settings.insertBefore(box,target);else settings.append(box);
+}
+const used=new Set();
+function acknowledge(ids){
+ window.postMessage({type:"LR_VIDEO_VOCAB_ACK",ids},location.origin);
+}
+window.addEventListener("message",event=>{
+ if(event.source!==window||event.origin!==location.origin||event.data?.type!=="LR_VIDEO_VOCAB")return;
+ const input=event.data.words;
+ if(!Array.isArray(input)||input.length>250)return;
+ const ids=[];let count=0;
+ for(const item of input){
+  if(!item||typeof item.id!=="string"||item.id.length>100)continue;
+  ids.push(item.id);
+  if(used.has(item.id))continue;
+  used.add(item.id);
+  const word=String(item.word||"").trim();
+  if(!/^[\p{L}][\p{L}'’-]{0,65}$/u.test(word))continue;
+  const key=normal(word);
+  const recordWord=record(word);
+  const wasStudying=recordWord.stage>=1;
+  recordWord.stage=Math.max(recordWord.stage||0,1);
+  recordWord.display=recordWord.display||word;
+  recordWord.next=recordWord.next||0;
+  if(!recordWord.translation&&typeof item.translation==="string"&&item.translation.trim())
+   recordWord.translation=item.translation.slice(0,180).trim();
+  if(!wasStudying)count++;
+ }
+ if(ids.length){
+  persist();
+  if(typeof renderReader==="function")renderReader();
+  acknowledge(ids);
+  if(count){
+   let banner=document.getElementById("lr-video-import-toast");
+   if(!banner){banner=document.createElement("div");banner.id="lr-video-import-toast";banner.setAttribute("role","status");document.body.append(banner)}
+   banner.textContent="Langrad Video: добавлено "+count+" слов в изучение";
+   clearTimeout(window.__lrVideoToastTimer);
+   window.__lrVideoToastTimer=setTimeout(()=>banner.remove(),4000);
+  }
+ }
+});
+})();
+</script>
+</body></html>
