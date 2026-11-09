@@ -9,6 +9,15 @@ const isLoji=()=>root.dataset.theme==="loji";
 const original=new WeakMap();
 const lines=[
  ["header .subbrand","LOJI // THE LONG MARCH"],
+ ['header .topnav [data-tab="read"]',"ПОТОК"],
+ ['header .topnav [data-tab="library"]',"АРХИВ"],
+ ['header .topnav [data-tab="words"]',"РЕЕСТР"],
+ ['header .topnav [data-tab="practice"]',"ПАМЯТЬ"],
+ ['header .topnav [data-tab="stats"]',"МОНИТОР"],
+ ['header .topnav [data-tab="settings"]',"ПАРАМЕТРЫ"],
+ ['header .pills .pill:nth-child(1)',"DE → RU / LEXICON"],
+ ['header .pills .pill:nth-child(2)',"USER DATA / LOCAL"],
+ ['header .pills .pill:nth-child(3)',"AI / OPTIONAL"],
  ['#read > .spread:first-child .eyebrow',"ПРОТОКОЛ / ЧТЕНИЕ"],
  ['#read > .spread:first-child h1',"Анализ текста"],
  ['#read > p',"Выберите фрагмент. Система определит доступные словоформы, сохранит помеченные единицы и подготовит их к повторению."],
