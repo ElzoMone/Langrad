@@ -1,0 +1,15 @@
+# Ignore raw dictionary sources, caches and temporary build files
+*.jsonl
+*.jsonl.gz
+*.sqlite
+*.sqlite3
+*.db
+*.tar
+*.tar.gz
+*.tmp
+__pycache__/
+.venv/
+tmp/
+temp/
+raw/
+cache/
