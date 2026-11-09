@@ -19,7 +19,7 @@ const grammar={
  infinitive:"Infinitiv",passive:"Passiv",active:"Aktiv"
 };
 const posLabel={verb:"глагол",noun:"существительное",adj:"прилагательное",adv:"наречие",
- pron:"местоимение",det:"определитель",num:"числительное",n:"существительное",
+ pron:"местоимение",det:"определитель",num:"числительное",demonstrativepronoun:"указательное местоимение",n:"существительное",
  v:"глагол",prep:"предлог"};
 function load(kind,prefix){
  const cache=kind==="forms"?formCache:translationCache;
@@ -146,7 +146,7 @@ function reportCard(pane,word,choice,alternatives,fromDirect,isManual){
 async function resolve(word,pane,ticket){
  const same=()=>ticket===revision&&document.getElementById("detail")===pane&&
    pane.querySelector(".term")?.textContent===word;
- const manual=Boolean((typeof state!=="undefined"&&state.words?.[clean(word)]?.translation)||null);
+ const manual=Boolean(pane.querySelector("#manual")?.value?.trim()||(typeof state!=="undefined"&&state.words?.[clean(word)]?.translation));
  const status=pane.querySelector("#lr-offline-search");
  try{
   // Order: exact dictionary entry → verified form index → lemma → translation.
