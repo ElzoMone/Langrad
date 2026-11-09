@@ -1,0 +1,486 @@
+/* LANGRAD / LOJI 03 — live avatar, observation HUD, restored legibility.
+ * Only Loji theme; regular reader text and other themes are untouched.
+ */
+@import url("https://fonts.googleapis.com/css2?family=Exo+2:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap");
+html[data-theme="loji"] {
+ --lr-loji-display:"Exo 2","Segoe UI",system-ui,sans-serif;
+ --lr-loji-body:"Exo 2","Segoe UI",system-ui,sans-serif;
+ --lr-loji-mono:"IBM Plex Mono","Consolas",ui-monospace,monospace;
+}
+html[data-theme="loji"] body,
+html[data-theme="loji"] button,
+html[data-theme="loji"] input,
+html[data-theme="loji"] textarea,
+html[data-theme="loji"] select {
+ font-family:var(--lr-loji-body)!important;
+}
+html[data-theme="loji"] h1,
+html[data-theme="loji"] h2,
+html[data-theme="loji"] h3,
+html[data-theme="loji"] .brand {
+ font-family:var(--lr-loji-display)!important;
+ font-weight:700!important;
+ letter-spacing:.015em!important;
+ text-shadow:none!important;
+}
+/* The former 180px brand column made the logo and system line vertical.
+   Give the avatar its own space, reserve room for navigation, and wrap
+   control groups without sending labels over one another. */
+html[data-theme="loji"] header {
+ display:grid!important;
+ grid-template-columns:minmax(285px,305px) minmax(0,1fr) minmax(230px,325px)!important;
+ align-items:center!important;
+ gap:12px 18px!important;
+ padding:14px max(22px,calc((100vw - 1450px)/2))!important;
+ min-height:136px!important;
+}
+html[data-theme="loji"] header > div:first-child {
+ grid-column:1!important;
+ grid-row:1!important;
+ width:100%!important;
+ min-width:0!important;
+ min-height:126px!important;
+ padding:9px 113px 7px 0!important;
+ margin:0!important;
+ display:flex;
+ flex-direction:column;
+ align-items:flex-start;
+ justify-content:flex-start;
+ gap:5px;
+ position:relative!important;
+}
+html[data-theme="loji"] header .brand {
+ font-size:clamp(26px,2.2vw,33px)!important;
+ letter-spacing:.04em!important;
+ line-height:1.15!important;
+ white-space:nowrap!important;
+ overflow:visible;
+ flex:0 0 auto;
+}
+html[data-theme="loji"] header .subbrand {
+ font-family:var(--lr-loji-mono)!important;
+ font-size:10px!important;
+ line-height:1.45!important;
+ letter-spacing:.045em!important;
+ max-width:185px;
+ word-break:normal;
+ color:#ffb5b4!important;
+}
+html[data-theme="loji"] .lr-loji-sysline {
+ font:500 9px/1.5 var(--lr-loji-mono)!important;
+ gap:2px 6px!important;
+ max-width:187px!important;
+ margin:4px 0 0!important;
+ letter-spacing:0!important;
+}
+html[data-theme="loji"] .lr-loji-activity {flex:0 0 7px}
+html[data-theme="loji"] .lr-loji-sys-tail {display:none}
+/* Keep the small observation eye; the animated portrait has a separate slot. */
+html[data-theme="loji"] .lr-loji-eye {
+ width:25px!important;
+ height:25px!important;
+ right:112px!important;
+ top:12px!important;
+ opacity:.95!important;
+ filter:drop-shadow(0 0 5px #ff858d)!important;
+}
+/* Original 90-frame animated GIF from the source linked in the title. */
+html:not([data-theme="loji"]) .lr-loji-avatar,
+html:not([data-theme="loji"]) .lr-loji-avatar-credit {display:none!important}
+html[data-theme="loji"] .lr-loji-avatar {
+ display:block;
+ position:absolute;
+ top:3px;
+ right:1px;
+ width:99px;
+ height:124px;
+ overflow:hidden;
+ border:1px solid #ae4d57;
+ background:#080507;
+ box-shadow:0 0 0 3px #260d14,inset 0 0 18px #fe363438,0 0 14px #ff454b44;
+ pointer-events:none;
+ isolation:isolate;
+}
+html[data-theme="loji"] .lr-loji-avatar img {
+ width:100%;
+ height:100%;
+ display:block;
+ object-fit:cover;
+ object-position:center 16%;
+ image-rendering:auto;
+ filter:contrast(1.18) brightness(1.08);
+}
+html[data-theme="loji"] .lr-loji-avatar::before {
+ content:"";
+ position:absolute;
+ pointer-events:none;
+ inset:0;
+ z-index:2;
+ background:repeating-linear-gradient(0deg,transparent 0,transparent 3px,#f345541c 4px,#f345541c 5px);
+ opacity:.5;
+}
+html[data-theme="loji"] .lr-loji-avatar::after {
+ content:"";
+ pointer-events:none;
+ position:absolute;
+ inset:0;
+ z-index:3;
+ background:linear-gradient(115deg,transparent 28%,#ff939513 35%,transparent 49%);
+ animation:lr-loji-signal 7s ease-in-out infinite;
+}
+html[data-theme="loji"] .lr-loji-avatar-badge {
+ position:absolute;
+ bottom:0;left:0;right:0;
+ z-index:4;
+ padding:4px 3px;
+ background:#10090fd9;
+ border-top:1px solid #f06c7650;
+ color:#ffaaaa;
+ text-align:center;
+ font:600 8px/1.2 var(--lr-loji-mono);
+ letter-spacing:.07em;
+}
+html[data-theme="loji"] .lr-loji-avatar-fallback {
+ display:none;
+ position:absolute;inset:0;
+ align-items:center;justify-content:center;
+ font:400 55px var(--lr-loji-mono);
+ color:#ff838c;
+}
+html[data-theme="loji"] .lr-loji-avatar-error img{display:none}
+html[data-theme="loji"] .lr-loji-avatar-error .lr-loji-avatar-fallback{display:flex}
+html[data-theme="loji"] .lr-loji-avatar-credit {
+ display:block;
+ position:absolute;
+ right:3px;
+ top:131px;
+ font:500 8px var(--lr-loji-mono)!important;
+ color:#dc8088!important;
+ text-decoration:none!important;
+ opacity:.8;
+}
+html[data-theme="loji"] .lr-loji-avatar-credit:hover{opacity:1;text-decoration:underline!important}
+@keyframes lr-loji-signal{
+ 0%,84%,100%{opacity:.24;transform:translateX(-12%)}
+ 87%,93%{opacity:.75;transform:translateX(22%)}
+}
+html[data-theme="loji"] header>.topnav {
+ grid-column:2!important;
+ grid-row:1!important;
+ min-width:0!important;
+ width:100%!important;
+ display:flex!important;
+ justify-content:flex-start!important;
+ flex-wrap:wrap!important;
+ align-items:center!important;
+ gap:5px!important;
+ padding:5px!important;
+ overflow:visible!important;
+}
+html[data-theme="loji"] header>.pills {
+ grid-column:3!important;
+ grid-row:1!important;
+ display:flex!important;
+ min-width:0;
+ justify-content:flex-end!important;
+ gap:6px!important;
+ flex-wrap:wrap!important;
+}
+html[data-theme="loji"] header>.pills .pill{
+ font:500 10px/1.3 var(--lr-loji-mono)!important;
+ padding:7px 9px!important;
+ white-space:normal!important;
+ color:#edc7cc!important;
+}
+/* The glyph squares must participate in flex layout, not overlap labels. */
+html[data-theme="loji"] .nav button,
+html[data-theme="loji"] header>.topnav button,
+html[data-theme="loji"] button.lr-loji-command {
+ display:inline-flex!important;
+ flex:0 0 auto!important;
+ align-items:center!important;
+ justify-content:center!important;
+ gap:7px!important;
+ padding:10px 11px!important;
+ line-height:1.3!important;
+ text-align:center;
+ white-space:nowrap!important;
+ font-family:var(--lr-loji-display)!important;
+ font-size:12px!important;
+ letter-spacing:0!important;
+ min-height:40px!important;
+}
+html[data-theme="loji"] button.lr-loji-command::before {
+ box-sizing:border-box;
+ display:inline-flex!important;
+ position:static!important;
+ flex:0 0 19px!important;
+ justify-content:center!important;
+ align-items:center!important;
+ margin:0!important;
+ padding:0!important;
+ min-width:19px!important;
+ width:19px!important;
+ height:19px!important;
+ line-height:19px!important;
+ font-size:11px!important;
+ text-indent:0!important;
+ transform:none!important;
+}
+html[data-theme="loji"] .nav button::after {
+ right:2px!important;
+ width:2px!important;
+ height:2px!important;
+}
+html[data-theme="loji"] .nav button.active {
+ padding-right:14px!important;
+}
+html[data-theme="loji"] .btn.primary {
+ font-weight:700!important;
+}
+html[data-theme="loji"] #read #reader {
+ font-family:"IBM Plex Sans","Segoe UI",sans-serif!important;
+ font-weight:400!important;
+ color:#f4e9e6!important;
+ line-height:1.9!important;
+}
+html[data-theme="loji"] #read #reader .token {
+ font-family:inherit!important;
+}
+/* Archive: old hard-coded classic titles were dark #342d26 on dark cards. */
+html[data-theme="loji"] #library,
+html[data-theme="loji"] #lr-library-list {min-width:0!important}
+html[data-theme="loji"] #lr-library-list .lr-library-entry {
+ display:flex!important;
+ align-items:center!important;
+ gap:16px!important;
+ padding:18px 16px!important;
+ margin:0!important;
+ border:1px solid #663039!important;
+ border-bottom-color:#a54f59!important;
+ background:linear-gradient(100deg,#170c12,#211016 78%,#140a10)!important;
+ box-shadow:inset 3px 0 0 #ae515b!important;
+ color:#f4e4e1!important;
+ min-width:0!important;
+}
+html[data-theme="loji"] #lr-library-list .lr-library-entry:nth-child(2n) {
+ background:linear-gradient(100deg,#190e12,#29131a 78%,#170b10)!important;
+}
+html[data-theme="loji"] #lr-library-list .lr-library-entry>div:first-child{
+ flex:1 1 auto;
+ min-width:0!important;
+}
+html[data-theme="loji"] #lr-library-list .lr-library-title{
+ color:#fff0ed!important;
+ font:700 clamp(17px,1.5vw,22px)/1.4 var(--lr-loji-display)!important;
+ text-shadow:none!important;
+ letter-spacing:0!important;
+ margin-bottom:8px!important;
+ overflow-wrap:anywhere;
+}
+html[data-theme="loji"] #lr-library-list .lr-library-preview{
+ color:#dfbfc1!important;
+ font:400 13px/1.6 var(--lr-loji-body)!important;
+ max-width:72ch!important;
+}
+html[data-theme="loji"] #lr-library-list .lr-library-current{
+ display:inline-flex!important;
+ color:#ffb2ae!important;
+ border-color:#a25258!important;
+ background:#35191f!important;
+ padding:4px 9px!important;
+ margin-top:8px!important;
+}
+html[data-theme="loji"] #lr-library-list .lr-library-actions {
+ flex:0 0 auto;
+ display:flex!important;
+ flex-wrap:wrap!important;
+ gap:7px!important;
+ justify-content:flex-end!important;
+ max-width:290px;
+}
+html[data-theme="loji"] #lr-library-list .lr-library-actions .btn {
+ color:#fff0ee!important;
+ border-color:#a94d56!important;
+ white-space:nowrap!important;
+ font-size:12px!important;
+}
+html[data-theme="loji"] #library .lr-library-top p,
+html[data-theme="loji"] #library > .tiny {color:#d9b6ba!important}
+/* The right word analysis should be readable without a beige patch. */
+html[data-theme="loji"] #detail .gram,
+html[data-theme="loji"] #detail .lr-nounhint,
+html[data-theme="loji"] #detail .lr-partnote {
+ background:#26151d!important;
+ color:#f3dadd!important;
+ border:1px solid #80424a!important;
+}
+html[data-theme="loji"] #detail .lr-nounhint{
+ padding:11px!important;
+}
+html[data-theme="loji"] .layout>.details .tag{
+ background:#45212b!important;
+ color:#f6d2d2!important;
+ border:1px solid #95535d!important;
+}
+html[data-theme="loji"] #detail .lr-partrow strong {color:#fca5a7!important}
+/* Observation rails live in the available screen gutters, never on article. */
+#lr-loji-observation {pointer-events:none!important}
+html:not([data-theme="loji"]) #lr-loji-observation {display:none!important}
+html[data-theme="loji"] #lr-loji-observation {
+ display:block;
+ position:relative;
+ z-index:2;
+}
+html[data-theme="loji"] .lr-loji-rail {
+ position:fixed;
+ top:clamp(200px,27vh,290px);
+ height:min(420px,58vh);
+ box-sizing:border-box;
+ pointer-events:none;
+ overflow:hidden;
+ padding:13px 9px;
+ background:linear-gradient(180deg,#210c12a6,#09070bbd 70%,#14080d96);
+ border-left:1px solid #b34450a3;
+ border-top:1px solid #71252d;
+ border-bottom:1px solid #71252d;
+ box-shadow:inset 0 0 18px #f03a4110,0 0 18px #b53c3820;
+ color:#e7a2a7;
+}
+html[data-theme="loji"] .lr-loji-rail-hidden {display:none!important}
+html[data-theme="loji"] .lr-loji-rail-heading {
+ color:#ffb0ab;
+ font:600 10px/1.4 var(--lr-loji-mono);
+ letter-spacing:.045em;
+ word-break:break-all;
+}
+html[data-theme="loji"] .lr-loji-rail-heading span {color:#f26b75}
+html[data-theme="loji"] .lr-loji-rail-rule{
+ height:1px;
+ margin:12px 0;
+ background:linear-gradient(90deg,#ff555a,transparent);
+ box-shadow:0 0 5px #ff5b5b;
+}
+html[data-theme="loji"] .lr-loji-rail-data {
+ font:500 9px/1.8 var(--lr-loji-mono);
+ letter-spacing:.06em;
+ color:#d9939b;
+}
+html[data-theme="loji"] .lr-loji-rail-bars {
+ display:flex;
+ flex-direction:column;
+ gap:7px;
+ margin:14px 0;
+}
+html[data-theme="loji"] .lr-loji-rail-bars i{
+ display:block;
+ height:2px;
+ background:linear-gradient(90deg,#eb5e61,transparent);
+ width:calc(28% + (var(--n) * 4%));
+ max-width:98%;
+ opacity:calc(.35 + var(--n) * .035);
+}
+html[data-theme="loji"] .lr-loji-rail-vertical {
+ font:500 10px/1 var(--lr-loji-mono);
+ writing-mode:vertical-rl;
+ position:absolute;
+ right:6px;
+ top:72px;
+ opacity:.55;
+ color:#ff7878;
+ letter-spacing:2px;
+}
+html[data-theme="loji"] .lr-loji-rail-foot {
+ position:absolute;
+ bottom:12px;
+ left:9px;
+ right:6px;
+ color:#cc626c;
+ font:500 9px/1.6 var(--lr-loji-mono);
+}
+html[data-theme="loji"] .lr-loji-rail-ring {
+ width:min(96px,92%);
+ aspect-ratio:1;
+ border-radius:50%;
+ margin:24px auto 20px;
+ border:1px dashed #f76367ba;
+ display:grid;
+ place-items:center;
+ box-shadow:0 0 13px #df293f4d,inset 0 0 9px #d4324233;
+}
+html[data-theme="loji"] .lr-loji-rail-ring::before {
+ content:"";
+ width:60%;aspect-ratio:1;
+ display:block;
+ border:3px double #f88585;
+ border-radius:50%;
+ box-shadow:0 0 9px #ed526491;
+}
+html[data-theme="loji"] .lr-loji-rail-ring i{
+ position:absolute;
+ width:12px;height:12px;
+ background:#ff9a9b;
+ border-radius:50%;
+ box-shadow:0 0 11px #fe424d;
+}
+html[data-theme="loji"] .lr-loji-rail-trace{
+ display:flex;
+ gap:5px;
+ margin-top:17px;
+ align-items:flex-end;
+ height:42px;
+}
+html[data-theme="loji"] .lr-loji-rail-trace i {
+ display:block;
+ flex:1;
+ height:45%;
+ background:linear-gradient(180deg,#ea666c,#5b1c29);
+}
+html[data-theme="loji"] .lr-loji-rail-trace i:nth-child(2){height:82%}
+html[data-theme="loji"] .lr-loji-rail-trace i:nth-child(3){height:36%}
+html[data-theme="loji"] .lr-loji-rail-trace i:nth-child(4){height:70%}
+html[data-theme="loji"] .lr-loji-rail-trace i:nth-child(5){height:22%}
+@media(max-width:1370px){
+ html[data-theme="loji"] header{
+  grid-template-columns:minmax(280px,305px) minmax(0,1fr)!important;
+  gap:5px 18px!important;
+ }
+ html[data-theme="loji"] header>.topnav{grid-column:1/-1!important;grid-row:2!important;justify-content:center!important}
+ html[data-theme="loji"] header>.pills{grid-column:2!important;grid-row:1!important;justify-content:flex-end!important}
+}
+@media(max-width:900px){
+ html[data-theme="loji"] header{grid-template-columns:1fr!important}
+ html[data-theme="loji"] header>div:first-child{grid-column:1!important;grid-row:1!important;max-width:340px!important}
+ html[data-theme="loji"] header>.topnav{grid-column:1!important;grid-row:2!important;justify-content:flex-start!important}
+ html[data-theme="loji"] header>.pills{grid-column:1!important;grid-row:3!important;justify-content:flex-start!important}
+}
+@media(max-width:790px){
+ html[data-theme="loji"] header{display:block!important;padding:14px 15px 10px!important}
+ html[data-theme="loji"] header>div:first-child{height:auto!important;min-height:143px!important;max-width:340px!important}
+ html[data-theme="loji"] header>.topnav{
+  overflow-x:auto!important;
+  overflow-y:hidden!important;
+  justify-content:flex-start!important;
+  flex-wrap:nowrap!important;
+  padding-bottom:7px!important;
+ }
+ html[data-theme="loji"] header>.pills{display:none!important}
+ html[data-theme="loji"] .lr-loji-rail {display:none!important}
+}
+@media(max-width:720px){
+ html[data-theme="loji"] #lr-library-list .lr-library-entry{
+  display:block!important;
+  padding:16px 12px!important;
+ }
+ html[data-theme="loji"] #lr-library-list .lr-library-actions{
+  justify-content:flex-start!important;
+  margin-top:12px!important;
+  max-width:none!important;
+ }
+ html[data-theme="loji"] header .brand {font-size:28px!important}
+}
+@media(prefers-reduced-motion:reduce){
+ html[data-theme="loji"] .lr-loji-avatar img{display:none!important}
+ html[data-theme="loji"] .lr-loji-avatar-fallback{display:flex!important}
+ html[data-theme="loji"] .lr-loji-avatar::after{animation:none!important}
+}
