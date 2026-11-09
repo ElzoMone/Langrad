@@ -1,0 +1,15 @@
+Wiktionary German-language entries extracted from the English Wiktionary
+by Kaikki/Wiktextract (https://kaikki.org/dictionary/German/).
+Wiktionary contributors, Creative Commons Attribution-ShareAlike 4.0:
+https://en.wiktionary.org/wiki/Wiktionary:Copyrights
+https://creativecommons.org/licenses/by-sa/4.0/
+Data has been filtered, normalized and indexed for Langrad.
+
+Simplemma fallback: simplemma 1.2.0 by Adrien Barbaresi and contributors.
+https://pypi.org/project/simplemma/1.2.0/ - MIT license.
+Simplemma entries have NO assigned grammatical features; the source
+provides only the form-to-lemma relationship.
+
+Form-of analyses can be ambiguous. Multiple possibilities are preserved.
+For German-language definitions and text, see the original Wiktionary.
+No raw JSONL source or intermediate SQLite database is committed.
