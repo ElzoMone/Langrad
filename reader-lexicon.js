@@ -113,9 +113,15 @@ function reportCard(pane,word,choice,alternatives,fromDirect,isManual){
  block.append(first);
  const g=grammarText(morph);
  if(g)block.append(el("div","lr-offline-grammar",g));
+ if(choice.path?.length>2){
+  block.append(el("div","lr-offline-small","Цепочка исходных форм: "+choice.path.join(" → ")));
+  const intermediateGrammar=grammarText(choice.derivedAnalysis);
+  if(intermediateGrammar)block.append(el("div","lr-offline-grammar","Промежуточная форма: "+intermediateGrammar));
+ }
  if(pos)block.append(el("div","lr-offline-small",pos));
  if(morph?.source==="s")block.append(el("div","lr-offline-small","Начальная форма: Simplemma. Грамматические признаки в источнике отсутствуют."));
  if(choice.translation?.translation){
+  if(choice.path?.length>2)block.append(el("div","lr-offline-small","Перевод исходной формы ("+lemma+"), не готовый перевод причастия в контексте:"));
   block.append(el("div","lr-offline-result",choice.translation.translation));
  }else{
   block.append(el("div","lr-offline-small","Для этой начальной формы нет русского перевода в FreeDict/WikDict. Существующий перевод, если он есть, сохранён."));
@@ -149,25 +155,54 @@ async function resolve(word,pane,ticket){
  const manual=Boolean(pane.querySelector("#manual")?.value?.trim()||(typeof state!=="undefined"&&state.words?.[clean(word)]?.translation));
  const status=pane.querySelector("#lr-offline-search");
  try{
-  // Order: exact dictionary entry → verified form index → lemma → translation.
+  // The source is a graph: declined participle → participle → infinitive.
+  // Keep the original grammar at the surface, and use translation of a verified lemma.
   const exact=await dictionaryEntry(word);
   if(!same())return;
-  const formIndex=await load("forms",shard(word));
+  const sourceForms=await load("forms",shard(word));
   if(!same())return;
-  const analyses=getFormAnalyses(formIndex,word);
-  const lookupLemmas=[...new Set(analyses.map(a=>a.lemma))].slice(0,14);
-  const translations=await Promise.all(lookupLemmas.map(async l=>{
-   try{return await dictionaryEntry(l)}catch(e){return null}
+  const analyses=getFormAnalyses(sourceForms,word);
+  const primary=[...new Map(analyses.map(a=>[formKey(a.lemma),a])).values()].slice(0,16);
+  const primaryEntries=await Promise.all(primary.map(async a=>{
+   try{return await dictionaryEntry(a.lemma)}catch(_){return null}
   }));
   if(!same())return;
-  let best=null;
-  if(exact)best={analysis:analyses.find(a=>formKey(a.lemma)===formKey(exact.lemma))||null,translation:exact};
+  let best=exact?{analysis:analyses.find(a=>formKey(a.lemma)===formKey(exact.lemma))||null,
+                     translation:exact,path:[word,exact.lemma]}:null;
   if(!best){
-   const found=translations.findIndex(v=>v&&v.translation);
-   if(found>=0)best={analysis:analyses[found],translation:translations[found]};
-   else if(analyses.length)best={analysis:analyses[0],translation:null};
+   const found=primaryEntries.findIndex(x=>x?.translation);
+   if(found>=0)best={analysis:primary[found],translation:primaryEntries[found],
+                     path:[word,primary[found].lemma]};
   }
-  // The real source may use several analyses for one lemma; retain all in detail.
+
+  // Limit to two morphological links: word → adjective/participle → verb/noun.
+  // This is evidence-based, not invented suffix stripping.
+  if(!best){
+   const second=[];
+   const seen=new Set([formKey(word),...primary.map(a=>formKey(a.lemma))]);
+   for(const first of primary.slice(0,12)){
+    let sub;
+    try{sub=await load("forms",shard(first.lemma))}catch(_){continue}
+    if(!same())return;
+    const deeper=getFormAnalyses(sub,first.lemma);
+    for(const nested of deeper.slice(0,16)){
+     const key=formKey(nested.lemma);
+     if(seen.has(key))continue;
+     seen.add(key);
+     second.push({analysis:first,derivedAnalysis:nested,lemma:nested.lemma,
+                  path:[word,first.lemma,nested.lemma]});
+     if(second.length>=24)break;
+    }
+    if(second.length>=24)break;
+   }
+   const secondaryEntries=await Promise.all(second.map(async a=>{
+    try{return await dictionaryEntry(a.lemma)}catch(_){return null}
+   }));
+   if(!same())return;
+   const found=secondaryEntries.findIndex(x=>x?.translation);
+   if(found>=0)best={...second[found],translation:secondaryEntries[found]};
+  }
+  if(!best && primary.length)best={analysis:primary[0],translation:null,path:[word,primary[0].lemma]};
   reportCard(pane,word,best,analyses,Boolean(exact),manual);
  }catch(err){
   if(!same())return;
