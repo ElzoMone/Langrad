@@ -1,0 +1,287 @@
+/*
+ * LOJI / LONG MARCH — Phase II: machine-interface detailing.
+ * Scoped to Loji, leaving classic and The Fire Rises untouched.
+ */
+html[data-theme="loji"] {
+  --lr-machine-line: #b64750;
+  --lr-machine-label: #ff9b9e;
+  --lr-machine-subtle: #a87b81;
+}
+html[data-theme="loji"] ::selection {
+  background: #b63c46;
+  color: #fff8f4;
+}
+html[data-theme="loji"] body {
+  background-image:
+    radial-gradient(ellipse at 50% -15%,#a321291d 0%,transparent 52%),
+    repeating-linear-gradient(90deg,transparent 0px,transparent 79px,#af344306 79px,#af344306 80px),
+    repeating-linear-gradient(0deg,transparent 0px,transparent 79px,#af344306 79px,#af344306 80px),
+    linear-gradient(125deg,#040305,#0b070a 52%,#040405) !important;
+}
+html[data-theme="loji"] header {
+  position: relative;
+  isolation: isolate;
+  background:
+    repeating-linear-gradient(90deg,transparent 0px,transparent 55px,#ef575408 55px,#ef575408 56px),
+    linear-gradient(95deg,#070508,#230b11 58%,#080607) !important;
+}
+html[data-theme="loji"] header::after {
+  content: "";
+  position: absolute;
+  pointer-events: none;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg,#f75b68,transparent 33%,#ff74772b 75%,#fe454c);
+  box-shadow: 0 0 17px #ee394977;
+}
+html[data-theme="loji"] header .brand {
+  font-size: clamp(25px,2.4vw,34px) !important;
+  letter-spacing: .085em !important;
+  text-shadow: 1px 0 #ef616383, -1px 0 #ef30343a,0 0 17px #fa353d38 !important;
+}
+html[data-theme="loji"] .lr-loji-sysline {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+  color: #e59da5;
+  font: 500 10px/1.35 var(--lr-loji-mono) !important;
+  letter-spacing: .4px;
+  text-transform: uppercase;
+}
+html:not([data-theme="loji"]) .lr-loji-sysline {
+  display: none !important;
+}
+html[data-theme="loji"] .lr-loji-activity {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #fa8186;
+  box-shadow: 0 0 0 2px #59232b, 0 0 9px #fb465a;
+  animation: lr-loji-heartbeat 3.7s ease-in-out infinite;
+}
+html[data-theme="loji"] .lr-loji-sys-sep {color:#743f43}
+html[data-theme="loji"] .lr-loji-sys-tail {color:#ffb8b4}
+@keyframes lr-loji-heartbeat {
+  0%,100% {opacity:.6;filter:brightness(.85)}
+  47%,58% {opacity:1;filter:brightness(1.35)}
+}
+html[data-theme="loji"] .panel {
+  position: relative;
+}
+html[data-theme="loji"] .panel::before,
+html[data-theme="loji"] .panel::after {
+  content:"";
+  position:absolute;
+  width:12px;
+  height:12px;
+  pointer-events:none;
+  z-index:2;
+}
+html[data-theme="loji"] .panel::before {
+  top:-1px;left:-1px;
+  border-top:2px solid #ff8284;
+  border-left:2px solid #ff8284;
+}
+html[data-theme="loji"] .panel::after {
+  right:-1px;bottom:-1px;
+  border-right:2px solid #f0646b;
+  border-bottom:2px solid #f0646b;
+}
+html[data-theme="loji"] .nav button,
+html[data-theme="loji"] header .topnav button {
+  position: relative;
+  font: 600 12px/1.35 var(--lr-loji-mono) !important;
+  text-transform: uppercase;
+  letter-spacing: .025em !important;
+  min-height: 42px;
+}
+html[data-theme="loji"] .nav button.active {
+  box-shadow: inset 2px 0 0 #ff797e, inset 0 -1px #ff797e,0 0 14px #da36472b !important;
+}
+html[data-theme="loji"] .nav button::after {
+  content:"";
+  display:none;
+  position:absolute;
+  top:50%;right:7px;
+  width:4px;height:4px;
+  background:#ff777b;
+  transform:translateY(-50%);
+  box-shadow:0 0 7px #ff5558;
+}
+html[data-theme="loji"] .nav button.active::after {display:block}
+html[data-theme="loji"] .lr-loji-command::before {
+  content:attr(data-loji-glyph);
+  display:inline-grid;
+  place-items:center;
+  vertical-align:baseline;
+  margin-right:7px;
+  min-width:18px;
+  height:18px;
+  padding:0 2px;
+  color:#ffb2b2;
+  background:#5d2029;
+  border:1px solid #a4515b;
+  font:600 11px/18px "Microsoft YaHei","Noto Sans CJK SC",sans-serif;
+  text-shadow:0 0 5px #e75f68a0;
+  box-shadow:inset 0 0 6px #e04d3b1b;
+}
+html[data-theme="loji"] button.lr-loji-command {
+  position:relative;
+  overflow:hidden;
+}
+html[data-theme="loji"] button.lr-loji-command:hover::before {
+  background:#9b313a;
+  color:#fff7f5;
+  border-color:#ff858a;
+}
+html[data-theme="loji"] .btn.primary,
+html[data-theme="loji"] button.primary {
+  background:
+   linear-gradient(0deg,#6d1e25 0%,#a6333c 100%) !important;
+  border-color:#ef6972 !important;
+  text-shadow:none !important;
+}
+html[data-theme="loji"] button.lr-loji-command.primary:hover {
+  background:linear-gradient(105deg,#ae313a,#ef5960 48%,#a9313b) !important;
+  box-shadow:0 0 16px #f84d596b,inset 0 0 0 1px #ffb9b541 !important;
+}
+html[data-theme="loji"] button.lr-loji-command.primary::after {
+  content:"";
+  position:absolute;
+  top:0;
+  bottom:0;
+  left:-65%;
+  width:20%;
+  pointer-events:none;
+  background:linear-gradient(90deg,transparent,#ffc6c21d,transparent);
+  transform:skew(-18deg);
+  transition:left .4s ease;
+}
+html[data-theme="loji"] button.lr-loji-command.primary:hover::after {left:115%}
+html[data-theme="loji"] .eyebrow,
+html[data-theme="loji"] .label {
+  font-family:var(--lr-loji-mono) !important;
+  font-size:11px !important;
+  font-weight:600 !important;
+  line-height:1.55 !important;
+  letter-spacing:.05em !important;
+  color:#ff9ba0 !important;
+}
+html[data-theme="loji"] h1 {
+  border-bottom: 1px solid #8f3940;
+  padding-bottom: 11px;
+  width: fit-content;
+}
+html[data-theme="loji"] h1::before {
+  content:"▸ ";
+  font-family:var(--lr-loji-mono);
+  font-size:.63em;
+  color:#ff666a;
+  vertical-align:middle;
+  text-shadow:0 0 9px #ff4a4f91;
+}
+html[data-theme="loji"] .statgrid .stat {
+  border:1px solid #85414a !important;
+  background:linear-gradient(150deg,#231015,#120d12) !important;
+  color:#ffe5e6 !important;
+  position:relative;
+}
+html[data-theme="loji"] .statgrid .stat::after {
+  content:"DATA // LIVE";
+  position:absolute;
+  right:7px;
+  top:6px;
+  font:500 8px/1 var(--lr-loji-mono);
+  color:#ad727a;
+  letter-spacing:.3px;
+}
+html[data-theme="loji"] .statgrid strong {
+  font:600 clamp(25px,3vw,37px)/1.2 "Oxanium",var(--lr-loji-mono) !important;
+  color:#ffe3e3 !important;
+  text-shadow:0 0 10px #df364d35;
+}
+html[data-theme="loji"] .statgrid .stat span {
+  color:#e9b6b9 !important;
+  font:500 11px/1.5 var(--lr-loji-mono) !important;
+}
+html[data-theme="loji"] .progress,
+html[data-theme="loji"] .lr-page-nav {
+  border-color:#8c424c !important;
+  box-shadow: inset 0 0 14px #17060e !important;
+}
+html[data-theme="loji"] #accuracyFill {
+  background:linear-gradient(90deg,#8e2834,#ff858a) !important;
+  box-shadow:0 0 9px #f84a5381;
+}
+html[data-theme="loji"] .lr-page-label,
+html[data-theme="loji"] .lr-page-note {
+  font-family:var(--lr-loji-mono) !important;
+  letter-spacing:0;
+}
+html[data-theme="loji"] .lr-page-nav::before {
+  content:"PAGE / ";
+  color:#f4767f;
+  font:600 10px var(--lr-loji-mono);
+}
+html[data-theme="loji"] #read #reader::before {
+  content:"▣  LOJI / DOCUMENT INTERFACE   ◇  DE-DE // ANALYSIS";
+  display:block;
+  padding-bottom:12px;
+  margin-bottom:20px;
+  border-bottom:1px dashed #883e49;
+  color:#ed888e !important;
+  font:500 10px/1.6 var(--lr-loji-mono);
+  letter-spacing:.07em;
+  text-shadow:none !important;
+}
+html[data-theme="loji"] #read #reader {
+  box-shadow:inset 0 0 22px #000000aa,0 0 0 2px #551b2388 !important;
+  outline: 1px solid #30131c !important;
+  outline-offset:3px;
+}
+html[data-theme="loji"] #read #reader .token.sel {
+  outline:1px solid #f06c75;
+  border-radius:2px;
+}
+html[data-theme="loji"] #detail {
+  border-top:1px solid #713740;
+  margin-top:13px;
+  padding-top:7px;
+}
+html[data-theme="loji"] .lr-offline-panel {
+  border-left:3px solid #f16c73 !important;
+  border-radius:3px !important;
+}
+html[data-theme="loji"] .lr-offline-caption,
+html[data-theme="loji"] .lr-offline-source {
+  color:#f5a0aa !important;
+  font-family:var(--lr-loji-mono) !important;
+  letter-spacing:.01em;
+}
+html[data-theme="loji"] .lr-library-entry {
+  box-shadow:inset 3px 0 0 #77313b !important;
+}
+html[data-theme="loji"] #lr-sources-footer {
+  font-family:var(--lr-loji-mono) !important;
+  letter-spacing:0 !important;
+}
+html[data-theme="loji"] #lr-sources-footer::before {
+  content:"// DATA PROVENANCE / 溯源";
+  display:block;
+  margin-bottom:9px;
+  color:#e5888d;
+  font:600 10px/1.5 var(--lr-loji-mono);
+}
+@media(max-width:850px){
+ html[data-theme="loji"] .lr-loji-sysline{font-size:9px!important}
+ html[data-theme="loji"] header .topnav button{font-size:11px!important}
+ html[data-theme="loji"] .lr-loji-command::before{min-width:15px;height:16px;font-size:10px;margin-right:4px;line-height:16px}
+ html[data-theme="loji"] #read #reader::before{font-size:9px}
+}
+@media(prefers-reduced-motion:reduce){
+ html[data-theme="loji"] * {animation:none!important;transition:none!important}
+}
