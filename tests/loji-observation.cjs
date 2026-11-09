@@ -41,6 +41,7 @@ const w=dom.window,$=x=>w.document.querySelector(x),sleep=ms=>new Promise(r=>set
  assert.ok($("#lr-loji-observation .lr-loji-rail-left"));
  assert.ok($("#lr-loji-observation .lr-loji-rail-right"));
  assert.ok(w.langradLojiObservation);
+ $("[data-tab=library]").click();await sleep(60);
  assert.equal(w.getComputedStyle($(".lr-library-title")).color,"rgb(255, 240, 237)","archived title contrast");
  assert.equal(w.getComputedStyle($("header")).display,"grid","header not restructured");
  assert.equal(w.getComputedStyle($("header .brand")).whiteSpace,"nowrap");
