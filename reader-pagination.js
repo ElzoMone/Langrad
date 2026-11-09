@@ -152,10 +152,30 @@ function update(){
 const indicator=document.createElement("p");
 indicator.id="lr-page-adapt-indicator";indicator.className="lr-page-note";
 bottom.nav.after(indicator);
+// Pre-pagination Gemini versions used to replace the whole state.text.
+// Keep them accessible: the source can be restored without losing words.
+const restoreLegacy=document.createElement("button");
+restoreLegacy.type="button";
+restoreLegacy.className="btn sm lr-page-legacy";
+restoreLegacy.textContent="Вернуть исходный текст целиком (старая версия)";
+restoreLegacy.hidden=true;
+indicator.after(restoreLegacy);
+function hasLegacy(){
+ const a=state.adaptation;
+ return !!(a&&typeof a.original==="string"&&a.original&&
+           a.variant===state.text&&a.sourceId===state.activeTextId);
+}
+restoreLegacy.addEventListener("click",()=>{
+ if(!hasLegacy()||!confirm("Вернуть исходный текст целиком? Старая полная адаптация останется только в резервной копии, если она была сделана."))return;
+ state.text=state.adaptation.original;
+ state.adaptation=null;
+ persist();renderReader();
+});
 renderReader=function(){
  ensure();
  const result=originalRender.apply(this,arguments);
  update();
+ restoreLegacy.hidden=!hasLegacy();
  return result;
 };
 // For the preexisting renderer and Gemini/local adaptation IIFE.
