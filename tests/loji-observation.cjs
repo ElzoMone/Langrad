@@ -40,6 +40,8 @@ const w=dom.window,$=x=>w.document.querySelector(x),sleep=ms=>new Promise(r=>set
  assert.ok($(".lr-loji-eye")&&w.getComputedStyle($(".lr-loji-eye")).display!=="none","sensor eye missing");
  assert.ok($("#lr-loji-observation .lr-loji-rail-left"));
  assert.ok($("#lr-loji-observation .lr-loji-rail-right"));
+ assert.ok($(".layout > main .lr-loji-inset-left"));
+ assert.ok($(".layout > .details .lr-loji-inset-right"));
  assert.ok(w.langradLojiObservation);
  $("[data-tab=library]").click();await sleep(60);
  assert.equal(w.getComputedStyle($(".lr-library-title")).color,"rgb(255, 240, 237)","archived title contrast");
