@@ -217,7 +217,7 @@ function reportCard(pane,word,choice,alternatives,fromDirect,isManual){
  block.append(first);
  const g=grammarText(morph);
  if(g)block.append(el("div","lr-offline-grammar",g));
- if(choice.separable)block.append(el("div","lr-offline-small","Отделяемый глагол: "+choice.separable.surface+" … "+choice.separable.particle+" → "+choice.separable.infinitive+" (подтверждено словарём)."));
+ if(choice.separable)block.append(el("div","lr-offline-small","Отделяемый глагол: "+choice.separable.surface+" … "+choice.separable.particle+" → "+choice.separable.infinitive+" (инфинитив найден в словаре; значение зависит от контекста)."));
  if(choice.path?.length>2){
   block.append(el("div","lr-offline-small","Цепочка исходных форм: "+choice.path.join(" → ")));
   const intermediateGrammar=grammarText(choice.derivedAnalysis);
@@ -336,6 +336,10 @@ async function resolve(word,pane,ticket,element){
   // Only when the offline translation truly is missing, ask Wikimedia.
   // Preserve existing saved user translations and allow external failure.
   if(!best?.translation?.translation && !manual){
+   // Do not block the card while contacting Wikimedia.
+   reportCard(pane,word,best,analyses,Boolean(exact),manual);
+   const pendingNote=pane.querySelector("#lr-offline-search");
+   if(pendingNote)pendingNote.append(el("div","lr-offline-small","Проверяю русский Викисловарь онлайн…"));
    const terms=[...new Set([best?.lemma,best?.analysis?.lemma,...primary.map(a=>a.lemma),word].filter(Boolean))].slice(0,3);
    for(const term of terms){
     try{
