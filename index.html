@@ -382,7 +382,28 @@ html[data-theme="tfr"] .foot{color:#a66eaf!important;font-family:"VT323",monospa
 <section id="settings" class="hidden"><div class="eyebrow">Твоя библиотека</div><h1>Настройки</h1><p>Слова и тексты сейчас сохраняются локально в этом браузере. Для другого устройства используй резервную копию.</p><button class="btn primary" id="backup">↓ Скачать резервную копию</button><div class="row" style="margin-top:10px"><label for="restore" class="btn" style="cursor:pointer">↑ Восстановить</label><input class="hidden" type="file" id="restore" accept=".json"></div><hr class="sep"><div class="alert">Версия 0.8: немецкий язык, расширенный словарь. Учебная адаптация текста работает по приблизительным правилам и не гарантирует соответствия CEFR; проверяй грамматику.</div></section>
 </main>
 <aside class="panel details"><div class="eyebrow">Грамматика и значения</div><div id="detail"><h2 style="margin-top:18px">Выбери слово</h2><p>Нажми на слово в читалке — здесь появятся перевод, начальная форма и грамматическая справка.</p></div></aside>
-</div><div class="foot">LANGRAD v0.7.2 · THE LANGUAGE RISES · Вся обработка на твоём устройстве</div>
+</div><style id="lr-attribution-style">
+#lr-sources-footer{max-width:1320px;margin:26px auto 34px;padding:18px 22px;border-top:1px solid var(--line);text-align:center;font-size:12px;line-height:1.7;overflow-wrap:anywhere}
+#lr-sources-footer p{margin:5px 0;color:var(--muted)}
+#lr-sources-footer .lr-footer-links{display:flex;justify-content:center;align-items:center;gap:6px 15px;flex-wrap:wrap;margin-top:9px}
+#lr-sources-footer a{color:var(--accent);text-decoration:underline;text-underline-offset:2px}
+#lr-sources-footer a:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+html[data-theme="tfr"] #lr-sources-footer{border-top-color:#8c3b8d;color:#dbbbde}
+html[data-theme="tfr"] #lr-sources-footer a{color:#ff9bea}
+html[data-theme="tfr"] #lr-sources-footer p{color:#bf9ac8}
+</style>
+<footer class="foot" id="lr-sources-footer" aria-label="Источники словаря и лицензии">
+ <div>LANGRAD · THE LANGUAGE RISES</div>
+ <p>Слова, тексты и прогресс сохраняются в браузере. Если нет офлайн-перевода, отдельное слово может запрашиваться у Викисловаря.</p>
+ <div class="lr-footer-links">
+  <span>Данные словаря:</span>
+  <a href="/dictionary-license.txt" target="_blank" rel="noopener noreferrer">FreeDict / WikDict — CC BY-SA 3.0</a>
+  <a href="/forms/SOURCES.txt" target="_blank" rel="noopener noreferrer">Wiktionary / Kaikki — CC BY-SA 4.0</a>
+  <a href="https://pypi.org/project/simplemma/1.2.0/" target="_blank" rel="noopener noreferrer">Simplemma — MIT</a>
+  <a href="https://ru.wiktionary.org/" target="_blank" rel="noopener noreferrer">Русский Викисловарь — CC BY-SA 4.0</a>
+ </div>
+ <p>Словарные данные адаптированы для поиска по формам; оригинальные источники и лицензии доступны по ссылкам выше. Переводы не являются автоматическим переводом предложения.</p>
+</footer>
 <script>
 "use strict";
 const lex={
