@@ -49,6 +49,18 @@ function createRail(side){
 }
 const left=createRail("left"),right=createRail("right");
 document.body.append(railParent);
+// Narrow in-panel sensor traces remain visible even if the viewport
+// has no spare exterior gutters for the larger HUD rails.
+const mainPanel=layout.querySelector("main");
+const detailPanel=layout.querySelector(".details");
+for(const [panel,side] of [[mainPanel,"left"],[detailPanel,"right"]]){
+ if(!panel)continue;
+ const trace=document.createElement("div");
+ trace.className="lr-loji-inset-sensor lr-loji-inset-"+side;
+ trace.setAttribute("aria-hidden","true");
+ trace.innerHTML='<i></i><span>OBS / '+(side==="left"?"01":"02")+'</span><i></i>';
+ panel.append(trace);
+}
 const anchor=document.createElement("a");
 anchor.className="lr-loji-avatar-credit";
 anchor.href=source;
