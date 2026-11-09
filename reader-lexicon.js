@@ -146,7 +146,7 @@ function reportCard(pane,word,choice,alternatives,fromDirect,isManual){
 async function resolve(word,pane,ticket){
  const same=()=>ticket===revision&&document.getElementById("detail")===pane&&
    pane.querySelector(".term")?.textContent===word;
- const manual=Boolean(window.state?.words?.[clean(word)]?.translation);
+ const manual=Boolean((typeof state!=="undefined"&&state.words?.[clean(word)]?.translation)||null);
  const status=pane.querySelector("#lr-offline-search");
  try{
   // Order: exact dictionary entry → verified form index → lemma → translation.
