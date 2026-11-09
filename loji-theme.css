@@ -1,0 +1,290 @@
+/*
+ * LANGRAD / LOJI — LONG MARCH theme, phase 1.
+ * Palette, control surfaces, legible fonts and header observation eye.
+ * All selectors are opt-in: classic and TFR remain unchanged.
+ */
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&family=Oxanium:wght@500;600;700&display=swap");
+
+html[data-theme="loji"] {
+  color-scheme: dark;
+  --bg: #070507;
+  --panel: #120b0e;
+  --line: #653037;
+  --muted: #c9a2a7;
+  --txt: #f3e5e4;
+  --accent: #ff6568;
+  --blue: #f29a97;
+  --good: #a3dcbb;
+  --warn: #ffc18e;
+  --lr-loji-red: #ff5b61;
+  --lr-loji-deep: #1a0c10;
+  --lr-loji-mono: "IBM Plex Mono", ui-monospace, Consolas, monospace;
+  --lr-loji-body: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+}
+html[data-theme="loji"] body {
+  color: #f1e5e4 !important;
+  font-family: var(--lr-loji-body) !important;
+  background:
+    radial-gradient(ellipse at 14% 4%, rgba(137, 25, 32, .16), transparent 36%),
+    radial-gradient(ellipse at 93% 53%, rgba(97, 20, 28, .10), transparent 36%),
+    repeating-linear-gradient(0deg, rgba(255, 84, 88, .016) 0px, rgba(255,84,88,.016) 1px, transparent 1px, transparent 28px),
+    linear-gradient(120deg, #050405 0%, #0c0709 46%, #050407 100%) !important;
+  background-attachment: fixed !important;
+}
+/* Quiet scanlines that don't obscure text or intercept clicks. */
+html[data-theme="loji"] body::after {
+  content:"";
+  position:fixed;
+  pointer-events:none;
+  z-index:3900;
+  inset:0;
+  opacity:.11;
+  background:repeating-linear-gradient(to bottom,transparent 0px,transparent 4px,#b41c290a 4px,#b41c290a 5px);
+}
+html[data-theme="loji"] header {
+  background: linear-gradient(100deg, #060508 7%, #210b12 53%, #070508 100%) !important;
+  border-bottom: 1px solid #ad4148 !important;
+  box-shadow: 0 2px 32px #f21f271b, inset 0 -1px 0 #d7495042;
+}
+html[data-theme="loji"] header>div:first-child {
+  position:relative !important;
+  min-height: 80px;
+  padding-top: 10px;
+  padding-right: 108px;
+}
+html[data-theme="loji"] header .brand {
+  font-family:"Oxanium",var(--lr-loji-body) !important;
+  color:#fff3f2 !important;
+  font-size:clamp(24px,2.4vw,34px) !important;
+  letter-spacing:1px !important;
+  line-height:1.3 !important;
+  text-transform:uppercase;
+  text-shadow:0 0 15px #f2363f4f;
+}
+html[data-theme="loji"] header .brand em {
+  color:#ff7376 !important;
+  font-style:normal;
+}
+html[data-theme="loji"] .subbrand {
+  color:#f1a3a6 !important;
+  font:500 11px/1.5 var(--lr-loji-mono) !important;
+  letter-spacing:1.6px !important;
+}
+html[data-theme="loji"] .lr-tfr-globe {display:none!important}
+html[data-theme="loji"] .lr-loji-eye {
+  position:absolute;
+  right:10px;
+  top:-4px;
+  width:98px;
+  height:92px;
+  display:grid;
+  place-items:center;
+  opacity:.94;
+  pointer-events:none;
+  filter:drop-shadow(0 0 9px #fc42476e);
+}
+html:not([data-theme="loji"]) .lr-loji-eye {display:none!important}
+html[data-theme="loji"] .lr-loji-eye svg {width:100%;height:100%;overflow:visible}
+html[data-theme="loji"] .lr-loji-eye .lr-loji-pupil {
+  transform-origin:100px 100px;
+  animation:lr-loji-pulse 5s ease-in-out infinite;
+}
+@keyframes lr-loji-pulse {
+  0%,100% {opacity:.74;transform:scale(.94)}
+  50% {opacity:1;transform:scale(1.06)}
+}
+html[data-theme="loji"] .panel,
+html[data-theme="loji"] .layout>main,
+html[data-theme="loji"] .layout>.details {
+  background:linear-gradient(155deg,rgba(22,11,15,.97),rgba(9,7,10,.98)) !important;
+  border:1px solid #783039 !important;
+  border-radius:5px !important;
+  box-shadow:inset 0 1px 0 #ff7e8130,0 10px 35px #0201027f !important;
+  color:#f1e5e4 !important;
+}
+html[data-theme="loji"] .eyebrow {
+  color:#ff888a !important;
+  font:600 11px/1.4 var(--lr-loji-mono) !important;
+  letter-spacing:1.6px !important;
+  text-transform:uppercase;
+}
+html[data-theme="loji"] h1,
+html[data-theme="loji"] h2,
+html[data-theme="loji"] h3 {
+  color:#ffeaea !important;
+  font-family:"Oxanium",var(--lr-loji-body) !important;
+  font-weight:600 !important;
+  letter-spacing:.15px !important;
+  text-shadow:0 0 12px #f9424932;
+}
+html[data-theme="loji"] p,
+html[data-theme="loji"] small,
+html[data-theme="loji"] .tiny,
+html[data-theme="loji"] .label,
+html[data-theme="loji"] .lr-library-preview {
+  color:#dbbdc0 !important;
+  font-family:var(--lr-loji-body) !important;
+}
+html[data-theme="loji"] .label {color:#eeafb3!important}
+html[data-theme="loji"] .nav,
+html[data-theme="loji"] header .topnav {background:transparent!important}
+html[data-theme="loji"] .nav button,
+html[data-theme="loji"] header .topnav button {
+  font-family:var(--lr-loji-body) !important;
+  font-weight:600 !important;
+  font-size:15px !important;
+  color:#e5b7bc !important;
+  letter-spacing:.1px;
+  border-radius:3px !important;
+  transition:background-color .17s ease,color .17s ease,box-shadow .17s ease;
+}
+html[data-theme="loji"] .nav button.active,
+html[data-theme="loji"] .nav button:hover,
+html[data-theme="loji"] header .topnav button.active,
+html[data-theme="loji"] header .topnav button:hover {
+  background:linear-gradient(90deg,#6a2026aa,#2b1015) !important;
+  border-color:#c6535a !important;
+  color:#fff0ef !important;
+  box-shadow:inset 3px 0 0 #ff676a,0 0 13px #c92c3025 !important;
+  text-shadow:none !important;
+}
+html[data-theme="loji"] .btn,
+html[data-theme="loji"] button:not(.token):not(.lr-term) {
+  background:#291317 !important;
+  color:#fbe5e6 !important;
+  border:1px solid #8f4248 !important;
+  border-radius:4px !important;
+  font-family:var(--lr-loji-body) !important;
+  font-weight:600 !important;
+  box-shadow:none !important;
+  transition:background-color .17s ease,border-color .17s ease,box-shadow .17s ease;
+}
+html[data-theme="loji"] .btn.primary,
+html[data-theme="loji"] button.primary {
+  background:linear-gradient(180deg,#b6353d,#742029) !important;
+  color:#fff8f6 !important;
+  border-color:#f56a70 !important;
+}
+html[data-theme="loji"] .btn:hover,
+html[data-theme="loji"] button:not(.token):not(.lr-term):hover {
+  background:#612027 !important;
+  border-color:#ff8186 !important;
+  color:#ffffff !important;
+  box-shadow:0 0 11px #ed424935 !important;
+}
+html[data-theme="loji"] button:disabled {opacity:.52!important;cursor:default}
+html[data-theme="loji"] input,
+html[data-theme="loji"] textarea,
+html[data-theme="loji"] select,
+html[data-theme="loji"] .input {
+  background:#130b10 !important;
+  color:#f7e8e7 !important;
+  border:1px solid #85424b !important;
+  border-radius:4px !important;
+  font-family:var(--lr-loji-body) !important;
+}
+html[data-theme="loji"] input::placeholder,
+html[data-theme="loji"] textarea::placeholder {color:#b78b91!important;opacity:1}
+html[data-theme="loji"] button:focus-visible,
+html[data-theme="loji"] input:focus-visible,
+html[data-theme="loji"] select:focus-visible,
+html[data-theme="loji"] a:focus-visible {
+  outline:2px solid #ff8e91 !important;
+  outline-offset:3px;
+}
+html[data-theme="loji"] #read #reader {
+  background:
+   repeating-linear-gradient(0deg,#f5576107 0px,#f5576107 1px,transparent 1px,transparent 17px),
+   linear-gradient(180deg,#0e090e,#08070b) !important;
+  border:1px solid #84353d !important;
+  border-radius:4px !important;
+  padding:clamp(16px,3vw,32px) !important;
+  color:#f1e8e3 !important;
+  font-family:var(--lr-loji-body) !important;
+  font-size:clamp(19px,1.7vw,23px) !important;
+  line-height:1.95 !important;
+  letter-spacing:0 !important;
+  text-shadow:none !important;
+  white-space:pre-wrap !important;
+  overflow-wrap:anywhere !important;
+}
+html[data-theme="loji"] #read #reader .token {font-family:inherit!important;color:inherit}
+html[data-theme="loji"] #read #reader .token.new {text-decoration-color:#ec7278!important}
+html[data-theme="loji"] #read #reader .token.learning {background:#56212c55!important;text-decoration-color:#fca47c!important}
+html[data-theme="loji"] #read #reader .token.known {background:#243f3550!important;text-decoration-color:#9ed7ba!important}
+html[data-theme="loji"] #read #reader .token.sel {background:#743038!important;color:#fff7f1!important}
+html[data-theme="loji"] .term,
+html[data-theme="loji"] .translation,
+html[data-theme="loji"] .lr-offline-head,
+html[data-theme="loji"] .lr-offline-result {color:#ffefed!important}
+html[data-theme="loji"] .gram,
+html[data-theme="loji"] .lr-offline-panel,
+html[data-theme="loji"] .lr-modal,
+html[data-theme="loji"] .lr-modal-content,
+html[data-theme="loji"] .lr-example,
+html[data-theme="loji"] .lr-sentence,
+html[data-theme="loji"] #lr-ai-settings,
+html[data-theme="loji"] #lr-level-panel,
+html[data-theme="loji"] #lr-wty-result,
+html[data-theme="loji"] #lr-wty-settings,
+html[data-theme="loji"] #lr-dict-sources {
+  background:#211217 !important;
+  color:#f5e5e7 !important;
+  border-color:#82404a !important;
+}
+html[data-theme="loji"] .lr-modal-head {background:#2a141b!important;border-color:#a54e56!important}
+html[data-theme="loji"] .lr-modal-head h2,
+html[data-theme="loji"] .lr-modal-content p,
+html[data-theme="loji"] .lr-example,
+html[data-theme="loji"] .lr-sentence,
+html[data-theme="loji"] .gram,
+html[data-theme="loji"] .lr-offline-small,
+html[data-theme="loji"] .lr-offline-grammar {color:#f5e6e6!important}
+html[data-theme="loji"] .lr-word,
+html[data-theme="loji"] .lr-syntax,
+html[data-theme="loji"] .lr-part,
+html[data-theme="loji"] .lr-partrow,
+html[data-theme="loji"] .lr-partnote {
+  background:#29151b !important;
+  color:#eecfd1 !important;
+  border-color:#8c4650 !important;
+}
+html[data-theme="loji"] .lr-partrow strong {color:#ff9296!important}
+html[data-theme="loji"] .lr-library-entry,
+html[data-theme="loji"] .stat,
+html[data-theme="loji"] .pill,
+html[data-theme="loji"] .alert {
+  background:#211217 !important;
+  color:#ebd6d8 !important;
+  border-color:#75373d !important;
+}
+html[data-theme="loji"] a {color:#ff9fa1!important}
+html[data-theme="loji"] #lr-sources-footer {
+  border-color:#8f434c !important;
+  color:#d5afb3 !important;
+}
+html[data-theme="loji"] #lr-sources-footer p {color:#d5afb3!important}
+html[data-theme="loji"] .lr-page-nav {
+  background:#1e0f14!important;
+  border:1px solid #814047!important;
+}
+html[data-theme="loji"] .lr-page-label,
+html[data-theme="loji"] .lr-page-note {color:#edd5d7!important}
+html[data-theme="loji"] .lr-page-select {background:#130b10!important;color:#f4e8e8!important}
+html[data-theme="loji"] .foot {color:#d0a2a9!important}
+html[data-theme="loji"] #lr-theme-settings,
+html[data-theme="loji"] #lr-ai-settings,
+html[data-theme="loji"] #lr-video-settings {
+  background:linear-gradient(145deg,#211015,#110c10) !important;
+  border:1px solid #8c434a !important;
+  color:#f6e8e8 !important;
+}
+@media(max-width:700px){
+  html[data-theme="loji"] header>div:first-child {padding-right:65px;min-height:64px}
+  html[data-theme="loji"] .lr-loji-eye {width:61px;height:61px;right:0;top:0}
+  html[data-theme="loji"] #read #reader {font-size:19px!important;line-height:1.75!important}
+}
+@media(prefers-reduced-motion:reduce){
+  html[data-theme="loji"] .lr-loji-pupil {animation:none!important}
+  html[data-theme="loji"] * {transition:none!important}
+}
