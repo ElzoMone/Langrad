@@ -358,6 +358,7 @@ html[data-theme="tfr"] .foot{color:#a66eaf!important;font-family:"VT323",monospa
 }
 @media(prefers-reduced-motion:reduce){html[data-theme="tfr"] *{transition:none!important;animation:none!important}}
 </style>
+<link rel="stylesheet" href="/reader-layout.css">
 </head>
 <body>
 <header><div><div class="brand">LANG<em>RAD</em></div><div class="subbrand">THE LANGUAGE RISES</div></div><div class="pills"><span class="pill">Deutsch → Русский</span><span class="pill">Локальное хранение</span><span class="pill">Без платного ИИ</span></div>
@@ -539,7 +540,8 @@ let currentSelection=null;
 function renderReader(){
 $("docTitle").textContent=state.title;
 $("reader").replaceChildren();
-const list=tokens(state.text), unique=[...new Set(words(state.text).map(normal))];let familiar=0;
+const visibleText=window.langradPager?.displayPageText(state.text)??state.text;
+ const list=tokens(visibleText), unique=[...new Set(words(visibleText).map(normal))];let familiar=0;
 for(const word of unique)if(state.words[word]&&state.words[word].stage>=3)familiar++;
 const aid=state.aid||"B1";
 $("aid").value=aid;
@@ -1623,9 +1625,9 @@ ai.innerHTML='<div class="eyebrow">Настройка адаптации</div><h
 '<p class="tiny">Ключ не сохраняется на сайте и стирается при обновлении вкладки. При использовании Gemini твой текст отправляется Google. Бесплатные запросы могут использоваться для улучшения продуктов. <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener noreferrer">Создать ключ</a>.</p>';
 const anchor=el("lr-project-brief");anchor?settings.insertBefore(ai,anchor):settings.append(ai);
 const key=el("lr-ai-key");let busy=false;
-function original(){const a=state.adaptation;if(a&&a.sourceId===state.activeTextId&&a.original)return a.original;
+function original(){if(window.langradPager)return window.langradPager.originalPage();const a=state.adaptation;if(a&&a.sourceId===state.activeTextId&&a.original)return a.original;
 return (state.library||[]).find(x=>x.id===state.activeTextId)?.text||state.text}
-function active(){const a=state.adaptation;return a&&a.sourceId===state.activeTextId&&a.variant===state.text?a:null}
+function active(){if(window.langradPager)return window.langradPager.getCurrentAdaptation();const a=state.adaptation;return a&&a.sourceId===state.activeTextId&&a.variant===state.text?a:null}
 function count(s){return (String(s).match(/\p{L}+/gu)||[]).length}
 function changed(a,b){return a.replace(/\s+/g," ").trim()!==b.replace(/\s+/g," ").trim()}
 function view(text){
@@ -1679,30 +1681,33 @@ function offline(text,level){
  return String(text).replace(/\r/g,"").trim().split(/\n[ \t]*\n+/g)
  .map(p=>safeParagraph(p,level)).filter(Boolean).join("\n\n");
 }
-function apply(version,method,level,base){
+function apply(version,method,level,base,pageContext){
+ if(window.langradPager){state.aid=level;window.langradPager.saveForContext(pageContext,{variant:version.trim(),level,method});persist();renderReader();return}
  state.adaptation={sourceId:state.activeTextId||"",original:base,variant:version.trim(),level,method};
  state.text=version.trim();state.aid=level;persist();renderReader();
 }
 function adaptLocal(){
  if(busy)return;
+ const pageContext=window.langradPager?.currentContext();
  const base=original(),level=sel.value;
  if(!base.trim()){view("Открой текст, прежде чем адаптировать.");return}
  const result=offline(base,level);
  if(!changed(base,result)){
-  state.text=base;state.adaptation=null;persist();renderReader();
+  if(!window.langradPager){state.text=base;state.adaptation=null;persist();renderReader();}
   view("Для "+level+" локальные правила не нашли полезных изменений. Качественная адаптация требует Gemini.");
   return;
  }
- apply(result,"локально",level,base);
+ apply(result,"локально",level,base,pageContext);
  view("Локальная версия "+level+": "+count(result)+" слов. Абзацы сохранены. Это ограниченные правила, а не полноценная CEFR-адаптация.");
 }
 async function adaptGemini(){
  if(busy)return;
  const secret=key.value.trim();if(!secret){adaptLocal();return}
+ const pageContext=window.langradPager?.currentContext();
  const base=original(),level=sel.value;
  if(!base.trim()){view("Сначала открой текст.");return}
- if(base.length>14000){view("Для Gemini пока ограничение 14 000 символов. Открой нужный фрагмент текста через редактор.");return}
- busy=true;view("Gemini переписывает текст под "+level+"…");
+ if(base.length>14000){view("Текущая страница превышает лимит 14 000 символов для Gemini.");return}
+ busy=true;view("Gemini адаптирует только текущую страницу под "+level+"…");
  const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),40000);
  try{
   const prompt=[
@@ -1725,18 +1730,20 @@ async function adaptGemini(){
   const result=(payload.candidates?.[0]?.content?.parts||[]).map(x=>x.text||"").join("").trim();
   if(count(result)<Math.min(15,count(base)*.12))throw Error("Gemini вернул слишком короткий ответ.");
   if(!changed(base,result))throw Error("Gemini вернул оригинальный текст без изменений.");
-  apply(result,"Gemini",level,base);
-  view("Готова адаптация Gemini под "+level+": "+count(result)+" слов. Проверь факты и при необходимости верни оригинал.");
+  apply(result,"Gemini",level,base,pageContext);
+  view("Gemini адаптировал страницу под "+level+": "+count(result)+" слов. Результат сохранён для этой страницы и уровня.");
  }catch(err){view("Ошибка Gemini: "+(err.name==="AbortError"?"превышено время ожидания":err.message)+". Оригинал сохранён.");}
  finally{clearTimeout(timer);busy=false;run.disabled=false;local.disabled=false;back.disabled=!active();}
 }
 run.onclick=()=>key.value.trim()?adaptGemini():adaptLocal();
 local.onclick=adaptLocal;
-back.onclick=()=>{if(busy)return;const a=active();if(!a)return;state.text=a.original;state.adaptation=null;persist();renderReader();view("Оригинал возвращён.")};
-sel.onchange=()=>{state.aid=sel.value;persist();if(key.value.trim()){
- state.text=original();state.adaptation=null;persist();renderReader();
- view("Выбран "+sel.value+". Нажми «Адаптировать с Gemini» для новой версии.");
-}else adaptLocal()};
+back.onclick=()=>{if(busy)return;const a=active();if(!a)return;if(window.langradPager){window.langradPager.clearCurrentAdaptation();view("Оригинал этой страницы возвращён.");return}state.text=a.original;state.adaptation=null;persist();renderReader();view("Оригинал возвращён.")};
+sel.onchange=()=>{state.aid=sel.value;persist();
+ if(window.langradPager){renderReader();view("Уровень "+sel.value+". Адаптация применяется только к текущей странице по кнопке.");return}
+ if(key.value.trim()){
+  state.text=original();state.adaptation=null;persist();renderReader();
+  view("Выбран "+sel.value+". Нажми «Адаптировать с Gemini» для новой версии.");
+ }else adaptLocal()};
 const prevRender=renderReader;
 renderReader=function(){
  const a=state.adaptation;
@@ -2455,4 +2462,5 @@ window.addEventListener("message",event=>{
 })();
 </script>
 <script defer src="/reader-lexicon.js"></script>
+<script defer src="/reader-pagination.js"></script>
 </body></html>
