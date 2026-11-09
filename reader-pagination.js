@@ -108,7 +108,7 @@ function goto(next){
  state.readingPages[keyOf()]={signature:currentSignature,index:page};
  persist();renderReader();
  // Ensure jumping between pages doesn't leave the reader at the very bottom.
- document.getElementById("lr-page-nav-top")?.scrollIntoView?.({block:"start",behavior:"instant"});
+ document.getElementById("lr-page-nav-top")?.scrollIntoView?.({block:"start",behavior:"auto"});
 }
 function createNavigation(id){
  const nav=document.createElement("nav");
