@@ -57,7 +57,7 @@ const word=(w,key)=>[...w.document.querySelectorAll("#reader .token")].find(x=>x
 
  const statuses=[];
  w.addEventListener("message",e=>{if(e.data?.type==="LR_VIDEO_STATUS")statuses.push(e.data)});
- w.postMessage({type:"LR_VIDEO_STATUS_REQUEST"},w.location.origin);
+ w.dispatchEvent(new w.MessageEvent("message",{source:w,origin:w.location.origin,data:{type:"LR_VIDEO_STATUS_REQUEST"}}));
  await delay(60);
  assert.ok(statuses.length>0);
  assert.equal(statuses[0].theme,"loji");
