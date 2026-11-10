@@ -64,14 +64,33 @@ function ensure(){
 function storageKey(p=page,level=state.aid||"B1"){
  return keyOf()+"|"+currentSignature+"|"+p+"|"+level;
 }
+function legacyVersion(p=page,level=state.aid||"B1"){
+ const entry=state.pageAdaptations?.[storageKey(p,level)];
+ return entry&&typeof entry.variant==="string"?entry:null;
+}
+function modeKey(p=page,level=state.aid||"B1"){return storageKey(p,level)}
+function storedMode(p=page,level=state.aid||"B1"){
+ const mode=state.pageAdaptationModes?.[modeKey(p,level)];
+ if(["original","local","gemini"].includes(mode))return mode;
+ // Honor pre-existing cached adaptations from before the mode switcher.
+ const old=legacyVersion(p,level);
+ if(old)return old.method==="Gemini"?"gemini":"local";
+ return "original";
+}
+function savedVersion(mode,p=page,level=state.aid||"B1"){
+ if(mode==="original")return null;
+ const byMode=state.pageAdaptationVersions?.[storageKey(p,level)+"|"+mode];
+ if(byMode&&typeof byMode.variant==="string")return byMode;
+ const old=legacyVersion(p,level);
+ if(old && (old.method==="Gemini"?"gemini":"local")===mode)return old;
+ return null;
+}
 function saved(p=page,level=state.aid||"B1"){
- const variant=state.pageAdaptations?.[storageKey(p,level)];
- return variant&&typeof variant.variant==="string"?variant:null;
+ return savedVersion(storedMode(p,level),p,level);
 }
 function displayed(){
  ensure();
- const current=pages[page]?.text||"";
- return saved()?.variant||current;
+ return saved()?.variant||pages[page]?.text||"";
 }
 function pageOriginal(){ensure();return pages[page]?.text||""}
 function context(){
@@ -80,24 +99,40 @@ function context(){
 function isContext(ctx){
  ensure();return Boolean(ctx&&ctx.doc===keyOf()&&ctx.signature===currentSignature&&ctx.index===page);
 }
-function save(ctx,{variant,level,method}){
+function selectMode(mode,level=state.aid||"B1"){
+ ensure();
+ if(!["original","local","gemini"].includes(mode))return false;
+ state.pageAdaptationModes??={};
+ state.pageAdaptationModes[modeKey(page,level)]=mode;
+ persist();renderReader();
+ return true;
+}
+function save(ctx,{variant,level,method,mode}){
  ensure();
  if(!ctx||ctx.doc!==keyOf()||ctx.signature!==currentSignature||!Number.isInteger(ctx.index)||ctx.index<0||ctx.index>=pages.length)return false;
  const original=pages[ctx.index].text;
  const value=String(variant||"").trim();
  if(!value)return false;
+ const normalized=mode|| (method==="Gemini"?"gemini":"local");
+ if(!["local","gemini"].includes(normalized))return false;
+ const base=ctx.doc+"|"+ctx.signature+"|"+ctx.index+"|"+level;
+ const record={sourceId:ctx.doc,original,variant:value,level,method:method||(normalized==="gemini"?"Gemini":"локально")};
+ state.pageAdaptationVersions??={};
+ state.pageAdaptationVersions[base+"|"+normalized]=record;
+ // Retain old storage key for compatibility with prior versions and backups.
  state.pageAdaptations??={};
- const target=ctx.doc+"|"+ctx.signature+"|"+ctx.index+"|"+level;
- state.pageAdaptations[target]={sourceId:ctx.doc,original,variant:value,level,method};
+ state.pageAdaptations[base]=record;
+ if(isContext(ctx)&&state.aid===level){
+  state.pageAdaptationModes??={};
+  state.pageAdaptationModes[base]=normalized;
+ }
  persist();
  if(isContext(ctx)&&state.aid===level)renderReader();
  return true;
 }
 function clear(){
- ensure();
- const target=storageKey();
- if(state.pageAdaptations?.[target])delete state.pageAdaptations[target];
- persist();renderReader();
+ // Switching to the original must not delete a paid/generated cached version.
+ selectMode("original");
 }
 function goto(next){
  ensure();
@@ -146,7 +181,8 @@ function update(){
  const a=saved();
  const info=read.querySelector("#lr-page-adapt-indicator");
  if(info){
-  info.textContent=a?"Эта страница: версия "+a.level+" ("+a.method+"). Оригинал сохранён отдельно.":"Показан оригинал этой страницы. Gemini адаптирует только открытую страницу.";
+  const mode=storedMode();
+  info.textContent=a?"Режим: "+(mode==="gemini"?"Gemini":"локальный")+" · "+a.level+" · версия сохранена.":"Режим: оригинал · "+(state.aid||"B1")+". Сохранённые адаптации не удаляются при переключении.";
  }
 }
 const indicator=document.createElement("p");
@@ -183,6 +219,7 @@ window.langradPager={
  displayPageText:displayed,originalPage:pageOriginal,
  currentContext:context,isContext,saveForContext:save,
  getCurrentAdaptation:saved,clearCurrentAdaptation:clear,
+ getMode:storedMode,setMode:selectMode,getCachedVersion:savedVersion,
  pageCount:()=>{ensure();return pages.length},
  pageNumber:()=>{ensure();return page+1},
  goto,splitText:paginate
