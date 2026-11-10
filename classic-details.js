@@ -99,7 +99,7 @@ function detailUpdate(){
  const label=detail.querySelector('label[for="manual"]');
  if(manual&&save&&label){
   let toggle=detail.querySelector("#lr-classic-manual-toggle");
-  if(!toggle){
+  if(!toggle&&isClassic){
    toggle=document.createElement("button");toggle.id="lr-classic-manual-toggle";
    toggle.className="btn sm lr-classic-manual-toggle";
    toggle.type="button";toggle.textContent="Изменить перевод";
@@ -116,9 +116,13 @@ function detailUpdate(){
    ||textIsTranslation(detail.querySelector("#lr-wty-result .lr-wty-translations")?.textContent);
   detail.classList.toggle("lr-classic-translation-found",isClassic&&translated);
   detail.classList.toggle("lr-classic-manual-open",isClassic&&detail.dataset.classicManualOpen==="1");
-  toggle.textContent=translated?"Изменить перевод":"Свой перевод";
-  toggle.setAttribute("aria-expanded",String(!translated||detail.dataset.classicManualOpen==="1"));
-  setHidden(toggle,!isClassic||!translated);
+  if(toggle){
+   const labelText=translated?"Изменить перевод":"Свой перевод";
+   if(toggle.textContent!==labelText)toggle.textContent=labelText;
+   const expanded=String(!translated||detail.dataset.classicManualOpen==="1");
+   if(toggle.getAttribute("aria-expanded")!==expanded)toggle.setAttribute("aria-expanded",expanded);
+   setHidden(toggle,!isClassic||!translated);
+  }
  }
 }
 function update(){
