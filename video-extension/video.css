@@ -1,0 +1,201 @@
+/* Langrad Video 0.5 – accessible caption overlay; native subtitles hidden only
+   while extension overlay has content. Shapes as well as colors denote status.
+ */
+.html5-video-player .lr-v-root {
+ position:absolute!important;
+ inset:0!important;
+ z-index:1900!important;
+ pointer-events:none!important;
+ font:500 15px/1.45 "Segoe UI",system-ui,sans-serif!important;
+ --lrv-bg:#1b1715;--lrv-panel:#f8f5eb;--lrv-text:#26201b;--lrv-border:#ac8166;
+ --lrv-known:#5db48c;--lrv-learning:#ffbb65;--lrv-unknown:#c69da5;
+ --lrv-accent:#eaa27b;
+}
+.html5-video-player .lr-v-root[data-theme="tfr"]{
+ --lrv-bg:#190e27;--lrv-panel:#291435;--lrv-text:#fbeaff;--lrv-border:#bd73c7;
+ --lrv-known:#76d9b9;--lrv-learning:#ffbe78;--lrv-unknown:#e19ae8;--lrv-accent:#ff90e3;
+}
+.html5-video-player .lr-v-root[data-theme="loji"] {
+ --lrv-bg:#11080c;--lrv-panel:#2a151b;--lrv-text:#fff0eb;--lrv-border:#d05b64;
+ --lrv-known:#9edcbf;--lrv-learning:#f6bc7b;--lrv-unknown:#e48387;--lrv-accent:#ff8a8e;
+}
+.html5-video-player .lr-v-toolbar{
+ display:flex;
+ align-items:center;
+ gap:7px;
+ padding:5px 7px;
+ background:#090609d9;
+ color:#fff0ee;
+ border:1px solid var(--lrv-border);
+ border-radius:6px;
+ position:absolute;
+ top:13px;
+ right:12px;
+ pointer-events:auto;
+ font-size:11px!important;
+ box-shadow:0 5px 19px #0007;
+}
+.html5-video-player .lr-v-toolbar .lr-v-mark {
+ color:var(--lrv-accent)!important;
+ letter-spacing:1px;
+ font:700 10px monospace!important;
+ white-space:nowrap;
+}
+.html5-video-player .lr-v-root button,
+.html5-video-player .lr-v-root a{
+ cursor:pointer;
+ font-family:inherit!important;
+}
+.html5-video-player .lr-v-toolbar button {
+ background:#31202a;
+ border:1px solid #8d5360;
+ border-radius:4px;
+ color:#fff1ec;
+ padding:3px 6px;
+ font-size:11px;
+ font-weight:650;
+}
+.html5-video-player .lr-v-toolbar button:hover{border-color:#ffc0c4;background:#743840}
+.html5-video-player .lr-v-speed{min-width:30px;text-align:center}
+.html5-video-player .lr-v-captions {
+ position:absolute;
+ left:50%;
+ bottom:14%;
+ transform:translateX(-50%);
+ width:max-content;
+ max-width:min(94%,1050px);
+ padding:8px 12px;
+ text-align:center;
+ color:#fffaf6;
+ background:#090609dd;
+ border-radius:6px;
+ font-size:clamp(15px,2.3vw,27px)!important;
+ font-weight:600;
+ text-shadow:0 1px 2px #000;
+ line-height:1.8!important;
+ pointer-events:none;
+ overflow-wrap:anywhere;
+ white-space:normal;
+}
+.html5-video-player .lr-v-captions:empty {display:none}
+.html5-video-player .lr-v-token {
+ display:inline;
+ pointer-events:auto;
+ border:0;
+ border-radius:2px;
+ margin:0;
+ padding:0 1px;
+ background:none;
+ color:#fff8f5;
+ font-size:inherit!important;
+ font-weight:inherit!important;
+ line-height:inherit!important;
+ text-shadow:inherit;
+ outline-offset:3px;
+ box-shadow:none!important;
+}
+.html5-video-player .lr-v-token.neutral {border-bottom:1px solid transparent}
+.html5-video-player .lr-v-token.unknown {border-bottom:1px dotted var(--lrv-unknown)}
+.html5-video-player .lr-v-token.learning {border-bottom:2px dashed var(--lrv-learning)}
+.html5-video-player .lr-v-token.known {border-bottom:1px solid var(--lrv-known)}
+.html5-video-player .lr-v-token:hover,
+.html5-video-player .lr-v-token:focus-visible {
+ color:#fff!important;
+ outline:2px solid var(--lrv-accent);
+ background:#673b4b99;
+}
+.html5-video-player .lr-v-subru {
+ position:absolute;
+ left:50%;
+ bottom:6.3%;
+ transform:translateX(-50%);
+ width:max-content;
+ max-width:min(92%,1000px);
+ padding:5px 9px;
+ background:#090609df;
+ color:#f7cbbe;
+ font-size:clamp(12px,1.5vw,19px);
+ text-align:center;
+ border-radius:5px;
+ pointer-events:none;
+}
+.html5-video-player .lr-v-subru[hidden],.html5-video-player .lr-v-card[hidden]{display:none!important}
+.html5-video-player .lr-v-card {
+ position:absolute;
+ right:12px;
+ bottom:25%;
+ width:min(360px,88vw);
+ max-height:59%;
+ overflow:auto;
+ pointer-events:auto;
+ background:var(--lrv-bg);
+ color:#fff0e9;
+ border:1px solid var(--lrv-border);
+ border-radius:8px;
+ text-align:left;
+ padding:13px 15px;
+ box-shadow:0 10px 35px #000e;
+ font:500 14px/1.55 "Segoe UI",system-ui,sans-serif!important;
+}
+.html5-video-player .lr-v-card-head{
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ gap:8px;
+ border-bottom:1px solid var(--lrv-border);
+ padding-bottom:7px;
+}
+.html5-video-player .lr-v-word,
+.html5-video-player .lr-v-card-head strong{
+ font-size:22px!important;
+ font-weight:750;
+ color:#fff1f0!important;
+}
+.html5-video-player .lr-v-close {
+ color:#fff;
+ background:transparent;
+ border:1px solid var(--lrv-border);
+ border-radius:4px;
+ font-size:18px;
+ width:30px;
+}
+.html5-video-player .lr-v-lemma{padding-top:9px;color:#ffcdbe}
+.html5-video-player .lr-v-part,.html5-video-player .lr-v-grammar{color:#d1b0b7!important;font-size:12px}
+.html5-video-player .lr-v-translation{color:#fff4ea!important;font-size:17px!important;font-weight:700;margin:10px 0}
+.html5-video-player .lr-v-card-status,.html5-video-player .lr-v-frequency{
+ color:#d7b3b1!important;font-size:12px!important
+}
+.html5-video-player .lr-v-source {margin-top:10px;border-top:1px solid var(--lrv-border);color:#d09c9f;font:500 10px/1.5 monospace}
+.html5-video-player .lr-v-actions{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin-top:9px}
+.html5-video-player .lr-v-learn,.html5-video-player .lr-v-wiki {
+ text-decoration:none!important;
+ border-radius:4px;
+ border:1px solid var(--lrv-border);
+ background:#4a202c;
+ color:#fff0ed!important;
+ padding:7px 9px;
+ font-size:12px;
+ font-weight:700;
+}
+.html5-video-player .lr-v-note {
+ position:absolute;
+ bottom:1%;
+ left:50%;
+ transform:translateX(-50%);
+ color:#e2baba;
+ font:500 10px monospace!important;
+ letter-spacing:.2px;
+ background:#0e0810b8;
+ padding:3px 6px;
+ border-radius:4px;
+ pointer-events:none;
+ white-space:nowrap;
+}
+.html5-video-player .ytp-caption-window-container.lr-v-native-hidden {visibility:hidden!important}
+@media(max-width:950px){
+ .html5-video-player .lr-v-toolbar{top:7px;right:5px;gap:3px}
+ .html5-video-player .lr-v-toolbar .lr-v-mark{display:none}
+ .html5-video-player .lr-v-toolbar button{padding:2px 4px}
+ .html5-video-player .lr-v-note{display:none}
+ .html5-video-player .lr-v-card{width:min(320px,94vw);max-height:70%}
+}
