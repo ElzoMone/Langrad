@@ -1,0 +1,120 @@
+/* Langrad word-state design system. The semantics are shared by reader and YouTube.
+ * No color alone is relied on: line patterns differ for each state.
+ * neutral: not checked; unknown: clicked but not marked to study;
+ * learning: in study register; known: personally marked known or proven in reviews.
+ */
+#read #reader .token {background:transparent!important;color:inherit!important;text-decoration:none!important;border-radius:2px;outline-offset:2px;transition:background-color .12s ease}
+#read #reader .token.neutral {border-bottom:1px solid transparent!important}
+#read #reader .token.unknown {
+ border-bottom:1px dotted var(--lr-unknown,#a98a9c)!important;
+ background:transparent!important;
+}
+#read #reader .token.learning {
+ border-bottom:2px dashed var(--lr-learning,#cb8d48)!important;
+ background:transparent!important;
+}
+#read #reader .token.known {
+ border-bottom:1px solid var(--lr-known,#4e9c75)!important;
+ background:transparent!important;
+}
+#read #reader .token.sel,
+#read #reader .token:hover,
+#read #reader .token:focus-visible {
+ background:var(--lr-selection,#d5c6f266)!important;
+ outline:1px solid var(--lr-focus,#937dbe)!important;
+ color:inherit!important;
+}
+:root {
+ --lr-unknown:#8a6b74;
+ --lr-learning:#aa783b;
+ --lr-known:#3a8a65;
+ --lr-focus:#82573c;
+ --lr-selection:#cba98941;
+}
+html[data-theme="tfr"]{
+ --lr-unknown:#c878d4;
+ --lr-learning:#e4ad65;
+ --lr-known:#79cdb1;
+ --lr-focus:#fb9de6;
+ --lr-selection:#ad4c9c48;
+}
+html[data-theme="loji"]{
+ --lr-unknown:#bc666c;
+ --lr-learning:#efaf70;
+ --lr-known:#91d2ba;
+ --lr-focus:#ff989c;
+ --lr-selection:#aa354342;
+}
+#lr-word-legend {
+ display:flex;
+ flex-wrap:wrap;
+ align-items:center;
+ column-gap:13px;
+ row-gap:8px;
+ border-top:1px solid var(--line);
+ padding:11px 2px 9px;
+ margin:10px 0;
+ color:var(--muted);
+ font-size:12px;
+}
+#lr-word-legend .lr-legend-item {
+ display:inline-flex;
+ align-items:center;
+ gap:6px;
+ color:var(--txt);
+ font-weight:500;
+}
+#lr-word-legend .lr-legend-sample {
+ display:inline-block;
+ width:20px;
+ height:12px;
+ border-bottom:1px solid transparent;
+ flex-shrink:0;
+}
+#lr-word-legend .lr-legend-sample.neutral {border-color:transparent}
+#lr-word-legend .lr-legend-sample.unknown {border-bottom:1px dotted var(--lr-unknown)}
+#lr-word-legend .lr-legend-sample.learning {border-bottom:2px dashed var(--lr-learning)}
+#lr-word-legend .lr-legend-sample.known {border-bottom:1px solid var(--lr-known)}
+html[data-theme="loji"] #lr-word-legend {
+ background:#170c11;
+ padding:10px;
+ border:1px solid #633138;
+ font-family:var(--lr-loji-mono);
+}
+html[data-theme="tfr"] #lr-word-legend {border-color:#7c407e}
+#lr-level-panel .lr-level-row {display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+#lr-level-panel .lr-cefr-in-adaptation {
+ display:inline-flex;
+ align-items:center;
+ gap:8px;
+ flex-wrap:wrap;
+ padding-right:9px;
+ border-right:1px solid var(--line);
+}
+#lr-level-panel .lr-cefr-in-adaptation select {min-width:72px}
+#lr-level-panel button.lr-mode-active {
+ border:2px solid var(--lr-focus,var(--accent))!important;
+ background:var(--lr-selection,#b4988766)!important;
+ color:var(--txt)!important;
+ font-weight:750!important;
+ box-shadow:inset 0 -2px 0 var(--lr-focus,var(--accent))!important;
+}
+#lr-level-panel button[aria-pressed="true"]::after {
+ content:"●";
+ color:var(--lr-focus,var(--accent));
+ margin-left:5px;
+ font-size:10px;
+ position:static!important;
+ width:auto!important;
+ height:auto!important;
+ box-shadow:none!important;
+}
+html[data-theme="loji"] #lr-level-panel button.lr-mode-active {
+ color:#ffeaea!important;
+ border-color:#e76d70!important;
+ background:#62242c!important;
+}
+@media(max-width:600px){
+ #lr-level-panel .lr-cefr-in-adaptation {flex:1 0 100%;border-right:0;border-bottom:1px solid var(--line);padding-bottom:7px}
+ #lr-word-legend {column-gap:8px;font-size:11px}
+}
