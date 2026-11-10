@@ -116,6 +116,12 @@ function selectedCard(text){
 }
 async function showCard(word,anchor){
  if(!card)return;
+ const k=norm(word);
+ if(!words[k]){
+  words[k]={stage:0,reported:false,translation:""};
+  await chrome.storage.local.set({wordStatuses:words});
+  updateStatus();
+ }
  card.hidden=false;
  card.replaceChildren();
  card.append(makeEl("div","lr-v-word",word),makeEl("p","lr-v-loading","Ищу словоформу и перевод…"));
