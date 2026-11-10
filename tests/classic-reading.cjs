@@ -55,6 +55,7 @@ function border(w,word){
  const {w,errors}=context;
  await sleep(260);
  const $=s=>w.document.querySelector(s);
+ const toolbar=$("#lr-classic-reader-tools");
  const picker=$("#lr-classic-markup-select");
  assert.ok(picker,"markup selector is missing");
  assert.equal(picker.parentElement.id,"lr-classic-markup");
@@ -97,7 +98,7 @@ function border(w,word){
  const tab=$("#lr-theme-select");
  tab.value="tfr";tab.dispatchEvent(new w.Event("change",{bubbles:true}));
  await sleep(55);
- assert.equal($("#lr-classic-reader-tools").isConnected,false);
+ assert.equal(toolbar.isConnected,false);
  assert.equal(border(w,"Himmel").style,"dotted","TFR unknown styling should be unchanged");
  tab.value="loji";tab.dispatchEvent(new w.Event("change",{bubbles:true}));
  await sleep(55);
@@ -105,7 +106,7 @@ function border(w,word){
  tab.value="classic";tab.dispatchEvent(new w.Event("change",{bubbles:true}));
  await sleep(55);
  assert.equal(picker.value,"clean");
- assert.equal($("#lr-classic-reader-tools").contains(picker),true);
+ assert.equal(toolbar.contains(picker),true);
  assert.equal(border(w,"Himmel").color,"rgba(0, 0, 0, 0)");
  assert.equal($("#docTitle").textContent,title);
  console.log("PASS Classic → TFR → Loji → Classic retains selection and exact book title");
