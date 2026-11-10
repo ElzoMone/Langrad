@@ -486,6 +486,7 @@ html[data-theme="classic"] .layout>.details .tag{
  html[data-theme="classic"] #read #reader{font-size:20px!important;line-height:1.75!important}
 }
 
+html:not([data-theme="classic"]) .lr-classic-legend-note {display:none!important}
 /* Classic / stage 2. Calm default, optional study-only, clean and full states.
  * Only modifies presentation: tokens keep click handlers and existing classes.
  */
