@@ -538,25 +538,27 @@ const words=s=>tokens(s).filter(w=>/\p{L}/u.test(w));
 function persist(){try{localStorage.setItem(storageKey,JSON.stringify(state))}catch(e){alert("Хранилище браузера заполнено. Сделай резервную копию.")}}
 function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
 function record(w){const k=normal(w);if(!state.words[k])state.words[k]={display:w,stage:0,correct:0,wrong:0,next:0,lastDay:"",reported:false,translation:""};return state.words[k]}
-function labelStage(r){return ["Просмотрено","Изучается","Повторяется","Знакомо","Усвоено"][Math.min(Math.max(r.stage,0),4)]}
+function labelStage(r){if(r?.reported)return "Знакомо (отмечено)";return ["Просмотрено","Изучается","Повторяется","Знакомо","Усвоено"][Math.min(Math.max(r?.stage||0,0),4)]}
+function isKnown(r){return Boolean(r&&(r.reported||r.stage>=3))}
+function wordStatus(r){return !r?"neutral":isKnown(r)?"known":r.stage>=1?"learning":"unknown"}
 let currentSelection=null;
 function renderReader(){
 $("docTitle").textContent=state.title;
 $("reader").replaceChildren();
 const visibleText=window.langradPager?.displayPageText(state.text)??state.text;
- const list=tokens(visibleText), unique=[...new Set(words(visibleText).map(normal))];let familiar=0;
-for(const word of unique)if(state.words[word]&&state.words[word].stage>=3)familiar++;
+ const list=tokens(visibleText), unique=[...new Set(words(state.text).map(normal))];let familiar=0;
+for(const word of unique)if(isKnown(state.words[word]))familiar++;
 const aid=state.aid||"B1";
 $("aid").value=aid;
 for(const t of list){
 if(!/\p{L}/u.test(t)){$("reader").append(document.createTextNode(t));continue}
-const s=document.createElement("span"),r=state.words[normal(t)];s.textContent=t;s.tabIndex=0;s.className="token "+(!r?"new":r.stage>=3?"known":r.stage>=1?"learning":"new");
+const s=document.createElement("span"),r=state.words[normal(t)];s.textContent=t;s.tabIndex=0;s.className="token "+wordStatus(r);
 if(aid==="A1"||aid==="A2")s.title=lex[normal(t)]?.[1]||"Нажми для информации";
 s.addEventListener("click",()=>selectWord(t,s));s.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();selectWord(t,s)}});
 $("reader").append(s)
 }
-$("score").textContent=familiar+" из "+unique.length+" знакомых";
-$("readingHint").textContent="Режим подсказок "+aid+". Подсветка: фиолетовый — неизвестное, жёлтый — изучается, зелёный — подтверждено тестами. Исходный текст можно упростить по уровню ниже и в любой момент вернуть.";
+$("score").textContent=familiar+" из "+unique.length+" известных слов";
+$("readingHint").textContent="Статусы: без отметки — ещё не проверено; точечное подчёркивание — просмотрено, но неизвестно; янтарное — изучается; зелёное — известно. Кнопки адаптации работают как режимы.";
 $("sentenceHelp").replaceChildren();
 }
 function selectWord(w,el){
@@ -618,7 +620,7 @@ $("feedback").innerHTML='<p>'+(ok?"✓ Верно!":"✗ Правильный о
 })
 }
 function stats(){
-const a=Object.values(state.words);$("seenNumber").textContent=a.length;$("studyNumber").textContent=a.filter(r=>r.stage===1||r.stage===2).length;$("knownNumber").textContent=a.filter(r=>r.stage>=3).length;
+const a=Object.values(state.words);$("seenNumber").textContent=a.length;$("studyNumber").textContent=a.filter(r=>!isKnown(r)&&(r.stage===1||r.stage===2)).length;$("knownNumber").textContent=a.filter(isKnown).length;
 const percent=state.results.total?Math.round(100*state.results.correct/state.results.total):0;$("accuracyFill").style.width=percent+"%";$("accuracy").textContent=percent+"% правильных ответов из "+state.results.total+" проверок."
 }
 function download(name,data,type){const blob=new Blob([data],{type}),url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)}
@@ -1612,11 +1614,18 @@ const el=id=>document.getElementById(id),sel=el("aid"),reader=el("reader"),setti
 if(!sel||!reader||!settings)return;
 const pane=document.createElement("section");pane.id="lr-level-panel";
 pane.innerHTML='<div class="lr-level-row" style="display:flex;gap:9px;align-items:center;flex-wrap:wrap">'+
-'<strong>Адаптация текста</strong><button id="lr-level-run" type="button" class="btn primary sm">Адаптировать</button>'+
-'<button id="lr-level-local" type="button" class="btn sm">Без ИИ</button>'+
-'<button id="lr-level-original" type="button" class="btn sm" disabled>Вернуть оригинал</button></div>'+
+'<strong>Режим страницы</strong><button id="lr-level-run" type="button" class="btn primary sm">Gemini</button>'+
+'<button id="lr-level-local" type="button" class="btn sm">Локально</button>'+
+'<button id="lr-level-original" type="button" class="btn sm">Оригинал</button></div>'+
 '<p id="lr-level-hint" class="lr-level-hint" aria-live="polite"></p>';
 reader.before(pane);
+// One level selector: move the existing control next to the adaptation modes,
+// keeping its original id and all listeners. Do not duplicate CEFR selectors.
+const existingLevel=el("aid")?.closest(".levelbox");
+if(existingLevel){
+ existingLevel.classList.add("lr-cefr-in-adaptation");
+ pane.prepend(existingLevel);
+}
 const run=el("lr-level-run"),local=el("lr-level-local"),back=el("lr-level-original"),hint=el("lr-level-hint");
 const ai=document.createElement("section");ai.id="lr-ai-settings";
 ai.style.cssText="padding:16px;margin:18px 0;border-radius:10px;border:1px solid #d8cfc3;background:#faf7f2";
@@ -1634,10 +1643,21 @@ function active(){if(window.langradPager)return window.langradPager.getCurrentAd
 function count(s){return (String(s).match(/\p{L}+/gu)||[]).length}
 function changed(a,b){return a.replace(/\s+/g," ").trim()!==b.replace(/\s+/g," ").trim()}
 function view(text){
- const a=active();
- run.textContent=key.value.trim()?"Адаптировать с Gemini · "+sel.value:"Адаптировать · "+sel.value;
- run.disabled=busy;local.disabled=busy;back.disabled=busy||!a;
- hint.textContent=text||(a?"Версия "+a.level+" ("+a.method+"): "+count(a.variant)+" слов; оригинал сохранён.":"Уровень "+sel.value+". Без ИИ меняются лишь известные конструкции. Для полноценного переписывания вставь ключ Gemini в настройках.");
+ const pager=window.langradPager;
+ const a=active(),mode=pager?.getMode()||(a?.method==="Gemini"?"gemini":a?"local":"original");
+ run.textContent="Gemini";local.textContent="Локально";back.textContent="Оригинал";
+ for(const [button,id] of [[run,"gemini"],[local,"local"],[back,"original"]]){
+  button.classList.toggle("lr-mode-active",mode===id);
+  button.setAttribute("aria-pressed",String(mode===id));
+  button.disabled=busy;
+ }
+ const cachedGemini=Boolean(pager?.getCachedVersion("gemini"));
+ hint.textContent=text||(
+  a?"Режим "+(mode==="gemini"?"Gemini":"Локально")+" · "+a.level+" · версия сохранена для этой страницы."
+   :mode==="gemini"?"Версия Gemini ещё не создана. Для генерации нужен ключ в настройках."
+   :mode==="local"?"Локальная адаптация для этой страницы ещё не создана."
+   :"Оригинал страницы. "+(cachedGemini?"Сохранённая версия Gemini доступна без повторного запроса.":"Доступны режимы Локально и Gemini.")
+ );
 }
 key.oninput=()=>view();el("lr-ai-clear").onclick=()=>{key.value="";view()};
 function safeParagraph(p,level){
@@ -1757,13 +1777,32 @@ async function adaptGemini(){
   apply(result,"Gemini",level,base,pageContext);
   view("Gemini адаптировал страницу под "+level+": "+count(result)+" слов. Результат сохранён для этой страницы и уровня.");
  }catch(err){view("Ошибка Gemini: "+(err.name==="AbortError"?"превышено время ожидания":err.message)+". Оригинал сохранён.");}
- finally{clearTimeout(timer);busy=false;run.disabled=false;local.disabled=false;back.disabled=!active();}
+ finally{clearTimeout(timer);busy=false;view();}
 }
-run.onclick=()=>key.value.trim()?adaptGemini():adaptLocal();
-local.onclick=adaptLocal;
-back.onclick=()=>{if(busy)return;const a=active();if(!a)return;if(window.langradPager){window.langradPager.clearCurrentAdaptation();view("Оригинал этой страницы возвращён.");return}state.text=a.original;state.adaptation=null;persist();renderReader();view("Оригинал возвращён.")};
+run.onclick=()=>{
+ if(busy)return;
+ const pager=window.langradPager;
+ if(pager?.getCachedVersion("gemini")){
+  pager.setMode("gemini");view("Загружена сохранённая версия Gemini. Запрос к API не отправлялся.");return;
+ }
+ if(!key.value.trim()){view("В настройках нужен ключ Gemini. Уже созданные версии можно открывать без ключа.");return}
+ pager?.setMode("gemini");void adaptGemini();
+};
+local.onclick=()=>{
+ if(busy)return;
+ const pager=window.langradPager;
+ if(pager?.getCachedVersion("local")){
+  pager.setMode("local");view("Загружена сохранённая локальная версия.");return;
+ }
+ pager?.setMode("local");adaptLocal();
+};
+back.onclick=()=>{
+ if(busy)return;
+ if(window.langradPager){window.langradPager.setMode("original");view("Оригинал страницы. Адаптации сохранены — можно вернуться к ним без генерации.");return}
+ const a=active();if(!a)return;state.text=a.original;state.adaptation=null;persist();renderReader();view("Оригинал возвращён.");
+};
 sel.onchange=()=>{state.aid=sel.value;persist();
- if(window.langradPager){renderReader();view("Уровень "+sel.value+". Адаптация применяется только к текущей странице по кнопке.");return}
+ if(window.langradPager){renderReader();view();return}
  if(key.value.trim()){
   state.text=original();state.adaptation=null;persist();renderReader();
   view("Выбран "+sel.value+". Нажми «Адаптировать с Gemini» для новой версии.");
