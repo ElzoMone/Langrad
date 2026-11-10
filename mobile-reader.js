@@ -10,8 +10,8 @@ const reader=document.getElementById("reader");
 const title=document.getElementById("docTitle");
 const pager=document.getElementById("lr-page-nav-top");
 const level=document.getElementById("lr-level-panel");
-const classicMarkup=document.getElementById("lr-classic-markup");
-const classicLegend=document.getElementById("lr-classic-legend-help");
+let classicMarkup=document.getElementById("lr-classic-markup");
+let classicLegend=document.getElementById("lr-classic-legend-help");
 if(!read||!reader||!title||!pager||!level||!window.langradPager)return;
 const actions=[...read.children].find(x=>x.classList?.contains("row")&&x.querySelector("#addText"));
 if(!actions)return;
@@ -61,7 +61,6 @@ extras.innerHTML='<summary aria-label="Добавить текст и озвуч
 shell.append(navLine,settings,extras);
 const titleRow=title.closest(".spread");
 (titleRow||read).after(shell);
-const moving=[pager,level,actions,classicMarkup,classicLegend].filter(Boolean);
 const markers=new Map();
 let mounted=false;
 function move(node,location){
@@ -127,6 +126,10 @@ function apply(){
    settings.insertBefore(level,preferences);
   }
   if(isClassic()){
+   // On a direct TFR/Loji launch, Classic controls exist in a detached bar.
+   // Resolve them lazily after switching to Classic.
+   classicMarkup ||= document.getElementById("lr-classic-markup");
+   classicLegend ||= document.getElementById("lr-classic-legend-help");
    move(classicMarkup,preferences);
    move(classicLegend,preferences);
   }else{
@@ -137,7 +140,7 @@ function apply(){
   root.dataset.mobileReaderReady="true";
   syncPage();
  }else if(mounted){
-  for(const node of [...moving].reverse())restore(node);
+  for(const node of [...markers.keys()].reverse())restore(node);
   mounted=false;
   shell.hidden=true;
   delete root.dataset.mobileReaderReady;
