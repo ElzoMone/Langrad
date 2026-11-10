@@ -95,6 +95,30 @@ const stored={title,text,activeTextId:"one",aid:"B1",
     JSON.stringify({textStarts:Math.round(info.text.top),header:info.header.height,bar:Math.round(info.bar.height),reader:"20px / 1.8",controls:"working"}));
    await ctx.close();
   }
+  // Directly opening TFR, then switching to Classic, must discover Classic's
+  // initially-detached markup controls and restore them on desktop.
+  {
+   const context=await browser.newContext({viewport:{width:375,height:790},isMobile:false});
+   await context.addInitScript(x=>{
+    localStorage.setItem("langrad-theme","tfr");
+    localStorage.setItem("langrad-v01",JSON.stringify(x));
+   },stored);
+   const page=await context.newPage();
+   await page.goto(url,{waitUntil:"domcontentloaded"});
+   await page.waitForFunction(()=>!!window.langradMobileReader&&document.documentElement.dataset.mobileReaderReady==="true");
+   await page.evaluate(()=>{
+    const select=document.querySelector("#lr-theme-select");
+    select.value="classic";
+    select.dispatchEvent(new Event("change",{bubbles:true}));
+   });
+   await page.waitForFunction(()=>document.documentElement.dataset.theme==="classic"&&document.querySelector("#lr-mobile-reader-preferences #lr-classic-markup")&&document.querySelector("#lr-mobile-reader-preferences #lr-classic-legend-help"));
+   await page.setViewportSize({width:1080,height:780});
+   await page.waitForFunction(()=>!document.documentElement.dataset.mobileReaderReady);
+   assert.equal(await page.locator("#lr-classic-reader-tools #lr-classic-markup").count(),1);
+   assert.equal(await page.locator("#lr-classic-reader-tools #lr-classic-legend-help").count(),1);
+   console.log("PASS direct TFR startup → Classic phone settings → desktop restoration");
+   await context.close();
+  }
   // Ensure our stage does not mutate desktop layout even after viewport changes.
   const ctx=await browser.newContext({viewport:{width:375,height:790},isMobile:false});
   await ctx.addInitScript(x=>{localStorage.setItem("langrad-theme","classic");localStorage.setItem("langrad-v01",JSON.stringify(x))},stored);
