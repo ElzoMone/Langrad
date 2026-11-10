@@ -61,7 +61,7 @@ const stored={title,text,activeTextId:"one",aid:"B1",
    assert.equal(info.content,title,theme+": user title mutated");
    await page.locator("#lr-mobile-font-up").click();
    assert.equal(await page.locator("#reader").evaluate(el=>getComputedStyle(el).fontSize),"21px");
-   await page.locator("#lr-mobile-reader-settings summary").click();
+   await page.locator("#lr-mobile-reader-settings > summary").click();
    await page.locator("#lr-mobile-line-height").selectOption("2.05");
    assert.equal(await page.locator("#reader").evaluate(el=>getComputedStyle(el).lineHeight),"43.05px");
    assert.equal(await page.locator("#lr-mobile-reader-settings #aid").count(),1);
