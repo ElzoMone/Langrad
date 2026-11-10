@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">Langrad</title>
+  <desc id="desc">Белая раскрытая книга с бирюзовым знаком на тёмно-синем фоне</desc>
+  <rect width="512" height="512" rx="112" fill="#183447"/>
+  <rect x="49" y="49" width="414" height="414" rx="89" fill="none" stroke="#315467" stroke-width="10"/>
+  <path d="M256 166c-38-25-83-32-141-24-7 1-12 7-12 14v200c53-11 107-5 153 22V166Z" fill="#F1F7F8"/>
+  <path d="M256 166c38-25 83-32 141-24 7 1 12 7 12 14v200c-53-11-107-5-153 22V166Z" fill="#D4EAEC"/>
+  <path d="M256 171v204" stroke="#4B8495" stroke-width="13" stroke-linecap="round"/>
+  <path d="M126 183c37-4 68 1 99 15M126 224c37-3 68 2 99 15M126 265c37-2 68 3 99 15" stroke="#89AFB8" stroke-width="10" stroke-linecap="round" opacity=".7"/>
+  <path d="M287 201h92M287 243h92M287 285h70" stroke="#86AEB8" stroke-width="10" stroke-linecap="round" opacity=".85"/>
+  <rect x="229" y="99" width="54" height="101" rx="9" fill="#62C3C6"/>
+  <path d="m229 189 27-19 27 19" fill="#183447"/>
+  <path d="M114 391c53-9 106 2 142 25 36-23 89-34 142-25" stroke="#7AB1BE" stroke-width="12" stroke-linecap="round" fill="none"/>
+</svg>
