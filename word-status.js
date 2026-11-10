@@ -34,7 +34,7 @@ window.addEventListener("message",event=>{
  if(event.data?.type==="LR_VIDEO_WTY_REQUEST"){
   const word=String(event.data.word||"").trim();
   const id=String(event.data.id||"").slice(0,80);
-  if(!id||word.length>70||!/^[\\p{L}'’-]+$/u.test(word))return;
+  if(!id||word.length>70||!/^[\p{L}'’-]+$/u.test(word))return;
   const data=typeof window.langradVideoWTYLookup==="function"?window.langradVideoWTYLookup(word):null;
   window.postMessage({type:"LR_VIDEO_WTY_RESPONSE",id,data},location.origin);
   return;
