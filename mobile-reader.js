@@ -116,12 +116,15 @@ function apply(){
  if(isMobile()){
   if(!mounted){
    mounted=true;
-   navLine.append(pager,zoom);
+   move(pager,navLine);
+   navLine.append(zoom);
+   move(level,settings);
    settings.insertBefore(level,preferences);
-   extras.append(actions);
+   move(actions,extras);
   }else{
    // Classic refresh sometimes moves both level and pager on theme change.
    move(pager,navLine);move(level,settings);move(actions,extras);
+   settings.insertBefore(level,preferences);
   }
   if(isClassic()){
    move(classicMarkup,preferences);
