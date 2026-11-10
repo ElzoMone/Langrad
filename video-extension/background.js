@@ -159,7 +159,24 @@ async function frequency(word){
 chrome.runtime.onMessage.addListener((msg,sender,reply)=>{
  (async()=>{
   if(msg?.type==="LOOKUP"){
-   const result=await lookup(String(msg.word||""));
+   let result=await lookup(String(msg.word||""));
+   // If Langrad is open with the larger 102k-entry WTY dictionary installed,
+   // prefer its direct translation, while keeping morphology from our shards.
+   try{
+    const tabs=await chrome.tabs.query({url:BASE+"/*"});
+    for(const tab of tabs.slice(0,2)){
+     if(!tab.id)continue;
+     const response=await Promise.race([
+      chrome.tabs.sendMessage(tab.id,{type:"WTY_LOOKUP",word:String(msg.word||"")}),
+      new Promise(resolve=>setTimeout(()=>resolve(null),1300))
+     ]);
+     if(response?.ok&&response.data?.translation){
+      result={...result,...response.data,word:String(msg.word||""),
+       grammar:result?.grammar||"",forms:result?.forms||[],missing:false};
+      break;
+     }
+    }
+   }catch(_){/* no Langrad tab or WTY not installed: local shard lookup stays */}
    const rank=await frequency(String(msg.word||""));
    reply({ok:true,result,rank});return;
   }
