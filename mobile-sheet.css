@@ -1,0 +1,265 @@
+/* Langrad Mobile / Stage 3: the existing desktop word panel becomes a
+ * bottom sheet on phones. No duplicate translation UI or word handlers.
+ * Only <=790px. Desktop keeps its right column unchanged.
+ */
+#lr-mobile-sheet-backdrop,
+#lr-mobile-sheet-header {
+ display:none;
+}
+#lr-mobile-sheet-backdrop[hidden] {
+ display:none!important;
+}
+@media(max-width:790px){
+ html[data-theme] {
+  --lr-sheet-bg:#ffffff;
+  --lr-sheet-text:#263d4f;
+  --lr-sheet-muted:#687f90;
+  --lr-sheet-border:#cfdbe3;
+  --lr-sheet-accent:#416d8d;
+  --lr-sheet-highlight:#e9f2f7;
+  --lr-sheet-backdrop:rgba(18,31,44,.42);
+ }
+ html[data-theme="tfr"]{
+  --lr-sheet-bg:#20132d;
+  --lr-sheet-text:#f5e9fa;
+  --lr-sheet-muted:#c5a9d4;
+  --lr-sheet-border:#9957a0;
+  --lr-sheet-accent:#ef95e5;
+  --lr-sheet-highlight:#42244b;
+  --lr-sheet-backdrop:rgba(8,3,15,.73);
+ }
+ html[data-theme="loji"]{
+  --lr-sheet-bg:#180c12;
+  --lr-sheet-text:#f9e9e8;
+  --lr-sheet-muted:#cda6ac;
+  --lr-sheet-border:#9b4952;
+  --lr-sheet-accent:#f1878c;
+  --lr-sheet-highlight:#3e1a25;
+  --lr-sheet-backdrop:rgba(8,2,5,.74);
+ }
+ html[data-theme] body > .layout > aside.details{
+  display:none!important;
+ }
+ html[data-theme] body > #lr-mobile-word-sheet {
+  display:none!important;
+  position:fixed!important;
+  box-sizing:border-box!important;
+  inset:auto auto 0 50%!important;
+  bottom:0!important;
+  width:min(100vw,560px)!important;
+  max-width:100vw!important;
+  min-width:0!important;
+  height:min(73dvh,620px)!important;
+  max-height:calc(100dvh - 26px)!important;
+  min-height:220px!important;
+  margin:0!important;
+  padding:0!important;
+  border:1px solid var(--lr-sheet-border)!important;
+  border-bottom:0!important;
+  border-radius:17px 17px 0 0!important;
+  background:var(--lr-sheet-bg)!important;
+  background-image:none!important;
+  color:var(--lr-sheet-text)!important;
+  box-shadow:none!important;
+  text-shadow:none!important;
+  transform:translateX(-50%)!important;
+  z-index:4500!important;
+  overflow:hidden!important;
+  flex-direction:column!important;
+  align-items:stretch!important;
+  justify-content:stretch!important;
+  isolation:isolate!important;
+ }
+ html[data-theme][data-mobile-sheet-open="true"] body > #lr-mobile-word-sheet {
+  display:flex!important;
+  animation:lr-mobile-sheet-rise .18s ease-out both;
+ }
+ html[data-theme][data-mobile-sheet-open="true"] body {
+  overflow:hidden!important;
+ }
+ @keyframes lr-mobile-sheet-rise {
+  from{transform:translate(-50%,16px);opacity:.72}
+  to{transform:translate(-50%,0);opacity:1}
+ }
+ html[data-theme] #lr-mobile-sheet-backdrop{
+  display:none!important;
+  position:fixed!important;
+  inset:0!important;
+  width:100vw!important;
+  height:100dvh!important;
+  padding:0!important;
+  margin:0!important;
+  border:0!important;
+  background:var(--lr-sheet-backdrop)!important;
+  z-index:4400!important;
+  touch-action:none!important;
+ }
+ html[data-theme][data-mobile-sheet-open="true"] #lr-mobile-sheet-backdrop:not([hidden]){
+  display:block!important;
+ }
+ html[data-theme] #lr-mobile-sheet-header {
+  display:block!important;
+  flex:0 0 auto!important;
+  position:relative!important;
+  padding:10px 16px 9px!important;
+  margin:0!important;
+  background:var(--lr-sheet-bg)!important;
+  color:var(--lr-sheet-text)!important;
+  border:0!important;
+  border-bottom:1px solid var(--lr-sheet-border)!important;
+  touch-action:pan-y!important;
+  user-select:none;
+  -webkit-user-select:none;
+ }
+ html[data-theme] #lr-mobile-sheet-header .lr-mobile-sheet-handle {
+  display:block!important;
+  width:37px!important;
+  height:4px!important;
+  margin:0 auto 7px!important;
+  border-radius:8px!important;
+  background:var(--lr-sheet-border)!important;
+ }
+ html[data-theme] #lr-mobile-sheet-header .lr-mobile-sheet-heading {
+  display:flex!important;
+  align-items:center!important;
+  justify-content:space-between!important;
+  gap:12px!important;
+  min-height:35px!important;
+ }
+ html[data-theme] #lr-mobile-sheet-title {
+  flex:1 1 auto;
+  min-width:0;
+  margin:0!important;
+  color:var(--lr-sheet-text)!important;
+  font:650 clamp(18px,5vw,24px)/1.25 system-ui,-apple-system,"Segoe UI",sans-serif!important;
+  letter-spacing:0!important;
+  text-transform:none!important;
+  overflow-wrap:anywhere;
+  text-shadow:none!important;
+ }
+ html[data-theme] #lr-mobile-sheet-close{
+  display:grid!important;
+  place-items:center!important;
+  flex:0 0 38px!important;
+  width:38px!important;
+  height:38px!important;
+  min-width:38px!important;
+  min-height:38px!important;
+  padding:0!important;
+  margin:0!important;
+  background:var(--lr-sheet-highlight)!important;
+  border:1px solid var(--lr-sheet-border)!important;
+  border-radius:50%!important;
+  font:450 25px/1 system-ui,-apple-system,"Segoe UI",sans-serif!important;
+  color:var(--lr-sheet-text)!important;
+  cursor:pointer;
+  box-shadow:none!important;
+  text-shadow:none!important;
+ }
+ html[data-theme] #lr-mobile-sheet-close:focus-visible {
+  outline:2px solid var(--lr-sheet-accent)!important;
+  outline-offset:2px!important;
+ }
+ html[data-theme] body > #lr-mobile-word-sheet > .eyebrow {
+  display:none!important;
+ }
+ html[data-theme] body > #lr-mobile-word-sheet > #detail {
+  display:block!important;
+  flex:1 1 auto!important;
+  min-height:0!important;
+  max-height:none!important;
+  overflow-y:auto!important;
+  overflow-x:hidden!important;
+  overscroll-behavior:contain!important;
+  -webkit-overflow-scrolling:touch;
+  touch-action:pan-y;
+  padding:14px 17px calc(20px + env(safe-area-inset-bottom,0px))!important;
+  margin:0!important;
+  background:transparent!important;
+  border:0!important;
+  box-shadow:none!important;
+  color:var(--lr-sheet-text)!important;
+  overflow-wrap:anywhere;
+ }
+ html[data-theme] body > #lr-mobile-word-sheet #detail .term{
+  color:var(--lr-sheet-accent)!important;
+  line-height:1.3!important;
+  font-size:clamp(22px,6vw,29px)!important;
+  text-shadow:none!important;
+ }
+ html[data-theme] body > #lr-mobile-word-sheet #detail .translation{
+  color:var(--lr-sheet-text)!important;
+  font-size:clamp(17px,4.5vw,21px)!important;
+  line-height:1.5!important;
+  margin:10px 0!important;
+  text-shadow:none!important;
+ }
+ html[data-theme] body > #lr-mobile-word-sheet #detail .gram,
+ html[data-theme] body > #lr-mobile-word-sheet #detail #lr-wty-result,
+ html[data-theme] body > #lr-mobile-word-sheet #detail .lr-wordparts {
+  max-width:100%!important;
+  overflow-wrap:anywhere;
+ }
+ html[data-theme] body > #lr-mobile-word-sheet #detail .label,
+ html[data-theme] body > #lr-mobile-word-sheet #detail .tiny{
+  color:var(--lr-sheet-muted)!important;
+ }
+ html[data-theme] body > #lr-mobile-word-sheet #detail .row{
+  display:flex!important;
+  flex-wrap:wrap!important;
+  align-items:center!important;
+  gap:8px!important;
+  max-width:100%!important;
+ }
+ html[data-theme] body > #lr-mobile-word-sheet #detail .row .btn,
+ html[data-theme] body > #lr-mobile-word-sheet #detail #saveManual,
+ html[data-theme] body > #lr-mobile-word-sheet #detail #context {
+  min-height:42px!important;
+  padding:9px 11px!important;
+  font-size:13px!important;
+  line-height:1.35!important;
+  box-shadow:none!important;
+ }
+ html[data-theme] body > #lr-mobile-word-sheet #detail .input{
+  display:block;
+  box-sizing:border-box;
+  width:100%!important;
+  max-width:100%!important;
+  min-height:43px!important;
+  font-size:16px!important;
+  padding:9px!important;
+ }
+ html[data-theme] body > #lr-mobile-word-sheet #detail .tag{
+  max-width:100%!important;
+  white-space:normal!important;
+  overflow-wrap:anywhere;
+ }
+ html[data-theme] body > #lr-mobile-word-sheet #detail [hidden]{
+  display:none!important;
+ }
+ html[data-theme="classic"] body > #lr-mobile-word-sheet #detail .gram{
+  background:#f2f6f9!important;
+  color:#4d6475!important;
+  border:1px solid #d5e1e8!important;
+ }
+ html[data-theme="tfr"] body > #lr-mobile-word-sheet #detail .gram{
+  background:#2d1a3c!important;
+  border:1px solid #925497!important;
+  color:#eddcf6!important;
+ }
+ html[data-theme="loji"] body > #lr-mobile-word-sheet #detail .gram {
+  background:#301520!important;
+  border:1px solid #8d4650!important;
+  color:#f1dfe0!important;
+ }
+ @media(max-height:520px){
+  html[data-theme] body > #lr-mobile-word-sheet{
+   height:85dvh!important;
+  }
+ }
+}
+@media(prefers-reduced-motion:reduce){
+ html[data-theme][data-mobile-sheet-open="true"] body > #lr-mobile-word-sheet {
+  animation:none!important;
+ }
+}
