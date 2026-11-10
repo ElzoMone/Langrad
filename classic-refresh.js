@@ -66,7 +66,7 @@ window.addEventListener("storage",e=>{
 const legendExplanation=document.createElement("p");
 legendExplanation.className="lr-classic-legend-note";
 legendExplanation.textContent="Обозначения видны полностью в режиме «Все статусы». Режимы меняют только отображение — слова и прогресс остаются прежними.";
-help.append(legendExplanation);
+legend.prepend(legendExplanation);
 let installed=false;
 function apply(){
  const classic=root.dataset.theme==="classic";
