@@ -67,6 +67,7 @@ const stored={title,text,activeTextId:"one",aid:"B1",
    assert.equal(await page.locator("#lr-mobile-reader-settings #aid").count(),1);
    await page.locator("#lr-mobile-reader-settings #aid").selectOption("A2");
    assert.equal(await page.locator("#lr-mobile-reader-settings #aid").inputValue(),"A2");
+   await page.locator("#lr-mobile-reader-settings > summary").click();
    const before=await page.evaluate(()=>window.langradPager.pageNumber());
    await page.locator('#lr-mobile-navline #lr-page-nav-top button:last-child').click();
    const after=await page.evaluate(()=>window.langradPager.pageNumber());
