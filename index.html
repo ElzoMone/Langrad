@@ -603,11 +603,11 @@ $("example").onclick=()=>{if(confirm("Открыть пример? Словар�
 $("aid").onchange=e=>{state.aid=e.target.value;persist();renderReader()};
 $("speak").onclick=()=>{if(!("speechSynthesis" in window))return alert("В этом браузере озвучивание недоступно");speechSynthesis.cancel();const utter=new SpeechSynthesisUtterance(state.text);utter.lang="de-DE";utter.rate=.85;speechSynthesis.speak(utter)};
 function renderWords(){
-const q=normal($("wordSearch").value);const list=Object.entries(state.words).filter(([w,r])=>w.includes(q)).sort((a,b)=>b[1].stage-a[1].stage);
+const q=normal($("wordSearch").value);const list=Object.entries(state.words).filter(([w,r])=>(!r.aliasOf||!state.words[r.aliasOf])&&w.includes(q)).sort((a,b)=>b[1].stage-a[1].stage);
 $("wordList").innerHTML=list.length?list.map(([w,r])=>'<div class="table-entry"><div class="spread"><strong>'+escapeHtml(r.display)+'</strong><span class="tag">'+labelStage(r)+'</span></div><p style="margin:4px 0">'+escapeHtml(r.translation||lex[w]?.[1]||"Пока нет перевода")+'</p><div class="tiny">'+r.correct+' правильных · '+r.wrong+' ошибок</div></div>').join(""):'<div class="empty">Пока нет слов. Начни с читалки: нажми на слово и выбери «Учить».</div>'
 }
 $("wordSearch").oninput=renderWords;
-function candidates(){return Object.entries(state.words).filter(([w,r])=>r.stage>=1&&r.stage<4&&(r.next||0)<=Date.now()&&Boolean(r.translation||lex[w]?.[1])).map(([w])=>w)}
+function candidates(){return Object.entries(state.words).filter(([w,r])=>(!r.aliasOf||!state.words[r.aliasOf])&&r.stage>=1&&r.stage<4&&(r.next||0)<=Date.now()&&Boolean(r.translation||lex[w]?.[1])).map(([w])=>w)}
 let queue=[],index=0,answerLocked=false;
 function shuffle(a){const x=a.slice();for(let i=x.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[x[i],x[j]]=[x[j],x[i]]}return x}
 function quizHome(){$("quizCount").textContent=candidates().length+" слов к повторению";$("quizStep").textContent="";$("quiz").innerHTML='<div class="alert">Сначала добавь несколько слов через читалку. Для неизвестных слов можно указать собственный перевод.</div>';$("startQuiz").classList.remove("hidden");$("startQuiz").disabled=!candidates().length}
@@ -627,11 +627,11 @@ $("feedback").innerHTML='<p>'+(ok?"✓ Верно!":"✗ Правильный о
 })
 }
 function stats(){
-const a=Object.values(state.words);$("seenNumber").textContent=a.length;$("studyNumber").textContent=a.filter(r=>!isKnown(r)&&(r.stage===1||r.stage===2)).length;$("knownNumber").textContent=a.filter(isKnown).length;
+const a=Object.values(state.words).filter(r=>!r.aliasOf||!state.words[r.aliasOf]);$("seenNumber").textContent=a.length;$("studyNumber").textContent=a.filter(r=>!isKnown(r)&&(r.stage===1||r.stage===2)).length;$("knownNumber").textContent=a.filter(isKnown).length;
 const percent=state.results.total?Math.round(100*state.results.correct/state.results.total):0;$("accuracyFill").style.width=percent+"%";$("accuracy").textContent=percent+"% правильных ответов из "+state.results.total+" проверок."
 }
 function download(name,data,type){const blob=new Blob([data],{type}),url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)}
-$("exportCsv").onclick=()=>{const rows=[["word","lemma","translation","status","correct","errors"],...Object.entries(state.words).map(([w,r])=>[w,lex[w]?.[0]||"",r.translation||lex[w]?.[1]||"",labelStage(r),r.correct,r.wrong])];const csv=rows.map(row=>row.map(x=>'"'+String(x).replace(/"/g,'""')+'"').join(",")).join("\r\n");download("langrad-words.csv","\ufeff"+csv,"text/csv;charset=utf-8")};
+$("exportCsv").onclick=()=>{const rows=[["word","lemma","translation","status","correct","errors"],...Object.entries(state.words).filter(([w,r])=>!r.aliasOf||!state.words[r.aliasOf]).map(([w,r])=>[w,lex[w]?.[0]||"",r.translation||lex[w]?.[1]||"",labelStage(r),r.correct,r.wrong])];const csv=rows.map(row=>row.map(x=>'"'+String(x).replace(/"/g,'""')+'"').join(",")).join("\r\n");download("langrad-words.csv","\ufeff"+csv,"text/csv;charset=utf-8")};
 $("backup").onclick=()=>download("langrad-backup.json",JSON.stringify(state,null,2),"application/json");
 $("restore").onchange=async e=>{try{const obj=JSON.parse(await e.target.files[0].text());if(typeof obj.text!=="string"||typeof obj.title!=="string"||!obj.words||typeof obj.results?.total!=="number"||typeof obj.results?.correct!=="number")throw Error("format");if(!confirm("Заменить сохранённые данные?"))return;state=obj;persist();showTab("read");alert("Данные восстановлены")}catch(e){alert("Некорректный файл резервной копии")}};
 renderReader();persist();
@@ -1133,6 +1133,7 @@ function ensureCanonical(word,meta,beginStudy){
  }
  if(rawKey!==key){
   canonical.stage=Math.max(canonical.stage,old.stage);
+  canonical.reported=Boolean(canonical.reported||old.reported);
   canonical.correct=Math.max(canonical.correct,old.correct);
   canonical.wrong=Math.max(canonical.wrong,old.wrong);
   canonical.next=canonical.next||old.next||0;
@@ -1148,7 +1149,17 @@ function ensureCanonical(word,meta,beginStudy){
 }
 function migrateExistingNouns(){
  for(const [key,entry] of [...Object.entries(state.words)]){
-  if(entry.aliasOf)continue;
+  if(entry.aliasOf){
+   const target=state.words[entry.aliasOf];
+   if(target){
+    target.reported=Boolean(target.reported||entry.reported);
+    target.stage=Math.max(target.stage||0,entry.stage||0);
+    target.correct=Math.max(target.correct||0,entry.correct||0);
+    target.wrong=Math.max(target.wrong||0,entry.wrong||0);
+    if(!target.translation&&entry.translation)target.translation=entry.translation;
+   }
+   continue;
+  }
   const meta=canonicalNoun(entry.display||key);
   if(meta&&(entry.stage>=1||entry.translation))ensureCanonical(entry.display||key,meta,false);
  }
