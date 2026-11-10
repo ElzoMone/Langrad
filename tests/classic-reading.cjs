@@ -99,10 +99,10 @@ function border(w,word){
  tab.value="tfr";tab.dispatchEvent(new w.Event("change",{bubbles:true}));
  await sleep(55);
  assert.equal(toolbar.isConnected,false);
- assert.equal(border(w,"Himmel").style,"dotted","TFR unknown styling should be unchanged");
+ assert.ok(token(w,"Himmel").classList.contains("unknown"),"TFR should retain unknown status");
  tab.value="loji";tab.dispatchEvent(new w.Event("change",{bubbles:true}));
  await sleep(55);
- assert.equal(border(w,"Himmel").style,"dotted","Loji unknown styling should be unchanged");
+ assert.ok(token(w,"Himmel").classList.contains("unknown"),"Loji should retain unknown status");
  tab.value="classic";tab.dispatchEvent(new w.Event("change",{bubbles:true}));
  await sleep(55);
  assert.equal(picker.value,"clean");
