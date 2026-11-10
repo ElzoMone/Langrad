@@ -116,7 +116,7 @@ function start(theme="classic"){
   assert.equal(settings.querySelectorAll("#lr-theme-select").length,1);
   assert.equal(settings.querySelectorAll("#lr-ai-key").length,1);
   assert.equal(settings.querySelectorAll("#lr-wty-install").length,1);
-  const originalBackup=$("backup"),originalWty=$("lr-wty-settings"),originalAi=$("lr-ai-settings");
+  const originalBackup=$("#backup"),originalWty=$("#lr-wty-settings"),originalAi=$("#lr-ai-settings");
   assert.equal(originalWty.closest("details").open,false);
   originalWty.closest("details").open=true;
   assert.equal($("#lr-wty-install").isConnected,true);
@@ -132,9 +132,9 @@ function start(theme="classic"){
   t.mq.matches=true;t.notify();w.langradMobileSections.apply();
   assert.equal($("#lr-wty-settings").closest("details").className,"lr-mobile-settings-group");
   assert.equal($("#lr-mobile-library-search").isConnected,true);
-  assert.equal(originalBackup,$("backup"));
-  assert.equal(originalWty,$("lr-wty-settings"));
-  assert.equal(originalAi,$("lr-ai-settings"));
+  assert.equal(originalBackup,$("#backup"));
+  assert.equal(originalWty,$("#lr-wty-settings"));
+  assert.equal(originalAi,$("#lr-ai-settings"));
   assert.equal($("#docTitle").textContent,"Geschichte · Berlin"); // opened book
   const data=JSON.parse(w.localStorage.getItem("langrad-v01"));
   assert.equal(data.library.length,3);
