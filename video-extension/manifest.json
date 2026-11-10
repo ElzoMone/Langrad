@@ -1,0 +1,46 @@
+{
+  "manifest_version": 3,
+  "name": "Langrad Video",
+  "short_name": "Langrad Video",
+  "version": "0.5.0",
+  "description": "Немецкие субтитры YouTube: перевод, грамматика и статусы слов Langrad.",
+  "permissions": [
+    "storage",
+    "tabs"
+  ],
+  "host_permissions": [
+    "https://langrad.vercel.app/*",
+    "https://ru.wiktionary.org/*",
+    "https://raw.githubusercontent.com/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://www.youtube.com/*"
+      ],
+      "js": [
+        "content-youtube.js"
+      ],
+      "css": [
+        "video.css"
+      ],
+      "run_at": "document_idle"
+    },
+    {
+      "matches": [
+        "https://langrad.vercel.app/*"
+      ],
+      "js": [
+        "content-langrad.js"
+      ],
+      "run_at": "document_idle"
+    }
+  ],
+  "action": {
+    "default_title": "Langrad Video",
+    "default_popup": "popup.html"
+  }
+}
