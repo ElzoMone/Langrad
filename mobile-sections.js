@@ -110,7 +110,8 @@ updateWordCount();
 // Existing dynamically created settings blocks get native collapsible sections
 // on phones. Preserve the actual node + event handlers and reverse on desktop.
 const blocks=[
- ["lr-theme-settings","Тема оформления",true],
+ ["lr-pwa-settings","Установка и офлайн-режим",true],
+ ["lr-theme-settings","Тема оформления",false],
  ["lr-ai-settings","Нейросеть и адаптация",false],
  ["lr-wty-settings","Расширенный словарь WTY",false],
  ["lr-video-settings","Видео и субтитры",false],
