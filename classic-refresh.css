@@ -485,3 +485,97 @@ html[data-theme="classic"] .layout>.details .tag{
  }
  html[data-theme="classic"] #read #reader{font-size:20px!important;line-height:1.75!important}
 }
+
+/* Classic / stage 2. Calm default, optional study-only, clean and full states.
+ * Only modifies presentation: tokens keep click handlers and existing classes.
+ */
+html[data-theme="classic"] #lr-classic-markup {
+ display:inline-flex;
+ flex:0 0 auto;
+ align-items:center;
+ gap:7px;
+ min-height:29px;
+ color:#617588;
+ font:550 11px/1.3 Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+ white-space:nowrap;
+}
+html[data-theme="classic"] #lr-classic-markup select {
+ appearance:auto;
+ background:#fff!important;
+ color:#304c62!important;
+ border:1px solid #cbd8e0!important;
+ border-radius:4px!important;
+ height:29px;
+ max-width:180px;
+ min-width:128px;
+ padding:4px 5px!important;
+ font:550 12px/1.3 Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif!important;
+ cursor:pointer;
+}
+html[data-theme="classic"] #lr-classic-markup select:focus-visible {
+ outline:2px solid #467a9e!important;
+ outline-offset:2px;
+}
+html[data-theme="classic"] #lr-classic-legend-help #lr-word-legend .lr-classic-legend-note {
+ flex:1 0 100%;
+ margin:0;
+ font:450 12px/1.45 Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif!important;
+ color:#587185!important;
+}
+/* Most of the text should look like a book: never mark an uninspected
+ * token as unknown.  Unknown marks appear only on interaction by default. */
+html[data-theme="classic"]:not([data-classic-markup="all"]) #read #reader .token:not(.sel) {
+ border-bottom:1px solid transparent!important;
+ background:transparent!important;
+ text-decoration:none!important;
+}
+/* In the balanced/default view mark study words and quietly hint at known ones. */
+html[data-theme="classic"][data-classic-markup="calm"] #read #reader .token.learning:not(.sel) {
+ border-bottom:1.5px dashed #6990a8!important;
+}
+html[data-theme="classic"][data-classic-markup="calm"] #read #reader .token.known:not(.sel) {
+ border-bottom:1px solid #a5c2c0!important;
+}
+/* Focus only on the active study register. */
+html[data-theme="classic"][data-classic-markup="study"] #read #reader .token.learning:not(.sel) {
+ border-bottom:2px dashed #618ca8!important;
+}
+/* Clean mode: no persistent status borders, including the selected token.
+ * Selection is still indicated by its contrasting accessible background. */
+html[data-theme="classic"][data-classic-markup="clean"] #read #reader .token {
+ border-bottom:1px solid transparent!important;
+ text-decoration:none!important;
+}
+/* Other people cannot guess a word's status when not hovering: give any
+ * word a slight cool background on hover, rather than dozens of dotted lines. */
+html[data-theme="classic"]:not([data-classic-markup="all"]) #read #reader .token:not(.sel):hover {
+ background:#e9f0f6!important;
+ border-radius:3px;
+ outline:0!important;
+}
+html[data-theme="classic"] #read #reader .token:focus-visible {
+ outline:2px solid #577c99!important;
+ outline-offset:2px!important;
+ background:#e9f1f8!important;
+ border-radius:3px!important;
+}
+html[data-theme="classic"] #read #reader .token.sel {
+ color:#18354a!important;
+ background:#dbe9f3!important;
+ border-bottom:1px solid #84a8bf!important;
+ outline:1px solid #7598b4!important;
+ outline-offset:1px!important;
+ border-radius:3px!important;
+}
+html[data-theme="classic"][data-classic-markup="clean"] #read #reader .token.sel {
+ border-bottom:1px solid transparent!important;
+}
+/* Keep the compact control usable on laptop and phone screens. */
+@media(max-width:1110px) {
+ html[data-theme="classic"] #lr-classic-markup {margin-left:0}
+ html[data-theme="classic"] #lr-classic-markup select {min-width:128px!important}
+}
+@media(max-width:600px){
+ html[data-theme="classic"] #lr-classic-markup {flex:1 0 auto}
+ html[data-theme="classic"] #lr-classic-markup select{flex:1 1 auto;min-width:115px!important}
+}
