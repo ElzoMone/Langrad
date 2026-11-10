@@ -29,6 +29,44 @@ toggle.setAttribute("aria-label","Обозначения слов");
 toggle.textContent="?";
 help.append(toggle);
 tools.append(level,page,help);
+// Markup is a display preference, NOT a learning status. Never modify state.words.
+const markupKey="langrad-classic-markup";
+const allowed=new Set(["calm","study","clean","all"]);
+function loadMarkup(){
+ try{const value=localStorage.getItem(markupKey);return allowed.has(value)?value:"calm"}catch(_){return "calm"}
+}
+const markupControl=document.createElement("label");
+markupControl.id="lr-classic-markup";
+markupControl.title="Оформление слов. Не изменяет словарь или прогресс.";
+const markupText=document.createElement("span");
+markupText.textContent="Слова";
+const markupSelect=document.createElement("select");
+markupSelect.id="lr-classic-markup-select";
+markupSelect.setAttribute("aria-label","Разметка слов");
+for(const [value,label] of [
+ ["calm","Сдержанно"],["study","Только изучаемые"],
+ ["clean","Чистый текст"],["all","Все статусы"]
+]){
+ const option=document.createElement("option");
+ option.value=value;option.textContent=label;markupSelect.append(option);
+}
+function setMarkup(value,save){
+ const mode=allowed.has(value)?value:"calm";
+ root.dataset.classicMarkup=mode;
+ markupSelect.value=mode;
+ if(save)try{localStorage.setItem(markupKey,mode)}catch(_){}
+}
+setMarkup(loadMarkup(),false);
+markupControl.append(markupText,markupSelect);
+tools.insertBefore(markupControl,help);
+markupSelect.addEventListener("change",()=>setMarkup(markupSelect.value,true));
+window.addEventListener("storage",e=>{
+ if(e.key===markupKey)setMarkup(loadMarkup(),false);
+});
+const legendExplanation=document.createElement("p");
+legendExplanation.className="lr-classic-legend-note";
+legendExplanation.textContent="Обозначения видны полностью в режиме «Все статусы». Режимы меняют только отображение — слова и прогресс остаются прежними.";
+help.append(legendExplanation);
 let installed=false;
 function apply(){
  const classic=root.dataset.theme==="classic";
