@@ -1,0 +1,90 @@
+/* Langrad PWA settings: understated in Classic, theme-aware elsewhere. */
+#lr-pwa-settings{
+ box-sizing:border-box;
+ max-width:100%;
+ margin:17px 0;
+ padding:16px;
+ border:1px solid var(--line,#d8e2e9);
+ border-radius:8px;
+ background:var(--panel,#fff);
+ color:var(--txt,#2b4054);
+ box-shadow:none;
+ overflow-wrap:anywhere;
+}
+#lr-pwa-settings .lr-pwa-status{
+ margin:12px 0 8px;
+ padding:9px 11px;
+ border:1px solid var(--line,#d8e2e9);
+ border-radius:6px;
+ background:var(--bg,#f5f8fa);
+ color:var(--txt,#2b4054);
+ font:550 13px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+#lr-pwa-settings .lr-pwa-actions{
+ display:flex;
+ flex-wrap:wrap;
+ align-items:center;
+ gap:9px;
+}
+#lr-pwa-settings .lr-pwa-actions .btn{
+ min-height:42px;
+ box-sizing:border-box;
+ white-space:normal;
+ text-align:center;
+}
+#lr-pwa-settings #lr-pwa-install[hidden]{display:none!important}
+#lr-pwa-settings p{
+ margin:9px 0;
+ line-height:1.55;
+ font-size:13px;
+}
+#lr-pwa-settings .lr-pwa-note{opacity:.82}
+html[data-theme="classic"] #lr-pwa-settings{
+ background:#f5f8fa!important;
+ border-color:#d8e4e9!important;
+ color:#294459!important;
+}
+html[data-theme="classic"] #lr-pwa-settings .lr-pwa-status{
+ background:#fff!important;
+ border-color:#d1e0e8!important;
+ color:#34586d!important;
+}
+html[data-theme="tfr"] #lr-pwa-settings{
+ background:#1a1027!important;
+ border-color:#86518e!important;
+ color:#f1e6fa!important;
+}
+html[data-theme="tfr"] #lr-pwa-settings .lr-pwa-status{
+ background:#2c1938!important;
+ border-color:#8c5592!important;
+ color:#efdbf5!important;
+}
+html[data-theme="loji"] #lr-pwa-settings{
+ background:#1a0c12!important;
+ border-color:#944750!important;
+ color:#f6e5e6!important;
+}
+html[data-theme="loji"] #lr-pwa-settings .lr-pwa-status{
+ background:#2c111b!important;
+ border-color:#914954!important;
+ color:#f6e1e1!important;
+}
+@media(max-width:790px){
+ html[data-theme] #settings .lr-mobile-settings-group[data-section="lr-pwa-settings"] .lr-pwa-actions{
+  display:flex!important;
+  flex-direction:column;
+  gap:9px!important;
+  width:100%;
+ }
+ html[data-theme] #settings .lr-mobile-settings-group[data-section="lr-pwa-settings"] .lr-pwa-actions .btn{
+  display:block!important;
+  flex:1 1 auto!important;
+  width:100%!important;
+  min-height:44px!important;
+  font:600 13px/1.3 system-ui,-apple-system,"Segoe UI",sans-serif!important;
+ }
+ html[data-theme] #settings .lr-mobile-settings-group[data-section="lr-pwa-settings"] .lr-pwa-status{
+  font-size:13px!important;
+  line-height:1.5!important;
+ }
+}
