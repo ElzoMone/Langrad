@@ -37,6 +37,8 @@ function apply(){
    const titleRow=docTitle.closest(".spread");
    if(titleRow)titleRow.after(tools);
    else read.insertBefore(tools,document.getElementById("reader"));
+   tools.insertBefore(level,help);
+   tools.insertBefore(page,help);
    help.append(legend);
    installed=true;
   }
