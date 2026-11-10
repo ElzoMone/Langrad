@@ -134,11 +134,13 @@ function apply(){
    restore(classicLegend);
   }
   shell.hidden=false;
+  root.dataset.mobileReaderReady="true";
   syncPage();
  }else if(mounted){
   for(const node of [...moving].reverse())restore(node);
   mounted=false;
   shell.hidden=true;
+  delete root.dataset.mobileReaderReady;
   settings.open=false;extras.open=false;
  }
 }
