@@ -2270,6 +2270,21 @@ function getEntry(word){
  }
  return row&&row[0]==="d"?{entry:row,lemma:key,redirect:false}:null;
 }
+// Expose only dictionary results for the companion video extension.
+// This never exposes the installed full WTY database or the Gemini API key.
+window.langradVideoWTYLookup=function(word){
+ const found=getEntry(word);
+ if(!found||found.entry?.[0]!=="d")return null;
+ const row=found.entry,glosses=Array.isArray(row[1])?row[1].filter(x=>typeof x==="string"):[];
+ if(!glosses.length)return null;
+ const gender=String(row[3]||"");
+ const article={m:"der",f:"die",n:"das"}[gender]||"";
+ const name=String(found.lemma||word);
+ return {lemma:article?article+" "+name:name,
+  translation:glosses.slice(0,7).join("; "),
+  part:String(row[2]||""),
+  source:"WTY / Wiktionary",license:"CC BY-SA 4.0"};
+};
 function displayWord(word){
  const pane=$("detail");if(!pane||activeWord!==word)return;
  pane.querySelector("#lr-wty-result")?.remove();
