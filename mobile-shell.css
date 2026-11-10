@@ -106,8 +106,9 @@
     gap:0!important;
     grid-row:auto!important;
     grid-column:auto!important;
-    width:auto!important;
-    max-width:none!important;
+    width:100vw!important;
+    max-width:100vw!important;
+    right:auto!important;
     box-sizing:border-box!important;
     height:calc(68px + env(safe-area-inset-bottom,0px))!important;
     min-height:0!important;
