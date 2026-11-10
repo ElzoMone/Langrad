@@ -94,7 +94,7 @@ const gesture=(w,element,start,end)=>{
   // Reopen and navigate elsewhere: no stale overlay should remain.
   token(w,"Der").click();
   assert.equal(sheet.isOpen(),true);
-  const tab=$('header nav [data-tab="words"]');tab.click();
+  let tab=$('header nav [data-tab="words"]');tab.click();
   assert.equal(sheet.isOpen(),false);
   assert.equal($("#lr-mobile-sheet-backdrop").hidden,true);
   tab=$('header nav [data-tab="read"]');tab.click();
