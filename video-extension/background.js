@@ -175,6 +175,19 @@ chrome.runtime.onMessage.addListener((msg,sender,reply)=>{
    else for(const tab of tabs)if(tab.id)chrome.tabs.sendMessage(tab.id,{type:"SYNC_NOW"}).catch(()=>{});
    reply({ok:true});return;
   }
+  if(msg?.type==="TRANSLATE_LINE"){
+   const sentence=String(msg.text||"").trim().slice(0,450);
+   if(!sentence){reply({ok:false,error:"Пустая строка"});return}
+   const {russianSubtitles}=await chrome.storage.local.get("russianSubtitles");
+   if(!russianSubtitles)throw Error("Russian subtitle translation is not enabled");
+   const params=new URLSearchParams({q:sentence,langpair:"de|ru"});
+   const res=await fetch("https://api.mymemory.translated.net/get?"+params);
+   if(!res.ok)throw Error("MyMemory HTTP "+res.status);
+   const response=await res.json();
+   const text=String(response?.responseData?.translatedText||"").slice(0,900);
+   if(!text)throw Error("MyMemory translation not available");
+   reply({ok:true,text,source:"MyMemory"});return;
+  }
   if(msg?.type==="GET_SETTINGS"){
    reply({ok:true,data:await chrome.storage.local.get(["wordStatuses","langradTheme","videoQueue","videoSpeed","russianSubtitles"])});return;
   }
