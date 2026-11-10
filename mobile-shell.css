@@ -124,11 +124,11 @@
     isolation:isolate;
     -webkit-tap-highlight-color:transparent;
   }
-  /* Loji decorates every .panel with corner pseudo-elements, including
-     the nav. Its bottom-right corner extended beyond the viewport by 1px,
-     making mobile browsers zoom the whole page. Exclude only this tabbar. */
-  html[data-theme="loji"] body > header > nav.topnav::before,
-  html[data-theme="loji"] body > header > nav.topnav::after {
+  /* Loji's desktop panel corner decorations extend a pixel past some
+     mobile layout boundaries. Suppress them in the small-screen shell;
+     the red palette and animated portrait remain unchanged. */
+  html[data-theme="loji"] body .panel::before,
+  html[data-theme="loji"] body .panel::after {
     content:none!important;
     display:none!important;
   }
