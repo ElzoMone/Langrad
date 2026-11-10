@@ -31,6 +31,14 @@ if(reader&&!document.getElementById("lr-word-legend")){
 // This is a same-origin, explicit opt-in browser-extension bridge.
 window.addEventListener("message",event=>{
  if(event.source!==window||event.origin!==location.origin)return;
+ if(event.data?.type==="LR_VIDEO_WTY_REQUEST"){
+  const word=String(event.data.word||"").trim();
+  const id=String(event.data.id||"").slice(0,80);
+  if(!id||word.length>70||!/^[\\p{L}'’-]+$/u.test(word))return;
+  const data=typeof window.langradVideoWTYLookup==="function"?window.langradVideoWTYLookup(word):null;
+  window.postMessage({type:"LR_VIDEO_WTY_RESPONSE",id,data},location.origin);
+  return;
+ }
  if(event.data?.type!=="LR_VIDEO_STATUS_REQUEST")return;
  const vocabulary=Object.entries(state.words||{}).slice(0,12000).map(([key,r])=>({
   word:String(key).slice(0,70),
