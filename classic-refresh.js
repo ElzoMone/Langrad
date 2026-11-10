@@ -28,7 +28,7 @@ toggle.title="Обозначения слов в тексте";
 toggle.setAttribute("aria-label","Обозначения слов");
 toggle.textContent="?";
 help.append(toggle);
-tools.append(level,page,help);
+tools.append(help);
 // Markup is a display preference, NOT a learning status. Never modify state.words.
 const markupKey="langrad-classic-markup";
 const allowed=new Set(["calm","study","clean","all"]);
