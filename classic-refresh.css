@@ -536,6 +536,16 @@ html[data-theme="classic"][data-classic-markup="calm"] #read #reader .token.lear
 html[data-theme="classic"][data-classic-markup="calm"] #read #reader .token.known:not(.sel) {
  border-bottom:1px solid #a5c2c0!important;
 }
+/* Full view: restore all four statuses with explicit cool-toned strokes. */
+html[data-theme="classic"][data-classic-markup="all"] #read #reader .token.unknown:not(.sel) {
+ border-bottom:1px dotted #a37d87!important;
+}
+html[data-theme="classic"][data-classic-markup="all"] #read #reader .token.learning:not(.sel) {
+ border-bottom:2px dashed #b1844f!important;
+}
+html[data-theme="classic"][data-classic-markup="all"] #read #reader .token.known:not(.sel) {
+ border-bottom:1px solid #528c7c!important;
+}
 /* Focus only on the active study register. */
 html[data-theme="classic"][data-classic-markup="study"] #read #reader .token.learning:not(.sel) {
  border-bottom:2px dashed #618ca8!important;
