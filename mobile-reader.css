@@ -1,0 +1,386 @@
+/* Langrad / Mobile Reader stage 2.
+   PHONE ONLY: real CEFR, adaptation and paging controls move into
+   this compact surface. No changes to German text, word storage or TFR/Loji
+   desktop. */
+html:not([data-mobile-reader-ready="true"]) #lr-mobile-reader-controls {
+ display:none!important;
+}
+@media (min-width:791px) {
+ #lr-mobile-reader-controls{display:none!important}
+ #lr-mobile-pages{display:none!important}
+}
+@media (max-width:790px) {
+ html[data-theme] {
+  --lr-reader-ui-bg:var(--panel,#fff);
+  --lr-reader-ui-border:var(--line,#d8e0e7);
+  --lr-reader-ui-ink:var(--txt,#2b4054);
+  --lr-reader-ui-muted:var(--muted,#677c8e);
+  --lr-reader-ui-active:var(--lr-mobile-active,#426984);
+ }
+ html[data-theme="classic"]{
+  --lr-reader-ui-bg:#f4f8fa;
+  --lr-reader-ui-border:#d5e2e9;
+  --lr-reader-ui-ink:#284457;
+  --lr-reader-ui-muted:#60798a;
+  --lr-reader-ui-active:#3a6786;
+ }
+ html[data-theme="tfr"]{
+  --lr-reader-ui-bg:#1a1028;
+  --lr-reader-ui-border:#8c4e95;
+  --lr-reader-ui-ink:#f6e6fa;
+  --lr-reader-ui-muted:#d4b9e0;
+  --lr-reader-ui-active:#f09ce3;
+ }
+ html[data-theme="loji"]{
+  --lr-reader-ui-bg:#1a0e14;
+  --lr-reader-ui-border:#8b454e;
+  --lr-reader-ui-ink:#f9e9e7;
+  --lr-reader-ui-muted:#d0a3ac;
+  --lr-reader-ui-active:#e98790;
+ }
+ html[data-theme] #read > .spread:first-child {
+  display:none!important;
+ }
+ html[data-theme] #read > p:first-of-type,
+ html[data-theme] #read > hr.sep{
+  display:none!important;
+ }
+ html[data-theme] #read > .spread:has(#docTitle) {
+  margin:0 0 7px!important;
+  padding:0!important;
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:7px;
+ }
+ html[data-theme] #read #docTitle {
+  font:650 clamp(16px,4.4vw,20px)/1.32 system-ui,-apple-system,"Segoe UI",sans-serif!important;
+  letter-spacing:0!important;
+  max-width:100%;
+  min-width:0;
+  margin:0!important;
+  overflow-wrap:anywhere;
+  color:var(--lr-reader-ui-ink)!important;
+ }
+ html[data-theme] #read > .spread:has(#docTitle) .levelbox {
+  display:none!important;
+ }
+ html[data-theme] #read #lr-classic-reader-tools {
+  display:none!important;
+ }
+ html[data-theme] #lr-mobile-reader-controls{
+  display:block!important;
+  margin:7px 0 9px!important;
+  padding:7px!important;
+  width:100%!important;
+  max-width:100%!important;
+  min-width:0!important;
+  background:var(--lr-reader-ui-bg)!important;
+  border:1px solid var(--lr-reader-ui-border)!important;
+  color:var(--lr-reader-ui-ink)!important;
+  border-radius:6px!important;
+  box-shadow:none!important;
+  text-shadow:none!important;
+ }
+ html[data-theme] #lr-mobile-navline {
+  display:flex;
+  align-items:center;
+  gap:5px;
+  flex-wrap:wrap;
+  width:100%;
+  min-width:0;
+ }
+ html[data-theme] #lr-mobile-navline #lr-page-nav-top {
+  display:flex!important;
+  flex:1 1 178px;
+  align-items:center;
+  justify-content:space-between;
+  flex-wrap:nowrap!important;
+  gap:3px!important;
+  min-width:0!important;
+  width:auto!important;
+  max-width:100%!important;
+  min-height:0!important;
+  margin:0!important;
+  padding:0!important;
+  background:transparent!important;
+  border:0!important;
+  box-shadow:none!important;
+  border-radius:0!important;
+ }
+ html[data-theme] #lr-mobile-navline #lr-page-nav-top[hidden]{
+  display:none!important;
+ }
+ html[data-theme] #lr-mobile-navline #lr-page-nav-top > .lr-page-select,
+ html[data-theme] #lr-mobile-navline #lr-page-nav-top > .lr-page-label{
+  display:none!important;
+ }
+ html[data-theme] #lr-mobile-pages{
+  order:0;
+  display:inline-block!important;
+  flex:1 1 auto;
+  min-width:58px;
+  white-space:nowrap;
+  text-align:center;
+  color:var(--lr-reader-ui-ink)!important;
+  font:650 12px/1.35 system-ui,-apple-system,"Segoe UI",sans-serif!important;
+ }
+ html[data-theme] #lr-mobile-navline #lr-page-nav-top > button{
+  display:inline-flex!important;
+  flex:0 0 auto!important;
+  align-items:center!important;
+  justify-content:center!important;
+  width:auto!important;
+  min-width:48px!important;
+  min-height:36px!important;
+  padding:7px 6px!important;
+  border:1px solid var(--lr-reader-ui-border)!important;
+  background:transparent!important;
+  color:var(--lr-reader-ui-ink)!important;
+  border-radius:5px!important;
+  font:600 10px/1.2 system-ui,-apple-system,"Segoe UI",sans-serif!important;
+  box-shadow:none!important;
+ }
+ html[data-theme] #lr-mobile-navline #lr-page-nav-top > button:disabled {
+  opacity:.35!important;
+ }
+ html[data-theme] #lr-mobile-textsize{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  flex:0 0 auto;
+  gap:0;
+  border:1px solid var(--lr-reader-ui-border);
+  border-radius:5px;
+  color:var(--lr-reader-ui-ink);
+  background:transparent;
+  min-width:106px;
+ }
+ html[data-theme] #lr-mobile-textsize > button{
+  display:grid!important;
+  place-items:center;
+  padding:0 6px!important;
+  min-width:33px!important;
+  height:36px!important;
+  min-height:36px!important;
+  border:0!important;
+  border-radius:3px!important;
+  background:transparent!important;
+  box-shadow:none!important;
+  font:650 13px system-ui,-apple-system,"Segoe UI",sans-serif!important;
+  color:var(--lr-reader-ui-ink)!important;
+ }
+ html[data-theme] #lr-mobile-textsize > button:disabled{
+  opacity:.35!important;
+ }
+ html[data-theme] #lr-mobile-font-value{
+  color:var(--lr-reader-ui-muted)!important;
+  min-width:37px;
+  text-align:center;
+  font:550 10px/1.2 system-ui,-apple-system,"Segoe UI",sans-serif!important;
+ }
+ html[data-theme] #lr-mobile-reader-settings,
+ html[data-theme] #lr-mobile-reader-actions{
+  display:inline-block;
+  position:relative;
+  vertical-align:top;
+  min-width:0;
+  max-width:100%;
+  margin:7px 7px 0 0;
+  border:0;
+  background:none;
+  color:var(--lr-reader-ui-ink);
+  box-shadow:none;
+ }
+ html[data-theme] #lr-mobile-reader-settings > summary,
+ html[data-theme] #lr-mobile-reader-actions > summary{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:36px;
+  padding:7px 9px;
+  cursor:pointer;
+  list-style:none;
+  background:transparent;
+  border:1px solid var(--lr-reader-ui-border);
+  border-radius:5px;
+  color:var(--lr-reader-ui-ink);
+  font:550 12px/1.2 system-ui,-apple-system,"Segoe UI",sans-serif;
+ }
+ html[data-theme] #lr-mobile-reader-settings > summary::-webkit-details-marker,
+ html[data-theme] #lr-mobile-reader-actions > summary::-webkit-details-marker{display:none}
+ html[data-theme] #lr-mobile-reader-settings > summary::after,
+ html[data-theme] #lr-mobile-reader-actions > summary::after{
+  content:"⌄";
+  font-size:14px;
+  margin-left:6px;
+  color:var(--lr-reader-ui-muted);
+ }
+ html[data-theme] #lr-mobile-reader-settings[open],
+ html[data-theme] #lr-mobile-reader-actions[open]{
+  display:block;
+  width:100%;
+  margin:7px 0 0;
+  padding:0;
+  border:0;
+ }
+ html[data-theme] #lr-mobile-reader-settings[open] > summary,
+ html[data-theme] #lr-mobile-reader-actions[open] > summary {
+  color:var(--lr-reader-ui-active);
+  border-color:var(--lr-reader-ui-active);
+ }
+ html[data-theme] #lr-mobile-reader-settings #lr-level-panel,
+ html[data-theme] #lr-mobile-reader-actions > .row{
+  display:flex!important;
+  flex-direction:column;
+  flex-wrap:wrap;
+  align-items:flex-start;
+  gap:9px!important;
+  margin:7px 0 0!important;
+  padding:10px 8px!important;
+  min-width:0!important;
+  width:100%!important;
+  border:1px solid var(--lr-reader-ui-border)!important;
+  border-radius:5px!important;
+  background:var(--lr-reader-ui-bg)!important;
+  box-shadow:none!important;
+  color:var(--lr-reader-ui-ink)!important;
+ }
+ html[data-theme] #lr-mobile-reader-settings #lr-level-panel .lr-level-row{
+  display:flex!important;
+  flex-wrap:wrap!important;
+  gap:5px!important;
+  align-items:center!important;
+  width:100%;
+  margin:0!important;
+ }
+ html[data-theme] #lr-mobile-reader-settings #lr-level-panel .lr-level-row > strong{
+  display:none!important;
+ }
+ html[data-theme] #lr-mobile-reader-settings #lr-level-panel .lr-cefr-in-adaptation{
+  display:inline-flex!important;
+  align-items:center!important;
+  flex-wrap:wrap!important;
+  gap:6px!important;
+  border:0!important;
+  padding:0!important;
+  margin:0!important;
+  font-size:12px!important;
+ }
+ html[data-theme] #lr-mobile-reader-settings #lr-level-choice{
+  display:none!important;
+ }
+ html[data-theme] #lr-mobile-reader-settings #aid{
+  display:inline-block!important;
+  min-width:65px;
+  height:36px;
+  font:550 14px system-ui,-apple-system,"Segoe UI",sans-serif!important;
+ }
+ html[data-theme] #lr-mobile-reader-settings #lr-level-panel button{
+  min-height:36px!important;
+  font:550 12px system-ui,-apple-system,"Segoe UI",sans-serif!important;
+  padding:8px 9px!important;
+ }
+ html[data-theme] #lr-mobile-reader-settings #lr-level-hint{
+  display:block!important;
+  margin:0!important;
+  font-size:12px!important;
+  line-height:1.45!important;
+  color:var(--lr-reader-ui-muted)!important;
+  max-width:100%;
+  overflow-wrap:anywhere;
+ }
+ html[data-theme] #lr-mobile-reader-preferences{
+  display:flex;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:7px 9px;
+  padding:10px 8px;
+  margin-top:7px;
+  border:1px solid var(--lr-reader-ui-border);
+  border-radius:5px;
+  color:var(--lr-reader-ui-ink);
+ }
+ html[data-theme] #lr-mobile-reader-preferences > label{
+  font:550 12px/1.3 system-ui,-apple-system,"Segoe UI",sans-serif!important;
+ }
+ html[data-theme] #lr-mobile-line-height{
+  min-width:116px;
+  min-height:36px;
+  font-size:12px!important;
+  padding:7px!important;
+ }
+ html[data-theme] #lr-mobile-reader-preferences > #lr-classic-markup{
+  display:flex!important;
+  flex:1 1 100%!important;
+  margin:0!important;
+  color:var(--lr-reader-ui-muted)!important;
+ }
+ html[data-theme] #lr-mobile-reader-preferences > #lr-classic-legend-help{
+  display:inline-block!important;
+  margin:0;
+ }
+ html[data-theme] #lr-mobile-reader-preferences .lr-mobile-gesture-hint{
+  flex:1 0 100%;
+  margin:2px 0 0;
+  font:400 11px/1.45 system-ui,-apple-system,"Segoe UI",sans-serif!important;
+  color:var(--lr-reader-ui-muted)!important;
+ }
+ html[data-theme] #lr-mobile-reader-actions > .row{
+  flex-direction:row;
+  align-items:center;
+ }
+ html[data-theme] #lr-mobile-reader-actions > .row > button{
+  min-height:40px;
+ }
+ /* Reading, not infrastructure, dominates the phone's vertical space. */
+ html[data-theme] #read #reader {
+  width:100%!important;
+  max-width:100%!important;
+  min-height:0!important;
+  margin:3px 0 13px!important;
+  padding:6px 1px 10px!important;
+  font-size:var(--lr-mobile-reader-size,20px)!important;
+  line-height:var(--lr-mobile-reader-leading,1.8)!important;
+  font-family:Georgia,"Times New Roman",serif!important;
+  letter-spacing:0!important;
+  overflow-wrap:anywhere;
+  word-break:normal;
+  hyphens:manual;
+  touch-action:pan-y;
+  -webkit-user-select:text;
+  user-select:text;
+ }
+ html[data-theme] #read #reader .token {
+  padding:4px 2px!important;
+  cursor:pointer;
+  touch-action:manipulation;
+  -webkit-tap-highlight-color:transparent;
+ }
+ html[data-theme] #read #reader .token:focus-visible{
+  outline-offset:2px!important;
+  border-radius:3px;
+ }
+ html[data-theme] #read #lr-page-nav-bottom{
+  margin:10px 0 0!important;
+  padding:7px!important;
+  gap:5px!important;
+ }
+ html[data-theme] #read #lr-page-nav-bottom button{
+  min-width:66px!important;
+  min-height:40px!important;
+  padding:8px!important;
+ }
+ html[data-theme] #read #lr-page-nav-bottom .lr-page-label{
+  flex-basis:100%;
+  order:-1;
+  font-size:12px!important;
+ }
+ html[data-theme] #lr-mobile-reader-controls[hidden]{display:none!important}
+}
+@media(max-width:360px){
+ html[data-theme] #lr-mobile-navline #lr-page-nav-top{
+  flex-basis:100%!important;
+ }
+ html[data-theme] #lr-mobile-textsize{margin-left:0}
+}
