@@ -131,6 +131,7 @@ const stored={title,text,aid:"B1",activeTextId:"book",library:[{id:"book",title,
   await ctx.setOffline(false);
   const themes={classic:"#f4f8fa",tfr:"#171022",loji:"#10080c"};
   await page.locator('header nav [data-tab="settings"]').click();
+  await page.locator('#settings .lr-mobile-settings-group[data-section="lr-theme-settings"] > summary').click();
   for(const [theme,color] of Object.entries(themes)){
    await page.locator("#lr-theme-select").selectOption(theme);
    assert.equal(await page.locator('meta[name="theme-color"]').getAttribute("content"),color);
