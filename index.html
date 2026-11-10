@@ -2509,7 +2509,8 @@ if(settings&&!document.getElementById("lr-video-settings")){
  box.innerHTML='<div class="eyebrow">Видео и субтитры</div><h2>Langrad Video · YouTube</h2>'+
  '<p>В Chrome можно установить отдельное расширение Langrad Video. Оно делает включённые субтитры YouTube кликабельными, показывает перевод слов и частотность, позволяет менять скорость, повторять фрагменты и добавлять слова в изучение.</p>'+
  '<p class="tiny"><strong>Синхронизация:</strong> нажми «Учить» в видео, затем открой Langrad в том же профиле Chrome. Добавленные слова появятся в словаре автоматически. Видеофайлы, аудио и субтитры не загружаются на наш сервер. Для русского перевода строк используется внешний сервис только после включения RU.</p>'+
- '<p class="tiny">Расширение доступно отдельным ZIP-архивом в чате разработки. YouTube должен показывать субтитры CC; Netflix пока не поддерживается.</p>';
+ '<p><a class="btn primary" href="/langrad-video-0.5.0.zip" download>↓ Скачать Langrad Video 0.5</a> <a href="https://github.com/ElzoMone/Langrad/tree/main/video-extension" target="_blank" rel="noopener noreferrer">Код и инструкция ↗</a></p>'+ 
+ '<p class="tiny">Распакуй ZIP, затем chrome://extensions → Режим разработчика → Загрузить распакованное расширение. Старую Langrad Video 0.4 отключи, иначе субтитры будут дублироваться. Включи немецкие CC на YouTube. Слова используют FreeDict/WikDict, Wiktionary/Kaikki и доступный большой словарь WTY. Netflix пока не поддерживается.</p>';
  const target=document.getElementById("lr-import-anywhere")||document.getElementById("lr-project-brief");
  if(target)settings.insertBefore(box,target);else settings.append(box);
 }
