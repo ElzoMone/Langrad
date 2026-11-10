@@ -23,6 +23,9 @@ block.innerHTML=[
 const settingsTheme=document.getElementById("lr-theme-settings");
 if(settingsTheme)settingsTheme.before(block);
 else settings.append(block);
+// The PWA section is injected after mobile-sections.js has initialized.
+// Re-apply the existing settings wrapper to this new live control.
+window.langradMobileSections?.apply?.();
 const status=block.querySelector("#lr-pwa-status");
 const install=block.querySelector("#lr-pwa-install");
 const help=block.querySelector("#lr-pwa-help");
