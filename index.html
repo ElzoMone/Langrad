@@ -1177,8 +1177,9 @@ renderReader=function(){
   const meta=canonicalNoun(token.textContent);
   if(!meta)continue;
   const r=state.words[lemmaKey(meta)];
-  if(!r||r.stage<1)continue;
-  token.classList.remove("new","learning","known");token.classList.add(r.stage>=3?"known":"learning");
+  if(!r||(!r.reported&&r.stage<1))continue;
+  token.classList.remove("neutral","new","unknown","learning","known");
+  token.classList.add(wordStatus(r));
  }
 };
 const oldExport=find("exportCsv").onclick;
@@ -1337,15 +1338,15 @@ renderReader=function(){
  let learned=0;
  for(const w of all){
   const s=findStudied(w);
-  if(s&&s.stage>=3)learned++;
+  if(isKnown(s))learned++;
  }
  const score=document.getElementById("score");
- if(score)score.textContent=learned+" из "+all.length+" знакомых";
+ if(score)score.textContent=learned+" из "+all.length+" известных слов";
  for(const token of document.querySelectorAll("#reader .token")){
   const rec=findStudied(normal(token.textContent));
-  if(!rec||rec.stage<1)continue;
-  token.classList.remove("known","learning","new");
-  token.classList.add(rec.stage>=3?"known":"learning");
+  if(!rec||(!rec.reported&&rec.stage<1))continue;
+  token.classList.remove("neutral","unknown","known","learning","new");
+  token.classList.add(wordStatus(rec));
  }
 };
 const prevSelect=selectWord;
