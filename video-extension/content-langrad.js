@@ -32,7 +32,20 @@ window.addEventListener("message",async event=>{
   await chrome.storage.local.set({wordStatuses:map,langradTheme:String(event.data.theme||"classic")});
  }
 });
-chrome.runtime.onMessage.addListener(msg=>{if(msg?.type==="SYNC_NOW")sendQueue()});
+chrome.runtime.onMessage.addListener((msg,_sender,reply)=>{
+ if(msg?.type==="SYNC_NOW"){sendQueue();return}
+ if(msg?.type!=="WTY_LOOKUP")return;
+ const id="wty-"+Date.now()+"-"+Math.random().toString(36).slice(2);
+ const timeout=setTimeout(()=>{window.removeEventListener("message",receive);reply({ok:false})},1000);
+ function receive(event){
+  if(event.source!==window||event.origin!==location.origin||event.data?.type!=="LR_VIDEO_WTY_RESPONSE"||event.data.id!==id)return;
+  clearTimeout(timeout);window.removeEventListener("message",receive);
+  reply({ok:!!event.data.data,data:event.data.data||null});
+ }
+ window.addEventListener("message",receive);
+ window.postMessage({type:"LR_VIDEO_WTY_REQUEST",id,word:String(msg.word||"").slice(0,70)},location.origin);
+ return true;
+});
 chrome.storage.onChanged.addListener((changes,area)=>{if(area==="local"&&changes.videoQueue)sendQueue()});
 window.addEventListener("focus",()=>{sendQueue();askStatuses()});
 window.addEventListener("pageshow",()=>{sendQueue();askStatuses()});
