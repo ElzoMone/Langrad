@@ -1,0 +1,149 @@
+/* Classic / phase 3 — factual, calm word details and dictionary sources.
+ * Never changes stored translations; other themes keep original layout.
+ */
+html:not([data-theme="classic"]) #lr-classic-app-info{display:none!important}
+html[data-theme="classic"] #lr-classic-app-info {
+ margin:22px 0 12px;
+ padding:17px 18px;
+ background:#f5f8fa;
+ border:1px solid #d7e2e9;
+ border-radius:6px;
+ color:#334a5d;
+}
+html[data-theme="classic"] #lr-classic-app-info h2 {
+ margin:0 0 10px;
+ font:650 18px/1.35 Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif!important;
+ color:#2e4a60!important;
+}
+html[data-theme="classic"] #lr-classic-app-info .lr-classic-source-caption {
+ font-size:13px;
+ line-height:1.5;
+ color:#425f75!important;
+ margin:6px 0;
+}
+html[data-theme="classic"] #lr-classic-app-info .lr-classic-source-note {
+ font-size:12px;
+ line-height:1.55;
+ color:#617789!important;
+ margin:7px 0;
+ max-width:72ch;
+}
+html[data-theme="classic"] #lr-classic-app-info .pills {
+ display:flex!important;
+ flex-wrap:wrap;
+ justify-content:flex-start!important;
+ align-items:center;
+ margin:8px 0 10px!important;
+ gap:5px 7px!important;
+}
+html[data-theme="classic"] #lr-classic-app-info .pill {
+ border:1px solid #d0dde5!important;
+ background:#fff!important;
+ color:#415d72!important;
+ box-shadow:none!important;
+ border-radius:4px!important;
+ padding:5px 8px!important;
+ font:500 12px/1.35 Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif!important;
+}
+html[data-theme="classic"] #detail [hidden],
+html[data-theme="classic"] #lr-classic-app-info [hidden]{
+ display:none!important;
+}
+html[data-theme="classic"] .layout>.details {
+ color:#32475a!important;
+}
+html[data-theme="classic"] .layout>.details .sep {
+ margin:12px 0!important;
+ border-color:#dfe6eb!important;
+}
+html[data-theme="classic"] #detail .term {
+ color:#203f56!important;
+ line-height:1.24!important;
+}
+html[data-theme="classic"] #detail .translation {
+ color:#273e50!important;
+ margin:14px 0!important;
+ font-size:17px!important;
+ line-height:1.5!important;
+}
+html[data-theme="classic"] #detail .gram{
+ background:#f4f7f9!important;
+ border:1px solid #dbe4eb!important;
+ color:#4b6071!important;
+ box-shadow:none!important;
+ padding:11px 12px!important;
+ line-height:1.55!important;
+ border-radius:5px!important;
+}
+html[data-theme="classic"] #detail .label {
+ font:600 12px/1.5 Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif!important;
+ text-transform:none!important;
+ letter-spacing:0!important;
+ color:#667d8e!important;
+}
+html[data-theme="classic"] #detail .lr-wordparts {
+ margin:13px 0!important;
+ border-color:#dae4ea!important;
+}
+html[data-theme="classic"] #detail .lr-wordparts .lr-nounhint {
+ background:#edf3f7!important;
+ color:#49697c!important;
+ border:1px solid #d4e1e8!important;
+ border-radius:5px!important;
+}
+html[data-theme="classic"] #detail .lr-partnote {
+ color:#647d8d!important;
+}
+html[data-theme="classic"] #detail .lr-classic-manual-toggle {
+ display:inline-flex!important;
+ margin:7px 0 5px!important;
+ font-size:12px!important;
+ background:#f5f8fa!important;
+ border:1px solid #cbdbe5!important;
+ color:#365e79!important;
+ box-shadow:none!important;
+}
+html[data-theme="classic"] #detail .lr-classic-manual-toggle:hover {
+ background:#e9f1f6!important;
+}
+html[data-theme="classic"] #detail.lr-classic-translation-found:not(.lr-classic-manual-open) label[for="manual"],
+html[data-theme="classic"] #detail.lr-classic-translation-found:not(.lr-classic-manual-open) #manual,
+html[data-theme="classic"] #detail.lr-classic-translation-found:not(.lr-classic-manual-open) #saveManual {
+ display:none!important;
+}
+html[data-theme="classic"] #detail #manual{
+ background:#fff!important;
+ border:1px solid #d0dbe3!important;
+ color:#32495d!important;
+ box-shadow:none!important;
+}
+html[data-theme="classic"] #detail #lr-wty-result,
+html[data-theme="classic"] #detail #lr-dict-sources,
+html[data-theme="classic"] #detail .lr-offline-panel{
+ background:#f5f8fa!important;
+ border:1px solid #dce5eb!important;
+ border-radius:5px!important;
+ color:#344f63!important;
+ box-shadow:none!important;
+}
+html[data-theme="classic"] #detail #lr-wty-result .lr-wty-translations{
+ color:#30495b!important;
+}
+html[data-theme="classic"] #detail #lr-wty-result .lr-wty-grammar,
+html[data-theme="classic"] #detail #lr-wty-result .lr-wty-attribution,
+html[data-theme="classic"] #detail #lr-dict-sources .lr-source-note{
+ color:#647a8c!important;
+}
+html[data-theme="classic"] #lr-wty-settings{
+ background:#f5f8fa!important;
+ border:1px solid #dbe4eb!important;
+ color:#324c5e!important;
+ border-radius:6px!important;
+}
+html[data-theme="classic"] #lr-wty-settings .lr-wty-status {
+ color:#546d80!important;
+}
+@media(max-width:680px){
+ html[data-theme="classic"] #lr-classic-app-info{padding:13px 12px}
+ html[data-theme="classic"] #lr-classic-app-info .pills{gap:6px}
+}
