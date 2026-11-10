@@ -1,0 +1,19 @@
+<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><style>
+body{width:300px;margin:0;background:#110b12;color:#f5e1e2;font:14px/1.5 system-ui}
+header{padding:15px 17px;border-bottom:1px solid #8b444d;font:700 16px monospace;color:#ff8a8e}
+main{padding:15px 17px}p{margin:4px 0 12px;color:#d8bbc1}
+button,a{border:1px solid #a5525c;background:#3a1b27;color:#fff0ee;border-radius:5px;padding:7px 9px;cursor:pointer;font-weight:650}
+a{display:inline-block;text-decoration:none}
+.row{display:flex;gap:7px;flex-wrap:wrap;align-items:center;margin:13px 0}
+label{display:flex;gap:8px;align-items:center}
+small{display:block;color:#b7929d;margin-top:12px}
+#status{font-size:12px;color:#f5abb0}
+</style></head><body><header>LANGRAD / VIDEO · 0.5</header><main>
+<p>Немецкие субтитры YouTube: нажми на слово для перевода, грамматики и записи в словарь.</p>
+<div class="row"><button id="slow">− 0.25×</button><button id="replay">↶ 4 секунды</button><button id="fast">+ 0.25×</button></div>
+<label><input type="checkbox" id="ru"> Переводить всю строку на русский</label>
+<small>При включении RU текст субтитров отправляется MyMemory. Без включения используется только словарь слов.</small>
+<div class="row"><a href="https://langrad.vercel.app/" target="_blank" rel="noopener">Открыть Langrad</a></div>
+<p id="status">Загружаю настройки…</p>
+<small>Источники: Wiktionary/Kaikki (CC BY-SA 4.0), FreeDict/WikDict (CC BY-SA 3.0). Данные не генерируются ИИ.</small>
+</main><script src="popup.js"></script></body></html>
