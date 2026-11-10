@@ -50,9 +50,13 @@ const OPTIONAL=[
  "/dict/manifest.json"
 ];
 const SHELL_PATHS=new Set([...CORE,...OPTIONAL,"/index.html"]);
-const isDictionary=(path)=>
- /^\/(?:dict|forms)\/[a-z0-9_-]+\.json$/i.test(path)
- && !path.includes("..");
+const isDictionary=(path)=>{
+ // German shard names may contain umlauts/ß (percent-encoded in URLs).
+ // Accept only a single safe JSON basename inside these public directories.
+ try {
+  return /^\/(?:dict|forms)\/[\p{L}\p{N}_-]+\.json$/u.test(decodeURIComponent(path));
+ }catch(_){return false}
+};
 const isCacheable=(response)=>response&&response.ok&&response.type!=="opaque";
 async function save(cacheName,key,response){
  if(!isCacheable(response))return;
