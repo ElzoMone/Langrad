@@ -38,6 +38,6 @@ window.addEventListener("message",event=>{
   reported:!!r.reported,
   translation:typeof r.translation==="string"?r.translation.slice(0,220):""
  }));
- window.postMessage({type:"LR_VIDEO_STATUS",words:vocabulary},location.origin);
+ window.postMessage({type:"LR_VIDEO_STATUS",words:vocabulary,theme:document.documentElement.dataset.theme||"classic"},location.origin);
 });
 })();
