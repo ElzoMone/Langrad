@@ -113,12 +113,11 @@ function touch(w,id,coords){
  assert.equal(stored.words.himmel.translation,"небо");
  assert.deepEqual(ctx.errs,[]);
  console.log("PASS desktop restoration and all user data preserved");
- w.close();
 
  const reload=create({size:21,leading:2.05});await sleep(180);
  assert.equal(reload.w.langradMobileReader.getPreferences().size,21);
  assert.equal(reload.w.langradMobileReader.getPreferences().leading,2.05);
  assert.deepEqual(reload.errs,[]);
- reload.w.close();
  console.log("PASS reader preferences restored after reload");
+ process.exit(0);
 })().catch(error=>{console.error("FAIL",error.stack);process.exit(1)});
