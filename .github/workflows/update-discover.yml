@@ -8,6 +8,7 @@ on:
     paths:
       - ".github/workflows/update-discover.yml"
       - "scripts/update_discover.py"
+      - "scripts/discover_reading.json"
 permissions:
   contents: write
 concurrency:

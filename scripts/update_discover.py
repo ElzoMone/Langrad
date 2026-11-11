@@ -1,12 +1,17 @@
-"""Collect CC BY-SA introductions from German Wikipedia for Langrad."""
+"""Refresh the German reading catalog for Langrad Discover."""
 import json
 import re
+from hashlib import sha256
+from xml.etree import ElementTree
 from datetime import datetime, timezone
 from pathlib import Path
 from urllib.parse import urlencode
+from urllib.error import URLError
 from urllib.request import Request, urlopen
 
 FEED = Path(__file__).resolve().parents[1] / "public" / "discover.json"
+READING = Path(__file__).with_name("discover_reading.json")
+NEWS_RSS = "https://netzpolitik.org/feed/"
 API = "https://de.wikipedia.org/w/api.php"
 USER_AGENT = "LangradDiscover/1.0 (https://github.com/ElzoMone/Langrad)"
 TOPICS = {
@@ -59,26 +64,77 @@ def fetch_pages():
     return data["query"]["pages"]
 
 
+def wikipedia(date):
+    for page in fetch_pages():
+        entry = article(page, date)
+        if entry:
+            yield entry
+
+
+def journalism(date):
+    req = Request(NEWS_RSS, headers={"User-Agent": USER_AGENT})
+    with urlopen(req, timeout=20) as response:
+        feed = ElementTree.fromstring(response.read(5_000_000))
+    for item in feed.findall("./channel/item"):
+        url = item.findtext("link", "").strip()
+        title = item.findtext("title", "").strip()
+        tags = {tag.text.lower() for tag in item.findall("category") if tag.text}
+        if not title or not re.fullmatch(r"https://netzpolitik\.org/\d{4}/[^/?#]+/?", url):
+            continue
+        if tags & {"english", "in english", "english version", "englisch"}:
+            continue
+        yield {
+            "id": "netzpolitik-" + sha256(url.rstrip("/").encode()).hexdigest()[:24],
+            "category": "journalism",
+            "title": title,
+            "author": item.findtext("{http://purl.org/dc/elements/1.1/}creator", ""),
+            "source": "netzpolitik.org",
+            "sourceURL": url,
+            "topic": "Общество и технологии",
+            "text": "",
+            "words": 0,
+            "added": date,
+        }
+
+
+def merge(new, old, limit):
+    entries = {entry["id"]: entry for entry in new}
+    for entry in old:
+        entries.setdefault(entry["id"], entry)
+    return list(entries.values())[:limit]
+
+
 def main():
+    import argparse
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--offline", action="store_true", help="Load reviewed reading texts without fetching feeds")
+    args = parser.parse_args()
     old = json.loads(FEED.read_text(encoding="utf-8"))["articles"] if FEED.exists() else []
-    known = {entry["id"] for entry in old}
     date = datetime.now(timezone.utc).date().isoformat()
-    new = []
-    for _ in range(3):
-        for page in fetch_pages():
-            entry = article(page, date)
-            if entry and entry["id"] not in known:
-                new.append(entry)
-                known.add(entry["id"])
-        if len(new) >= 12:
-            break
-    if not new:
-        print("No new eligible articles")
-        return
-    feed = {"articles": (new[:12] + old)[:120]}
-    FEED.parent.mkdir(parents=True, exist_ok=True)
-    FEED.write_text(json.dumps(feed, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-    print(f"Added {min(len(new), 12)} articles")
+    curated = json.loads(READING.read_text(encoding="utf-8"))
+    for entry in curated:
+        entry["words"] = len(re.findall(r"[^\W\d_]+(?:[-’'][^\W\d_]+)*", entry["text"]))
+    entries = list(curated)
+    errors = 0
+    for name, predicate, collect, limit in (
+        ("netzpolitik.org", lambda entry: entry.get("category") == "journalism", journalism, 48),
+        ("German Wikipedia", lambda entry: entry["id"].startswith("dewiki-"), wikipedia, 120),
+    ):
+        previous = [entry for entry in old if predicate(entry)]
+        try:
+            new = [] if args.offline else list(collect(date))[:12]
+        except (URLError, TimeoutError, ValueError, RuntimeError, KeyError, ElementTree.ParseError) as exc:
+            errors += 1
+            print(f"{name}: {exc}")
+            new = []
+        entries.extend(merge(new, previous, limit))
+    if entries != old:
+        FEED.parent.mkdir(parents=True, exist_ok=True)
+        FEED.write_text(json.dumps({"articles": entries}, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    print(f"Catalog has {len(entries)} entries")
+    if errors == 2:
+        raise SystemExit("Both feeds unavailable")
 
 
 if __name__ == "__main__":

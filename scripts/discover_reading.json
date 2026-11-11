@@ -1,0 +1,79 @@
+[
+  {
+    "id": "kafka-ausflug-ins-gebirge",
+    "category": "classic",
+    "title": "Der Ausflug ins Gebirge",
+    "author": "Franz Kafka",
+    "topic": "Рассказы",
+    "level": "B2",
+    "source": "Wikisource",
+    "sourceURL": "https://de.wikisource.org/w/index.php?title=Der_Ausflug_ins_Gebirge&oldid=2911859",
+    "license": "Общественное достояние",
+    "text": "„Ich weiß nicht“, rief ich ohne Klang „ich weiß ja nicht. Wenn niemand kommt, dann kommt eben niemand. Ich habe niemandem etwas Böses getan, niemand hat mir etwas Böses getan, niemand aber will mir helfen. Lauter niemand. Aber so ist es doch nicht. Nur daß mir niemand hilft —, sonst wäre lauter niemand hübsch. Ich würde ganz gern — warum denn nicht — einen Ausflug mit einer Gesellschaft von lauter Niemand machen.\n\nNatürlich ins Gebirge, wohin denn sonst? Wie sich diese Niemand aneinander drängen, diese vielen quer gestreckten und eingehängten Arme, diese vielen Füße, durch winzige Schritte getrennt! Versteht sich, daß alle in Frack sind. Wir gehen so lala, der Wind fährt durch die Lücken, die wir und unsere Gliedmaßen offen lassen. Die Hälse werden im Gebirge frei! Es ist ein Wunder, daß wir nicht singen.“"
+  },
+  {
+    "id": "hebel-kannitverstan",
+    "category": "classic",
+    "title": "Kannitverstan",
+    "author": "Johann Peter Hebel",
+    "topic": "Рассказы",
+    "level": "C1",
+    "source": "Wikisource",
+    "sourceURL": "https://de.wikisource.org/wiki/Kannitverstan",
+    "license": "Общественное достояние",
+    "note": "Начало рассказа",
+    "text": "Der Mensch hat wohl täglich Gelegenheit, in Emmendingen und Gundelfingen, so gut als in Amsterdam Betrachtungen über den Unbestand aller irdischen Dinge anzustellen, wenn er will, und zufrieden zu werden mit seinem Schicksal, wenn auch nicht viel gebratene Tauben für ihn in der Luft herum fliegen. Aber auf dem seltsamsten Umweg kam ein deutscher Handwerksbursche in Amsterdam durch den Irrthum zur Wahrheit und zu ihrer Erkenntniß."
+  },
+  {
+    "id": "storm-haewelmann",
+    "category": "classic",
+    "title": "Der kleine Häwelmann",
+    "author": "Theodor Storm",
+    "topic": "Сказки",
+    "level": "B2",
+    "source": "Wikisource",
+    "sourceURL": "https://de.wikisource.org/wiki/Der_kleine_H%C3%A4welmann",
+    "license": "Общественное достояние",
+    "note": "Фрагмент сказки",
+    "text": "Da lag der kleine Häwelmann mit offenen Augen in seinem Rollenbett, und hielt das eine Beinchen wie einen Mastbaum in die Höhe; sein kleines Hemd hatte er ausgezogen und hing es wie ein Segel an seiner kleinen Zehe auf; dann nahm er ein Hemdzipfelchen in jede Hand und fing mit beiden Backen an zu blasen; und allmählich leise, leise fing es an zu rollen, über den Fußboden, dann die Wand hinauf, dann kopfüber die Decke entlang und dann die andere Wand wieder hinunter."
+  },
+  {
+    "id": "schmitz-fuchs-und-trauben",
+    "category": "literature",
+    "title": "Der Fuchs und die Trauben",
+    "author": "Hermann Harry Schmitz",
+    "topic": "Басни",
+    "level": "B2",
+    "source": "Wikisource",
+    "sourceURL": "https://de.wikisource.org/wiki/Drei_Fabeln_ohne_Moral",
+    "license": "Общественное достояние",
+    "note": "Из сборника Drei Fabeln ohne Moral",
+    "text": "„Na, ich konnte mir auch denken, daß die Trauben noch nicht reif waren,“ sagte der Fuchs und stellte den Stuhl, auf welchen er gestiegen war, um die Trauben zu kosten, wieder an seinen Platz.\n\nEr streckte sich behaglich am Fuße des Weinstockes aus und ließ sich die Sonne auf den Pelz brennen.\n\nVon ongefähr kam der Rabe geflogen. Der Rabe war ein Witzbold, ein wenig Satiriker; die Tiere meinten, er sei boshaft. Er selbst hielt sich für einen Lebens-Künstler; er war stets im evening dress.\n\n„Hallo, wie schaut’s, alter Freund,“ – Leute, die man nicht mag, nennt man gern alter Freund – rief er dem Fuchs zu.\n\n„N Tag,“ erwiderte lässig der Fuchs.\n\n„Ah so, Traubenkur, was?“\n\n„Zu sauer,“ gähnte der Fuchs faul.\n\n„Verstehe, verstehe,“ kicherte hämisch der Rabe, flog an den Weinstock und pickte eine dicke Beere ab.\n\n„Pfui Teufel!“ Wütend spuckte er aus und flog beschämt davon.\n\nDer Fuchs feixte befriedigt."
+  },
+  {
+    "id": "langrad-ausflug-ins-gebirge-a1",
+    "category": "adapted",
+    "title": "Mit Niemand in die Berge",
+    "author": "Langrad, по Францу Кафке",
+    "topic": "Рассказы",
+    "level": "A1",
+    "source": "Оригинал на Wikisource",
+    "sourceURL": "https://de.wikisource.org/w/index.php?title=Der_Ausflug_ins_Gebirge&oldid=2911859",
+    "license": "Пересказ Langrad",
+    "note": "Адаптация",
+    "text": "Ich warte, aber niemand kommt. Niemand hilft mir. Da habe ich eine Idee. Ich gehe mit Niemand in die Berge.\n\nJetzt gehen wir zusammen. Wir haben viele Arme und viele Füße. Wir gehen langsam. Der Wind ist kalt, aber hier oben kann ich gut atmen. Warum singen wir nicht?"
+  },
+  {
+    "id": "langrad-kannitverstan-a2",
+    "category": "adapted",
+    "title": "Ein Mann namens Kannitverstan",
+    "author": "Langrad, по Иоганну Петеру Хебелю",
+    "topic": "Рассказы",
+    "level": "A2",
+    "source": "Оригинал на Wikisource",
+    "sourceURL": "https://de.wikisource.org/wiki/Kannitverstan",
+    "license": "Пересказ Langrad",
+    "note": "Адаптация",
+    "text": "Ein junger Mann aus Deutschland besucht Amsterdam. Dort sieht er ein großes Haus mit vielen Blumen. Er fragt einen Mann auf der Straße: „Wem gehört das Haus?“ Der Mann versteht kein Deutsch. Er antwortet auf Niederländisch: „Kannitverstan.“ Das heißt: „Ich verstehe Sie nicht.“ Der Besucher denkt aber, dass Kannitverstan ein Name ist.\n\nAm Hafen sieht er ein Schiff voller Waren. Er fragt wieder: „Wem gehört das Schiff?“ Wieder hört er: „Kannitverstan.“ Was für ein reicher Mann, denkt er.\n\nSpäter sieht er eine Beerdigung. „Wer ist gestorben?“, fragt er. Ein drittes Mal hört er dasselbe Wort. Nun denkt er: Auch ein Mann mit einem großen Haus und einem Schiff kann am Ende nichts mitnehmen."
+  }
+]

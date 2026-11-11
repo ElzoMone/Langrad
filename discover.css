@@ -17,7 +17,7 @@
   overflow-wrap: anywhere;
 }
 
-.lr-discover-card h2 {
+.lr-discover-card h3 {
   margin-block: 0 4px;
   font-size: 1.2rem;
 }
@@ -31,10 +31,24 @@
   text-decoration: underline;
 }
 
-#discover-more {
+.lr-discover-group > button {
   margin-top: 16px;
 }
 
 #discover button[hidden] {
   display: none !important;
+}
+
+
+.lr-discover-group {
+  border: 1px solid color-mix(in srgb, currentColor 25%, transparent);
+  border-radius: 12px;
+  padding: 16px;
+  margin-block: 16px;
+}
+
+.lr-discover-group > h2 {
+  margin: 0;
+  padding-bottom: 10px;
+  border-bottom: 1px solid color-mix(in srgb, currentColor 25%, transparent);
 }

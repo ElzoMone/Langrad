@@ -392,7 +392,7 @@ html[data-theme="tfr"] .foot{color:#a66eaf!important;font-family:"VT323",monospa
   <div class="lr-discover-filters">
     <label>Тема <select id="discover-topic" class="input"><option value="">Все темы</option></select></label>
     <label>Примерный уровень <select id="discover-level" class="input">
-      <option value="">Все уровни</option><option>B1</option><option>B2</option><option>C1</option>
+      <option value="">Все уровни</option><option>A1</option><option>A2</option><option>B1</option><option>B2</option><option>C1</option>
     </select></label>
     <label>Длина <select id="discover-length" class="input">
       <option value="">Любая</option><option value="short">До 150 слов</option><option value="long">От 151 слова</option>
@@ -401,7 +401,6 @@ html[data-theme="tfr"] .foot{color:#a66eaf!important;font-family:"VT323",monospa
   <p id="discover-status" role="status"></p>
   <button id="discover-retry" type="button" class="btn" hidden>Повторить загрузку</button>
   <div id="discover-list"></div>
-  <button id="discover-more" type="button" class="btn" hidden>Показать ещё</button>
 </section>
 <section id="read">
 <div class="spread"><div><div class="eyebrow">Чтение с пониманием</div><h1>Читалка</h1></div><span id="score" class="pill">—</span></div>
@@ -1996,12 +1995,19 @@ function updateSource(){
  const url=sourceURL(item?.sourceURL);if(!url)return;
  const a=document.createElement("a");a.href=url;a.textContent="Источник: "+(item.sourceTitle||new URL(url).hostname);a.target="_blank";a.rel="noopener noreferrer";credit.append(a);
  if(item.discoverId){
-  const license=document.createElement("a");
-  license.href="https://creativecommons.org/licenses/by-sa/4.0/";
-  license.target="_blank";
-  license.rel="noopener noreferrer";
-  license.textContent="CC BY-SA 4.0";
-  credit.append(" · Вводный фрагмент статьи · ",license);
+  const legacy=/^dewiki-\d+$/.test(item.discoverId);
+  const note=item.sourceNote||(legacy?"Вводный фрагмент статьи":"");
+  const label=item.license||(legacy?"CC BY-SA 4.0":"");
+  const href=item.licenseURL||(legacy?"https://creativecommons.org/licenses/by-sa/4.0/":"");
+  if(note)credit.append(" · "+note);
+  if(label){
+   credit.append(" · ");
+   if(/^https:\/\/creativecommons\.org\//.test(href)){
+    const license=document.createElement("a");
+    license.href=href;license.target="_blank";license.rel="noopener noreferrer";
+    license.textContent=label;credit.append(license);
+   }else credit.append(label);
+  }
  }
 }
 window.addEventListener("langrad:extension-import",e=>{
