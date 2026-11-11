@@ -7,7 +7,7 @@
 const nav=document.querySelector("header > nav.topnav");
 if(!nav)return;
 const labels={
- read:"Читать",library:"Тексты",discover:"Найти",words:"Слова",
+ read:"Читать",library:"Библиотека",discover:"Найти",words:"Слова",
  practice:"Учить",stats:"Итоги",settings:"Настр."
 };
 function refresh(){

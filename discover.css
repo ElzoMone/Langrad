@@ -12,7 +12,7 @@
 
 .lr-discover-filters {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 134px), 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 10px;
   padding: 12px;
   background: color-mix(in srgb, var(--panel) 70%, var(--bg));
@@ -93,27 +93,13 @@
   border-color: color-mix(in srgb, var(--accent) 58%, var(--line));
 }
 
-.lr-discover-cover {
-  height: 74px;
-  flex: none;
-  background: repeating-linear-gradient(118deg, #ffffff13 0 1px, transparent 1px 16px),
-    linear-gradient(112deg, var(--cover-dark), var(--cover-light));
-  border-bottom: 1px solid #0002;
-}
-
-[data-category="adapted"] { --cover-dark: #315a50; --cover-light: #9fbf99; }
-[data-category="classic"] { --cover-dark: #573927; --cover-light: #bc8e63; }
-[data-category="literature"] { --cover-dark: #563448; --cover-light: #aa7584; }
-[data-category="journalism"] { --cover-dark: #243d56; --cover-light: #7290a0; }
-[data-category="encyclopedia"] { --cover-dark: #2d4e55; --cover-light: #7fa5a5; }
-
 .lr-discover-body {
   flex: 1;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   gap: 8px;
-  padding: 13px;
+  padding: 16px;
 }
 
 .lr-discover-card h3 {
@@ -127,6 +113,10 @@
 }
 
 .lr-discover-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
   color: var(--txt);
   font-size: .75rem;
   font-weight: 700;
@@ -136,25 +126,6 @@
 .lr-discover-excerpt {
   font-size: .82rem;
   line-height: 1.45;
-}
-
-.lr-discover-excerpt {
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 3;
-  overflow: hidden;
-}
-
-.lr-discover-body .lr-discover-source {
-  margin-top: auto;
-  padding-top: 6px;
-  line-height: 1.45;
-}
-
-.lr-discover-source a {
-  color: inherit;
-  text-decoration: underline;
-  text-underline-offset: 2px;
 }
 
 .lr-discover-action {
@@ -180,20 +151,6 @@
     display: inline-block;
   }
 
-  .lr-discover-cover {
-    height: 65px;
-  }
-}
-
-[data-article="kafka-ausflug-ins-gebirge"] .lr-discover-cover,
-[data-article="langrad-ausflug-ins-gebirge-a1"] .lr-discover-cover {
-  background: var(--cover-dark) url("/discover-alps.webp") center 55% / cover no-repeat;
-}
-
-[data-category="adapted"] .lr-discover-card:not([data-article="langrad-ausflug-ins-gebirge-a1"]) .lr-discover-cover {
-  background: radial-gradient(ellipse at 30% 110%, #d6e3b9 0 31%, transparent 32%),
-    radial-gradient(ellipse at 83% 125%, #5c8b75 0 46%, transparent 47%),
-    linear-gradient(118deg, #3e6256, #a3c1a0);
 }
 
 .layout:has(#discover:not(.hidden)) {
@@ -217,7 +174,107 @@
 }
 
 @container (max-width: 430px) {
-  .lr-discover-filters label:last-child {
+  .lr-discover-filters {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .lr-discover-filters label:has(#discover-sort) {
     grid-column: 1 / -1;
   }
+}
+
+.lr-discover-filters .lr-discover-search,
+.lr-discover-levels {
+  grid-column: 1 / -1;
+}
+
+.lr-discover-filters .lr-discover-hide {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 32px;
+}
+
+.lr-discover-levels,
+.lr-discover-variants,
+.lr-discover-tags,
+.lr-discover-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+}
+
+.lr-discover-levels button,
+.lr-discover-variants button,
+.lr-discover-recommend {
+  color: var(--txt);
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 6px 9px;
+  min-height: 34px;
+  font-size: .79rem;
+}
+
+.lr-discover-levels [aria-pressed="true"],
+.lr-discover-variants [aria-pressed="true"] {
+  background: color-mix(in srgb, var(--accent) 16%, var(--panel));
+  border-color: var(--accent);
+  font-weight: 750;
+}
+
+.lr-discover-badge {
+  min-width: 2.55em;
+  padding: 5px 8px;
+  border-radius: 7px;
+  background: #d0e9d8;
+  color: #164432;
+  font-size: 1.05rem;
+  text-align: center;
+}
+
+.lr-discover-badge[data-level="A2"] { background: #dcebc0; color: #374a20; }
+.lr-discover-badge[data-level="B1"] { background: #d4e6fc; color: #22476b; }
+.lr-discover-badge[data-level="B2"] { background: #e8ddf7; color: #51316d; }
+.lr-discover-badge[data-level="C1"] { background: #f6dfcc; color: #693c20; }
+
+.lr-discover-tags span {
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  color: var(--txt);
+  padding: 2px 7px;
+  font-size: .72rem;
+}
+
+.lr-discover-familiar {
+  font-size: .82rem;
+  color: var(--txt);
+  font-weight: 700;
+}
+
+.lr-discover-actions {
+  margin-top: auto;
+  padding-top: 5px;
+}
+
+#discover-recommendation:not(:empty) {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 12px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 10px 12px;
+  margin-top: 12px;
+}
+
+#discover-recommendation h2 {
+  margin: 0;
+  font-size: .9rem;
+}
+
+.lr-discover-recommend {
+  text-align: left;
 }

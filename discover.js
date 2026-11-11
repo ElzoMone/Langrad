@@ -3,14 +3,22 @@
 
   const section = document.getElementById("discover");
   const topic = document.getElementById("discover-topic");
-  const level = document.getElementById("discover-level");
+  const levels = document.getElementById("discover-level");
+  const search = document.getElementById("discover-search");
+  const sort = document.getElementById("discover-sort");
+  const hideRead = document.getElementById("discover-hide-read");
+  const recommendation = document.getElementById("discover-recommendation");
+  const cefr = ["A1", "A2", "B1", "B2", "C1"];
+  const segmenter = new Intl.Segmenter("de", {granularity: "sentence"});
+  let selectedLevel = "";
+  hideRead.checked = Boolean(state.discoverHideRead);
   const length = document.getElementById("discover-length");
   const status = document.getElementById("discover-status");
   const retry = document.getElementById("discover-retry");
   const groups = {
     adapted: "Адаптированные тексты",
     classic: "Классическая проза",
-    literature: "Малоизвестная проза",
+    literature: "Басни и сатира",
     journalism: "Современные статьи",
     encyclopedia: "Энциклопедия"
   };
@@ -21,6 +29,9 @@
   let articles = [];
   let loading = false;
   const expanded = new Set();
+  const selectedVariants = new Map();
+  const wordSets = new Map();
+  let works = [];
 
   function link(url, label) {
     const anchor = document.createElement("a");
@@ -54,22 +65,76 @@
     showTab("read");
   }
 
-  function makeCard(article) {
+  function marked(article) {
+    return state.discoverRead?.[article.id] === true;
+  }
+
+  function familiarPercent(article, familiarWords) {
+    if (!wordSets.has(article.id)) {
+      wordSets.set(article.id, [...new Set(words(article.text).map(normal))]);
+    }
+    const unique = wordSets.get(article.id);
+    return unique.length ? Math.round(100 * unique.filter(word => familiarWords.has(word)).length / unique.length) : 0;
+  }
+
+  function familiarWords() {
+    const known = new Set();
+    for (const [key, entry] of Object.entries(state.words)) {
+      const record = state.words[entry.aliasOf] || entry;
+      if (!isKnown(record)) continue;
+      known.add(key);
+      if (record.lemma) known.add(normal(record.lemma));
+    }
+    return known;
+  }
+
+  function groupWorks(entries) {
+    const originals = new Map(entries.filter(item => item.category !== "adapted" && item.text)
+      .map(item => [item.sourceURL, item]));
+    const paired = new Set();
+    const adaptations = new Map();
+    for (const article of entries.filter(item => item.category === "adapted")) {
+      const original = originals.get(article.sourceURL);
+      if (!original) continue;
+      if (!adaptations.has(original.id)) adaptations.set(original.id, [original]);
+      adaptations.get(original.id).push(article);
+      paired.add(article.id);
+    }
+    return entries.filter(article => !paired.has(article.id)).map(article => ({
+      id: article.id,
+      category: adaptations.has(article.id) ? "adapted" : article.category,
+      variants: adaptations.get(article.id) || [article]
+    }));
+  }
+
+  function makeCard(work, known) {
+    const article = work.article;
     const card = document.createElement("article");
     card.className = "lr-discover-card";
+    card.dataset.work = work.id;
     card.dataset.article = article.id;
-    const cover = document.createElement("div");
-    cover.className = "lr-discover-cover";
     const body = document.createElement("div");
     body.className = "lr-discover-body";
-    card.append(cover, body);
-    const title = document.createElement("h3");
-    title.textContent = article.title;
-    title.lang = "de";
-    const meta = document.createElement("p");
+    card.append(body);
+    const meta = document.createElement("div");
     meta.className = "lr-discover-meta";
-    meta.textContent = [article.level && "≈ " + article.level, article.words && article.words + " слов"]
-      .filter(Boolean).join(" · ") || article.topic;
+    if (cefr.includes(article.level)) {
+      const badge = document.createElement("strong");
+      badge.className = "lr-discover-badge";
+      badge.dataset.level = article.level;
+      badge.title = "Примерный уровень";
+      badge.textContent = article.level;
+      meta.append(badge);
+    }
+    if (article.words) {
+      const duration = document.createElement("span");
+      duration.textContent = article.words + " слов · ≈ " + Math.max(1, Math.round(article.words / 120)) + " мин";
+      duration.title = "Оценка при скорости 120 слов в минуту";
+      meta.append(duration);
+    }
+    const title = document.createElement("h3");
+    title.lang = "de";
+    title.textContent = article.title;
     body.append(meta, title);
     if (article.author) {
       const author = document.createElement("p");
@@ -77,42 +142,130 @@
       author.textContent = article.author;
       body.append(author);
     }
-    const preview = document.createElement("p");
-    preview.lang = "de";
-    preview.className = "lr-discover-excerpt";
-    const plain = (article.text || "").replace(/\s+/g, " ");
-    preview.textContent = plain.length > 230 ? plain.slice(0, 230).replace(/\s+\S*$/, "") + "…" : plain;
-    const source = document.createElement("p");
-    source.className = "lr-discover-source tiny";
-    source.append(link(article.sourceURL, article.source));
-    if (article.note) source.append(" · ", article.note);
-    if (article.license) {
-      source.append(" · ", article.licenseURL ? link(article.licenseURL, article.license) : article.license);
+    const tags = document.createElement("div");
+    tags.className = "lr-discover-tags";
+    for (const label of [article.topic, !article.text && article.source, article.category === "adapted" && "Адаптация",
+      savedArticle(article) && "Сохранено", marked(article) && "Прочитано"].filter(Boolean)) {
+      const tag = document.createElement("span");
+      tag.textContent = label;
+      tags.append(tag);
     }
-    if (!article.text) {
-      const original = link(article.sourceURL, "Открыть оригинал");
-      original.className = "btn ghost lr-discover-action";
-      body.append(source, original);
-      return card;
+    body.append(tags);
+    if (work.variants.length > 1) {
+      const variants = document.createElement("div");
+      variants.className = "lr-discover-variants";
+      variants.setAttribute("role", "group");
+      variants.setAttribute("aria-label", "Версии текста");
+      for (const variant of work.variants) {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.dataset.variant = variant.id;
+        button.textContent = (variant.category === "adapted" ? "Адаптация" : "Оригинал") + " " + variant.level;
+        button.setAttribute("aria-pressed", String(variant.id === article.id));
+        button.disabled = !work.eligible.includes(variant);
+        if (button.disabled) button.title = "Версия скрыта текущими фильтрами";
+        button.onclick = () => {
+          selectedVariants.set(work.id, variant.id);
+          const replacement = makeCard({...work, article: variant}, known);
+          card.replaceWith(replacement);
+          replacement.querySelector('[data-variant="' + variant.id + '"]').focus();
+        };
+        variants.append(button);
+      }
+      body.append(variants);
     }
-    const open = document.createElement("button");
-    open.type = "button";
+    if (article.text) {
+      const preview = document.createElement("p");
+      preview.lang = "de";
+      preview.className = "lr-discover-excerpt";
+      const iterator = segmenter.segment(article.text.trim())[Symbol.iterator]();
+      const first = iterator.next().value?.segment || "";
+      const second = first.length < 100 ? iterator.next().value?.segment || "" : "";
+      preview.textContent = (first + second).replace(/\s+/g, " ").trim();
+      if (preview.textContent.length > 215) preview.textContent = preview.textContent.slice(0, 215).replace(/\s+\S*$/, "") + "…";
+      body.append(preview);
+    }
+    if (article.text && known.size) {
+      const familiarity = document.createElement("p");
+      familiarity.className = "lr-discover-familiar";
+      familiarity.textContent = "Вы знаете ≈ " + familiarPercent(article, known) + "%";
+      familiarity.title = "Доля уникальных слов, отмеченных знакомыми в Langrad";
+      body.append(familiarity);
+    }
+    const actions = document.createElement("div");
+    actions.className = "lr-discover-actions";
+    const open = article.text ? document.createElement("button") : link(article.sourceURL, "Открыть оригинал ↗");
     open.className = "btn primary lr-discover-action";
-    open.textContent = savedArticle(article) ? "Читать" : "Сохранить и читать";
-    open.onclick = () => read(article);
-    body.append(preview, source, open);
+    if (article.text) {
+      open.type = "button";
+      open.textContent = "Читать";
+      open.onclick = () => read(article);
+    }
+    const mark = document.createElement("button");
+    mark.type = "button";
+    mark.className = "btn ghost lr-discover-action";
+    mark.textContent = marked(article) ? "Снять отметку" : "Отметить прочитанным";
+    mark.onclick = () => {
+      state.discoverRead ||= {};
+      if (marked(article)) delete state.discoverRead[article.id];
+      else state.discoverRead[article.id] = true;
+      persist();
+      render();
+      (list.querySelector('[data-article="' + article.id + '"] .btn.ghost') || hideRead).focus();
+    };
+    actions.append(open, mark);
+    body.append(actions);
     return card;
   }
 
   function render() {
-    const matches = articles.filter(article =>
-      (!topic.value || article.topic === topic.value) &&
-      (!level.value || article.level === level.value) &&
-      (!length.value || (article.words > 0 && (length.value === "short" ? article.words <= 150 : article.words > 150)))
-    );
+    const known = familiarWords();
+    const terms = normal(search.value.trim()).split(/\s+/).filter(Boolean);
+    const eligible = article => (!topic.value || article.topic === topic.value) &&
+      (!selectedLevel || article.level === selectedLevel) &&
+      (!hideRead.checked || !marked(article)) &&
+      (!length.value || (article.words > 0 && (length.value === "short" ? article.words <= 150 : article.words > 150))) &&
+      terms.every(term => normal([article.title, article.author, article.topic, article.text].join(" ")).includes(term));
+    const matches = works.flatMap(work => {
+      const variants = work.variants.filter(eligible);
+      if (!variants.length) return [];
+      const article = variants.find(item => item.id === selectedVariants.get(work.id)) ||
+        variants.find(item => item.category === "adapted") || variants[0];
+      return [{...work, article, eligible: variants}];
+    });
+    const rank = level => cefr.includes(level) ? cefr.indexOf(level) : cefr.length;
+    matches.sort((a, b) => {
+      if (sort.value === "level") return rank(a.article.level) - rank(b.article.level);
+      if (sort.value === "length") return (a.article.words || Infinity) - (b.article.words || Infinity);
+      return (b.article.added || "").localeCompare(a.article.added || "");
+    });
+    recommendation.replaceChildren();
+    if (!terms.length && !selectedLevel && !topic.value && !length.value) {
+      const target = rank(state.aid || "B1");
+      const suitable = matches.flatMap(work => work.eligible.filter(article => article.text && !marked(article))
+        .map(article => ({...work, article}))).sort((a, b) =>
+        Math.abs(rank(a.article.level) - target) - Math.abs(rank(b.article.level) - target) ||
+        familiarPercent(b.article, known) - familiarPercent(a.article, known));
+      if (suitable.length) {
+        const work = suitable[0];
+        const heading = document.createElement("h2");
+        heading.textContent = "Рекомендуем вам";
+        const jump = document.createElement("button");
+        jump.type = "button";
+        jump.className = "lr-discover-recommend";
+        jump.textContent = work.article.level + " · " + work.article.title + " ↓";
+        jump.onclick = () => {
+          selectedVariants.set(work.id, work.article.id);
+          expanded.add(work.category);
+          render();
+          list.querySelector('[data-work="' + work.id + '"] .lr-discover-action')?.focus();
+        };
+        recommendation.append(heading, jump);
+      }
+    }
     list.replaceChildren();
     for (const [category, label] of Object.entries(groups)) {
-      const entries = matches.filter(article => article.category === category);
+      const entries = matches.filter(work => work.category === category);
       if (!entries.length) continue;
       const block = document.createElement("section");
       block.className = "lr-discover-group";
@@ -129,7 +282,7 @@
       grid.className = "lr-discover-grid";
       grid.id = "discover-shelf-" + category;
       block.classList.toggle("is-expanded", isExpanded);
-      grid.append(...entries.slice(0, isExpanded ? entries.length : previewSize).map(makeCard));
+      grid.append(...entries.slice(0, isExpanded ? entries.length : previewSize).map(work => makeCard(work, known)));
       if (entries.length > 2) {
         const toggle = document.createElement("button");
         toggle.type = "button";
@@ -196,6 +349,7 @@
       } else {
         articles = await getFeed(bundled).catch(() => getFeed("/public/discover.json"));
       }
+      works = groupWorks(articles);
       const topics = [...new Set(articles.map(article => article.topic))].sort((a, b) => a.localeCompare(b, "ru"));
       for (const name of topics) topic.add(new Option(name, name));
       render();
@@ -207,13 +361,28 @@
     }
   }
 
-  for (const select of [topic, level, length]) {
-    select.addEventListener("change", () => {
-      if (!articles.length) return;
-      expanded.clear();
-      render();
-    });
+  function refreshFilters() {
+    if (!articles.length) return;
+    expanded.clear();
+    render();
   }
+
+  for (const select of [topic, length, sort]) select.addEventListener("change", refreshFilters);
+  search.addEventListener("input", refreshFilters);
+  levels.addEventListener("click", event => {
+    const button = event.target.closest("button[data-level]");
+    if (!button) return;
+    selectedLevel = button.dataset.level;
+    for (const chip of levels.querySelectorAll("button")) {
+      chip.setAttribute("aria-pressed", String(chip === button));
+    }
+    refreshFilters();
+  });
+  hideRead.addEventListener("change", () => {
+    state.discoverHideRead = hideRead.checked;
+    persist();
+    refreshFilters();
+  });
   retry.onclick = load;
   new MutationObserver(() => {
     if (!section.classList.contains("hidden")) load();

@@ -381,7 +381,7 @@ html[data-theme="tfr"] .foot{color:#a66eaf!important;font-family:"VT323",monospa
 <body>
 <header><div><div class="brand">LANG<em>RAD</em></div><div class="subbrand">THE LANGUAGE RISES</div></div><div class="pills"><span class="pill">Deutsch → Русский</span><span class="pill">Локальное хранение</span><span class="pill">Без платного ИИ</span></div>
 <nav class="panel nav topnav" aria-label="Разделы">
-<button class="active" data-tab="read">Читалка</button><button data-tab="discover">Найти тексты</button><button data-tab="words">Словарь</button><button data-tab="practice">Повторение</button><button data-tab="stats">Прогресс</button><button data-tab="settings">Настройки</button>
+<button class="active" data-tab="read">Читалка</button><button data-tab="discover">Найти</button><button data-tab="words">Словарь</button><button data-tab="practice">Повторение</button><button data-tab="stats">Прогресс</button><button data-tab="settings">Настройки</button>
 </nav>
 </header>
 <div class="layout">
@@ -392,14 +392,25 @@ html[data-theme="tfr"] .foot{color:#a66eaf!important;font-family:"VT323",monospa
     <p>Немецкие тексты для чтения. Лента пополняется ежедневно.</p>
   </div>
   <div class="lr-discover-filters">
+    <label class="lr-discover-search">Поиск <input id="discover-search" class="input" type="search" placeholder="Название, автор или слово в тексте"></label>
     <label>Тема <select id="discover-topic" class="input"><option value="">Все темы</option></select></label>
-    <label>Примерный уровень <select id="discover-level" class="input">
-      <option value="">Все уровни</option><option>A1</option><option>A2</option><option>B1</option><option>B2</option><option>C1</option>
-    </select></label>
     <label>Длина <select id="discover-length" class="input">
       <option value="">Любая</option><option value="short">До 150 слов</option><option value="long">От 151 слова</option>
     </select></label>
+    <label>Сортировка <select id="discover-sort" class="input">
+      <option value="recent">Сначала новые</option><option value="level">От простого к сложному</option><option value="length">Сначала короткие</option>
+    </select></label>
+    <div id="discover-level" class="lr-discover-levels" role="group" aria-label="Примерный уровень">
+      <button type="button" data-level="" aria-pressed="true">Все уровни</button>
+      <button type="button" data-level="A1" aria-pressed="false">A1</button>
+      <button type="button" data-level="A2" aria-pressed="false">A2</button>
+      <button type="button" data-level="B1" aria-pressed="false">B1</button>
+      <button type="button" data-level="B2" aria-pressed="false">B2</button>
+      <button type="button" data-level="C1" aria-pressed="false">C1</button>
+    </div>
+    <label class="lr-discover-hide"><input id="discover-hide-read" type="checkbox"> Скрыть прочитанное</label>
   </div>
+  <div id="discover-recommendation"></div>
   <p id="discover-status" role="status"></p>
   <button id="discover-retry" type="button" class="btn" hidden>Повторить загрузку</button>
   <div id="discover-list"></div>
@@ -1047,7 +1058,7 @@ const find=id=>document.getElementById(id),nkey=s=>String(s||"").toLocaleLowerCa
 const nounGender={fem:"die",masc:"der",neut:"das"};
 const irregularPlurals={männer:"Mann",frauen:"Frau",hände:"Hand",bücher:"Buch",häuser:"Haus",kinder:"Kind",mäuse:"Maus",städte:"Stadt",väter:"Vater",mütter:"Mutter",wörter:"Wort",züge:"Zug",äpfel:"Apfel",leute:"Leute"};
 let morphologyDict=null;
-const navLabels={read:"Читалка",library:"Тексты",words:"Словарь",practice:"Повторение",stats:"Прогресс",settings:"Настройки"};
+const navLabels={read:"Читалка",library:"Моя библиотека",words:"Словарь",practice:"Повторение",stats:"Прогресс",settings:"Настройки"};
 for(const button of document.querySelectorAll("header nav button[data-tab]")){
  button.textContent=navLabels[button.dataset.tab]||button.textContent;
 }
@@ -1058,10 +1069,10 @@ for(const pill of document.querySelectorAll("header .pills .pill")){
  else if(/словар/i.test(raw))pill.textContent=raw.replace(/^[^\d\p{L}]+/u,"");
 }
 const nav=document.querySelector("header nav");
-const b=document.createElement("button");b.dataset.tab="library";b.textContent="Тексты";
+const b=document.createElement("button");b.dataset.tab="library";b.textContent="Моя библиотека";
 nav.insertBefore(b,nav.querySelector('[data-tab="discover"]'));
 const library=document.createElement("section");library.id="library";library.className="hidden";
-library.innerHTML='<div class="lr-library-top"><div><div class="eyebrow">Моя библиотека</div><h1>Тексты</h1><p>Все добавленные тексты в одном месте. Открой любой, чтобы продолжить чтение.</p></div><button id="lr-add-text" class="btn primary">Добавить текст</button></div><div id="lr-library-list"></div><p class="tiny">Тексты хранятся только в этом браузере. Для больших книг и переноса на другое устройство используй резервную копию в настройках.</p>';
+library.innerHTML='<div class="lr-library-top"><div><h1>Моя библиотека</h1><p>Все добавленные тексты в одном месте. Открой любой, чтобы продолжить чтение.</p></div><button id="lr-add-text" class="btn primary">Добавить текст</button></div><div id="lr-library-list"></div><p class="tiny">Тексты хранятся только в этом браузере. Для больших книг и переноса на другое устройство используй резервную копию в настройках.</p>';
 document.querySelector("#read").before(library);
 function makeId(){return "doc-"+Date.now()+"-"+Math.random().toString(36).slice(2,9)}
 function migrateLibrary(){
