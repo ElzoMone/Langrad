@@ -1,54 +1,223 @@
+#discover {
+  container-type: inline-size;
+}
+
+.lr-discover-intro {
+  padding-block: 6px 14px;
+}
+
+.lr-discover-intro p {
+  margin: 8px 0 0;
+}
+
 .lr-discover-filters {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 150px), 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 134px), 1fr));
   gap: 10px;
-  margin-block: 20px;
+  padding: 12px;
+  background: color-mix(in srgb, var(--panel) 70%, var(--bg));
+  border: 1px solid var(--line);
+  border-radius: 12px;
 }
 
 .lr-discover-filters label {
   display: grid;
-  gap: 4px;
-  font-size: 0.875rem;
+  gap: 5px;
+  font-size: .8rem;
+  font-weight: 650;
 }
 
-.lr-discover-card {
-  border-bottom: 1px solid color-mix(in srgb, currentColor 22%, transparent);
-  padding-block: 16px;
-  overflow-wrap: anywhere;
+#discover-status {
+  margin: 10px 0 0;
+  font-size: .8rem;
 }
 
-.lr-discover-card h3 {
-  margin-block: 0 4px;
-  font-size: 1.2rem;
+.lr-discover-group {
+  margin-block: 24px 30px;
 }
 
-.lr-discover-card p {
-  margin-block: 5px 9px;
+.lr-discover-shelf-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 12px;
+  padding-bottom: 7px;
+  border-bottom: 1px solid var(--line);
 }
 
-.lr-discover-card a {
-  color: inherit;
+.lr-discover-shelf-heading h2 {
+  margin: 0;
+  font: 600 1.35rem/1.25 Georgia, serif;
+  letter-spacing: -.025em;
+}
+
+.lr-discover-toggle {
+  min-height: 36px;
+  padding: 4px 0 4px 10px;
+  border: 0;
+  background: transparent;
+  color: var(--txt);
+  font-size: .85rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.lr-discover-toggle:hover {
   text-decoration: underline;
 }
 
-.lr-discover-group > button {
-  margin-top: 16px;
+.lr-discover-toggle-mobile {
+  display: none;
+}
+
+.lr-discover-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.lr-discover-card {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  overflow-wrap: anywhere;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--panel);
+}
+
+.lr-discover-card:focus-within,
+.lr-discover-card:hover {
+  border-color: color-mix(in srgb, var(--accent) 58%, var(--line));
+}
+
+.lr-discover-cover {
+  height: 74px;
+  flex: none;
+  background: repeating-linear-gradient(118deg, #ffffff13 0 1px, transparent 1px 16px),
+    linear-gradient(112deg, var(--cover-dark), var(--cover-light));
+  border-bottom: 1px solid #0002;
+}
+
+[data-category="adapted"] { --cover-dark: #315a50; --cover-light: #9fbf99; }
+[data-category="classic"] { --cover-dark: #573927; --cover-light: #bc8e63; }
+[data-category="literature"] { --cover-dark: #563448; --cover-light: #aa7584; }
+[data-category="journalism"] { --cover-dark: #243d56; --cover-light: #7290a0; }
+[data-category="encyclopedia"] { --cover-dark: #2d4e55; --cover-light: #7fa5a5; }
+
+.lr-discover-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 13px;
+}
+
+.lr-discover-card h3 {
+  margin: 0;
+  font: 600 clamp(1.06rem, 2.8cqi, 1.43rem)/1.14 Georgia, serif;
+  color: var(--txt);
+}
+
+.lr-discover-body p {
+  margin: 0;
+}
+
+.lr-discover-meta {
+  color: var(--txt);
+  font-size: .75rem;
+  font-weight: 700;
+}
+
+.lr-discover-author,
+.lr-discover-excerpt {
+  font-size: .82rem;
+  line-height: 1.45;
+}
+
+.lr-discover-excerpt {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+}
+
+.lr-discover-body .lr-discover-source {
+  margin-top: auto;
+  padding-top: 6px;
+  line-height: 1.45;
+}
+
+.lr-discover-source a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.lr-discover-action {
+  min-height: 40px;
+  font-size: .8rem;
+  text-align: left;
 }
 
 #discover button[hidden] {
   display: none !important;
 }
 
+@container (max-width: 560px) {
+  .lr-discover-grid {
+    grid-template-columns: 1fr;
+  }
 
-.lr-discover-group {
-  border: 1px solid color-mix(in srgb, currentColor 25%, transparent);
-  border-radius: 12px;
-  padding: 16px;
-  margin-block: 16px;
+  .lr-discover-group:not(.is-expanded) .lr-discover-card:nth-child(n+3) {
+    display: none;
+  }
+
+  .lr-discover-toggle-mobile {
+    display: inline-block;
+  }
+
+  .lr-discover-cover {
+    height: 65px;
+  }
 }
 
-.lr-discover-group > h2 {
-  margin: 0;
-  padding-bottom: 10px;
-  border-bottom: 1px solid color-mix(in srgb, currentColor 25%, transparent);
+[data-article="kafka-ausflug-ins-gebirge"] .lr-discover-cover,
+[data-article="langrad-ausflug-ins-gebirge-a1"] .lr-discover-cover {
+  background: var(--cover-dark) url("/discover-alps.webp") center 55% / cover no-repeat;
+}
+
+[data-category="adapted"] .lr-discover-card:not([data-article="langrad-ausflug-ins-gebirge-a1"]) .lr-discover-cover {
+  background: radial-gradient(ellipse at 30% 110%, #d6e3b9 0 31%, transparent 32%),
+    radial-gradient(ellipse at 83% 125%, #5c8b75 0 46%, transparent 47%),
+    linear-gradient(118deg, #3e6256, #a3c1a0);
+}
+
+.layout:has(#discover:not(.hidden)) {
+  grid-template-columns: minmax(0, 1fr) !important;
+  max-width: 1160px !important;
+}
+
+.layout:has(#discover:not(.hidden)) > .details {
+  display: none;
+}
+
+#discover .lr-discover-intro h1 {
+  font: 600 clamp(1.9rem, 3.6vw, 3rem)/1.08 Georgia, serif;
+  letter-spacing: -.045em;
+}
+
+@container (min-width: 561px) {
+  .lr-discover-grid:has(> .lr-discover-card:nth-child(2):last-child) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@container (max-width: 430px) {
+  .lr-discover-filters label:last-child {
+    grid-column: 1 / -1;
+  }
 }

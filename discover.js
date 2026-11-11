@@ -8,19 +8,19 @@
   const status = document.getElementById("discover-status");
   const retry = document.getElementById("discover-retry");
   const groups = {
+    adapted: "Адаптированные тексты",
     classic: "Классическая проза",
     literature: "Малоизвестная проза",
-    adapted: "Адаптированные тексты",
     journalism: "Современные статьи",
     encyclopedia: "Энциклопедия"
   };
   const list = document.getElementById("discover-list");
-  const pageSize = 12;
+  const previewSize = 3;
   const published = "https://raw.githubusercontent.com/ElzoMone/Langrad/main/public/discover.json";
   const bundled = "/discover.json";
   let articles = [];
   let loading = false;
-  const limits = new Map();
+  const expanded = new Set();
 
   function link(url, label) {
     const anchor = document.createElement("a");
@@ -57,18 +57,33 @@
   function makeCard(article) {
     const card = document.createElement("article");
     card.className = "lr-discover-card";
+    card.dataset.article = article.id;
+    const cover = document.createElement("div");
+    cover.className = "lr-discover-cover";
+    const body = document.createElement("div");
+    body.className = "lr-discover-body";
+    card.append(cover, body);
     const title = document.createElement("h3");
     title.textContent = article.title;
     title.lang = "de";
     const meta = document.createElement("p");
-    meta.className = "tiny";
-    meta.textContent = [article.author, article.topic, article.level && "≈ " + article.level, article.words && article.words + " слов"].filter(Boolean).join(" · ");
+    meta.className = "lr-discover-meta";
+    meta.textContent = [article.level && "≈ " + article.level, article.words && article.words + " слов"]
+      .filter(Boolean).join(" · ") || article.topic;
+    body.append(meta, title);
+    if (article.author) {
+      const author = document.createElement("p");
+      author.className = "lr-discover-author";
+      author.textContent = article.author;
+      body.append(author);
+    }
     const preview = document.createElement("p");
     preview.lang = "de";
+    preview.className = "lr-discover-excerpt";
     const plain = (article.text || "").replace(/\s+/g, " ");
     preview.textContent = plain.length > 230 ? plain.slice(0, 230).replace(/\s+\S*$/, "") + "…" : plain;
     const source = document.createElement("p");
-    source.className = "tiny";
+    source.className = "lr-discover-source tiny";
     source.append(link(article.sourceURL, article.source));
     if (article.note) source.append(" · ", article.note);
     if (article.license) {
@@ -76,16 +91,16 @@
     }
     if (!article.text) {
       const original = link(article.sourceURL, "Открыть оригинал");
-      original.className = "btn sm";
-      card.append(title, meta, source, original);
+      original.className = "btn ghost lr-discover-action";
+      body.append(source, original);
       return card;
     }
     const open = document.createElement("button");
     open.type = "button";
-    open.className = "btn primary sm";
+    open.className = "btn primary lr-discover-action";
     open.textContent = savedArticle(article) ? "Читать" : "Сохранить и читать";
     open.onclick = () => read(article);
-    card.append(title, meta, preview, source, open);
+    body.append(preview, source, open);
     return card;
   }
 
@@ -105,23 +120,34 @@
       heading.textContent = label;
       heading.id = "discover-group-" + category;
       block.setAttribute("aria-labelledby", heading.id);
-      const limit = limits.get(category) || pageSize;
-      block.append(heading, ...entries.slice(0, limit).map(makeCard));
-      if (entries.length > limit) {
-        const more = document.createElement("button");
-        more.type = "button";
-        more.className = "btn sm";
-        more.textContent = "Показать ещё";
-        more.setAttribute("aria-label", "Показать ещё — " + label);
-        more.onclick = () => {
-          limits.set(category, limit + pageSize);
+      block.dataset.category = category;
+      const isExpanded = expanded.has(category);
+      const row = document.createElement("div");
+      row.className = "lr-discover-shelf-heading";
+      row.append(heading);
+      const grid = document.createElement("div");
+      grid.className = "lr-discover-grid";
+      grid.id = "discover-shelf-" + category;
+      block.classList.toggle("is-expanded", isExpanded);
+      grid.append(...entries.slice(0, isExpanded ? entries.length : previewSize).map(makeCard));
+      if (entries.length > 2) {
+        const toggle = document.createElement("button");
+        toggle.type = "button";
+        toggle.className = "lr-discover-toggle";
+        if (entries.length === previewSize) toggle.classList.add("lr-discover-toggle-mobile");
+        toggle.textContent = isExpanded ? "Свернуть" : "Все →";
+        toggle.setAttribute("aria-label", (isExpanded ? "Свернуть — " : "Все тексты — ") + label);
+        toggle.setAttribute("aria-controls", grid.id);
+        toggle.setAttribute("aria-expanded", String(isExpanded));
+        toggle.onclick = () => {
+          if (isExpanded) expanded.delete(category);
+          else expanded.add(category);
           render();
-          const updated = document.getElementById(heading.id).parentElement;
-          const card = updated.children[limit + 1];
-          (card.querySelector("button") || card.querySelector("a:last-child"))?.focus();
+          document.getElementById(heading.id).nextElementSibling?.focus();
         };
-        block.append(more);
+        row.append(toggle);
       }
+      block.append(row, grid);
       list.append(block);
     }
     status.textContent = matches.length ? "Найдено: " + matches.length : "По этим фильтрам ничего не найдено.";
@@ -184,7 +210,7 @@
   for (const select of [topic, level, length]) {
     select.addEventListener("change", () => {
       if (!articles.length) return;
-      limits.clear();
+      expanded.clear();
       render();
     });
   }
