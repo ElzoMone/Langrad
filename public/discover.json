@@ -84,6 +84,90 @@
       "words": 113
     },
     {
+      "id": "netzpolitik-a5c5a5f6a696b30a0d2d0d3e",
+      "category": "journalism",
+      "title": "GovTech Deutschland: Gut vernetzt, schlecht durchleuchtet",
+      "author": "Esther Menhard",
+      "source": "netzpolitik.org",
+      "sourceURL": "https://netzpolitik.org/2026/govtech-deutschland-gut-vernetzt-schlecht-durchleuchtet/",
+      "topic": "Общество и технологии",
+      "text": "",
+      "words": 0,
+      "added": "2026-11-11"
+    },
+    {
+      "id": "netzpolitik-dd0dd1c9d4e337b950e5d86d",
+      "category": "journalism",
+      "title": "KI-Infrastruktur und Politik: Die neuen Powerplayer bei Meta",
+      "author": "Tomas Rudl",
+      "source": "netzpolitik.org",
+      "sourceURL": "https://netzpolitik.org/2026/ki-infrastruktur-und-politik-die-neuen-powerplayer-bei-meta/",
+      "topic": "Общество и технологии",
+      "text": "",
+      "words": 0,
+      "added": "2026-11-11"
+    },
+    {
+      "id": "netzpolitik-5ef150058aac6c1829da6e00",
+      "category": "journalism",
+      "title": "EU-Studie: Bei Online-Werbung versagt die europäische Tech-Regulierung",
+      "author": "Ingo Dachwitz",
+      "source": "netzpolitik.org",
+      "sourceURL": "https://netzpolitik.org/2026/eu-studie-bei-online-werbung-versagt-die-europaeische-tech-regulierung/",
+      "topic": "Общество и технологии",
+      "text": "",
+      "words": 0,
+      "added": "2026-11-11"
+    },
+    {
+      "id": "netzpolitik-8601f711f5ed6bad2f45425a",
+      "category": "journalism",
+      "title": "Racial Profiling: Polizei durchsucht in Frankfurt migrantisch gelesene Personen",
+      "author": "Markus Reuter",
+      "source": "netzpolitik.org",
+      "sourceURL": "https://netzpolitik.org/2026/racial-profiling-polizei-durchsucht-in-frankfurt-migrantisch-gelesene-personen/",
+      "topic": "Общество и технологии",
+      "text": "",
+      "words": 0,
+      "added": "2026-11-11"
+    },
+    {
+      "id": "netzpolitik-28fe0805cb5d243e76dc2f03",
+      "category": "journalism",
+      "title": "Kurz vor Bundestagsabstimmung: An welchen Stellen Union und SPD die Geheimdienstreform ausbauen",
+      "author": "Daniel Leisegang",
+      "source": "netzpolitik.org",
+      "sourceURL": "https://netzpolitik.org/2026/kurz-vor-bundestagsabstimmung-an-welchen-stellen-union-und-spd-die-geheimdienstreform-ausbauen/",
+      "topic": "Общество и технологии",
+      "text": "",
+      "words": 0,
+      "added": "2026-11-11"
+    },
+    {
+      "id": "netzpolitik-c281ef739024887e36998f6f",
+      "category": "journalism",
+      "title": "Aktionstage zu Rechenzentren: Gegen KI, Kapitalismus und Umweltzerstörung",
+      "author": "Muna Turki",
+      "source": "netzpolitik.org",
+      "sourceURL": "https://netzpolitik.org/2026/aktionstage-zu-rechenzentren-gegen-ki-kapitalismus-und-umweltzerstoerung/",
+      "topic": "Общество и технологии",
+      "text": "",
+      "words": 0,
+      "added": "2026-11-11"
+    },
+    {
+      "id": "netzpolitik-3ec06f61d44417101efffc54",
+      "category": "journalism",
+      "title": "Days of Action against data centers: Taking on AI, capitalism and ecological harm",
+      "author": "Muna Turki",
+      "source": "netzpolitik.org",
+      "sourceURL": "https://netzpolitik.org/2026/days-of-action-against-data-centers-taking-on-ai-capitalism-and-ecological-harm/",
+      "topic": "Общество и технологии",
+      "text": "",
+      "words": 0,
+      "added": "2026-11-11"
+    },
+    {
       "id": "netzpolitik-d8f23af638f34609c84ec27b",
       "category": "journalism",
       "title": "Weniger staatliche Transparenz: Dobrindts Pläne sind „Angriff auf die Pressefreiheit“",
@@ -92,7 +176,86 @@
       "sourceURL": "https://netzpolitik.org/2026/weniger-staatliche-transparenz-dobrindts-plaene-sind-angriff-auf-die-pressefreiheit/",
       "topic": "Общество и технологии",
       "text": "",
-      "words": 0
+      "words": 0,
+      "added": "2026-11-11"
+    },
+    {
+      "id": "netzpolitik-edf78f99b95abfedfc06f46e",
+      "category": "journalism",
+      "title": "Trainingsvideos für Verhaltensanalyse: Für die Überwachungs-KI gibt es nie genug Gewalt",
+      "author": "Martin Schwarzbeck",
+      "source": "netzpolitik.org",
+      "sourceURL": "https://netzpolitik.org/2026/trainingsvideos-fuer-verhaltensanalyse-fuer-die-ueberwachungs-ki-gibt-es-nie-genug-gewalt/",
+      "topic": "Общество и технологии",
+      "text": "",
+      "words": 0,
+      "added": "2026-11-11"
+    },
+    {
+      "id": "netzpolitik-b90f174295805e0b925c6465",
+      "category": "journalism",
+      "title": "Degitalisierung: Agilität",
+      "author": "Bianca Kastl",
+      "source": "netzpolitik.org",
+      "sourceURL": "https://netzpolitik.org/2026/degitalisierung-agilitaet/",
+      "topic": "Общество и технологии",
+      "text": "",
+      "words": 0,
+      "added": "2026-11-11"
+    },
+    {
+      "id": "netzpolitik-e18279614f6ad459acd37a9c",
+      "category": "journalism",
+      "title": "KW 45: Die Woche, in der die Welt gegen Rechenzentren aufbegehrte",
+      "author": "Martin Schwarzbeck",
+      "source": "netzpolitik.org",
+      "sourceURL": "https://netzpolitik.org/2026/kw-45-die-woche-in-der-die-welt-gegen-rechenzentren-aufbegehrte/",
+      "topic": "Общество и технологии",
+      "text": "",
+      "words": 0,
+      "added": "2026-11-11"
+    },
+    {
+      "id": "netzpolitik-288cc6f788d765b70eca27ce",
+      "category": "journalism",
+      "title": "„Zu schnell, zu groß“: Protestierende in ganz Europa kämpfen gegen den Rechenzentrums-Boom",
+      "author": "Muna Turki",
+      "source": "netzpolitik.org",
+      "sourceURL": "https://netzpolitik.org/2026/zu-schnell-zu-gross-protestierende-in-ganz-europa-kaempfen-gegen-den-rechenzentrums-boom/",
+      "topic": "Общество и технологии",
+      "text": "",
+      "words": 0,
+      "added": "2026-11-11"
+    },
+    {
+      "id": "dewiki-1816231",
+      "title": "Landgemeinde Oldenburg",
+      "text": "Die Landgemeinde Oldenburg umschloss die Stadt Oldenburg (Oldb) in alle Richtungen. Sie umfasste die Bauerschaften Eversten, Bloh, Petersfehn, Wechloy, Ofen, Metjendorf, Ofenerfeld, Nadorst, Etzhorn, Wahnbek, Donnerschwee, Ohmstede, Bornhorst und Moorhausen und  bildete bis 1810 mit der Gemeinde Osternburg und den in den Osenbergen gelegenen Dörfern der Gemeinde Hatten die Hausvogtei Oldenburg. Danach gehörte sie zum Amt Oldenburg.\nIm Jahre 1863 hatte die Landgemeinde 942 Wohnhäuser und 6579 Einwohner\n(1793: 3159; 1828: 4489). Die Gemeinde war überwiegend landwirtschaftlich geprägt. Die wenige ortsansässige Industrie bestand vor allem aus Brauereien, Branntweinbrennereien sowie einigen Ziegeleien.\n1897 wurde die Landgemeinde in die Gemeinden Ohmstede und Eversten aufgeteilt. 1901 erfolgt die kirchliche Restrukturierung der ehemaligen Landgemeinde in die selbständigen Kirchengemeinden Eversten, Ofen und Ohmstede.",
+      "words": 108,
+      "topic": "География",
+      "level": "B2",
+      "added": "2026-11-11",
+      "sourceURL": "https://de.wikipedia.org/w/index.php?oldid=242235953"
+    },
+    {
+      "id": "dewiki-8554193",
+      "title": "Udo Hintzen",
+      "text": "Udo Hintzen ist ein deutscher Rechtspfleger.\nNach Einsätzen bei den Amtsgerichten Köln und Bonn in der Zeit zwischen 1979 und 1990 war er von 1991 bis Sommer 2001 Dozent an der FH für Rechtspflege in Bad Münstereifel. Danach erfolgte ein kurzzeitiger Einsatz im Justizministerium in Düsseldorf und einige Monate beim Amtsgericht Bonn. Mit Wirkung zum 2. April 2002 folgte er dem Ruf auf eine Professur für Zivilprozessrecht, Zwangsvollstreckungsrecht (Mobiliar- und Immobiliarzwangsvollstreckung) sowie Insolvenzrecht an der HWR Berlin. Auf eigenen Wunsch endete seine berufliche Lehrtätigkeit 2020. \nHintzen war von 1992 bis 2019 alleiniger Redakteur der Zeitschrift Der Deutsche Rechtspfleger, seit 2015 ist er Mitherausgeber.\nHintzen ist (Mit)Autor zahlreicher vollstreckungsrechtlicher Kommentare, Hand- und Lehrbücher. Ein Schwerpunkt seiner gutachterlichen Tätigkeit ist auch die Teilungsversteigerung (Versteigerung zum Zwecke der Auseinandersetzung einer Gemeinschaft).",
+      "words": 119,
+      "topic": "Разное",
+      "level": "B1",
+      "added": "2026-11-11",
+      "sourceURL": "https://de.wikipedia.org/w/index.php?oldid=266413865"
+    },
+    {
+      "id": "dewiki-8902506",
+      "title": "John H. Humphrey",
+      "text": "John H. Humphrey (* 1948) ist ein amerikanischer Klassischer Archäologe.\nJohn Humphrey studierte zunächst an der University of Cambridge, wo er den Bachelor- und den Magistergrad erwarb. Anschließend studierte er am Bryn Mawr College, wo er 1975 mit einer Arbeit zum römischen Circus promoviert wurde. Von 1974 bis 1994 lehrte er Klassische Archäologie an der University of Michigan in Ann Arbor. Viele Jahre lang leitete er für die Universität Ausgrabungen im antiken Karthago. 1990 bis 1995 leitete er Grabungen in Leptis Minor.\n1988 begründete er das Journal of Roman Archaeology, das er zur führenden Fachzeitschrift auf diesem Gebiet ausbaute, und gibt es bis heute heraus. 2010 erhielt er für seine Leistungen auf dem Gebiet der römischen Archäologie, insbesondere die Gründung der Zeitschrift, die Goldmedaille des Archäologischen Instituts von Amerika.",
+      "words": 120,
+      "topic": "Культура",
+      "level": "B1",
+      "added": "2026-11-11",
+      "sourceURL": "https://de.wikipedia.org/w/index.php?oldid=211220773"
     },
     {
       "id": "dewiki-10636621",
