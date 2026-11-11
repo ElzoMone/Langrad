@@ -1,0 +1,40 @@
+.lr-discover-filters {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 150px), 1fr));
+  gap: 10px;
+  margin-block: 20px;
+}
+
+.lr-discover-filters label {
+  display: grid;
+  gap: 4px;
+  font-size: 0.875rem;
+}
+
+.lr-discover-card {
+  border-bottom: 1px solid color-mix(in srgb, currentColor 22%, transparent);
+  padding-block: 16px;
+  overflow-wrap: anywhere;
+}
+
+.lr-discover-card h2 {
+  margin-block: 0 4px;
+  font-size: 1.2rem;
+}
+
+.lr-discover-card p {
+  margin-block: 5px 9px;
+}
+
+.lr-discover-card a {
+  color: inherit;
+  text-decoration: underline;
+}
+
+#discover-more {
+  margin-top: 16px;
+}
+
+#discover button[hidden] {
+  display: none !important;
+}

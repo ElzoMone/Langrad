@@ -376,15 +376,33 @@ html[data-theme="tfr"] .foot{color:#a66eaf!important;font-family:"VT323",monospa
 <link rel="stylesheet" href="/mobile-sheet.css">
 <link rel="stylesheet" href="/mobile-sections.css">
 <link rel="stylesheet" href="/pwa.css">
+<link rel="stylesheet" href="/discover.css">
 </head>
 <body>
 <header><div><div class="brand">LANG<em>RAD</em></div><div class="subbrand">THE LANGUAGE RISES</div></div><div class="pills"><span class="pill">Deutsch → Русский</span><span class="pill">Локальное хранение</span><span class="pill">Без платного ИИ</span></div>
 <nav class="panel nav topnav" aria-label="Разделы">
-<button class="active" data-tab="read">Читалка</button><button data-tab="words">Словарь</button><button data-tab="practice">Повторение</button><button data-tab="stats">Прогресс</button><button data-tab="settings">Настройки</button>
+<button class="active" data-tab="read">Читалка</button><button data-tab="discover">Найти тексты</button><button data-tab="words">Словарь</button><button data-tab="practice">Повторение</button><button data-tab="stats">Прогресс</button><button data-tab="settings">Настройки</button>
 </nav>
 </header>
 <div class="layout">
 <main class="panel">
+<section id="discover" class="hidden">
+  <h1>Найти тексты</h1>
+  <p>Немецкие тексты для чтения. Лента пополняется ежедневно.</p>
+  <div class="lr-discover-filters">
+    <label>Тема <select id="discover-topic" class="input"><option value="">Все темы</option></select></label>
+    <label>Примерный уровень <select id="discover-level" class="input">
+      <option value="">Все уровни</option><option>B1</option><option>B2</option><option>C1</option>
+    </select></label>
+    <label>Длина <select id="discover-length" class="input">
+      <option value="">Любая</option><option value="short">До 150 слов</option><option value="long">От 151 слова</option>
+    </select></label>
+  </div>
+  <p id="discover-status" role="status"></p>
+  <button id="discover-retry" type="button" class="btn" hidden>Повторить загрузку</button>
+  <div id="discover-list"></div>
+  <button id="discover-more" type="button" class="btn" hidden>Показать ещё</button>
+</section>
 <section id="read">
 <div class="spread"><div><div class="eyebrow">Чтение с пониманием</div><h1>Читалка</h1></div><span id="score" class="pill">—</span></div>
 <p>Нажимай на слова. Сохраняй незнакомые, проверяй себя и постепенно заполняй свой словарь.</p>
@@ -597,7 +615,7 @@ if(!notes.length)notes.push("В этом предложении встроенн
 $("contextOutput").innerHTML='<div class="breakdown"><div class="eyebrow">Предложение</div><p style="color:white">'+esc(sentence.trim())+'</p>'+notes.map(n=>'<div class="hint">• '+esc(n)+'</div>').join("")+'<p class="tiny">Это подсказки по признакам предложения, не полный автоматический синтаксический разбор.</p></div>'
 }
 function showTab(name){
-for(const t of ["read","words","practice","stats","settings"])$(t).classList.toggle("hidden",t!==name);
+for(const t of ["read","discover","words","practice","stats","settings"])$(t).classList.toggle("hidden",t!==name);
 document.querySelectorAll(".nav button").forEach(b=>b.classList.toggle("active",b.dataset.tab===name));
 if(name==="words")renderWords();if(name==="practice")quizHome();if(name==="stats")stats();if(name==="read")renderReader()
 }
@@ -1040,7 +1058,7 @@ for(const pill of document.querySelectorAll("header .pills .pill")){
 }
 const nav=document.querySelector("header nav");
 const b=document.createElement("button");b.dataset.tab="library";b.textContent="Тексты";
-nav.insertBefore(b,nav.querySelector('[data-tab="words"]'));
+nav.insertBefore(b,nav.querySelector('[data-tab="discover"]'));
 const library=document.createElement("section");library.id="library";library.className="hidden";
 library.innerHTML='<div class="lr-library-top"><div><div class="eyebrow">Моя библиотека</div><h1>Тексты</h1><p>Все добавленные тексты в одном месте. Открой любой, чтобы продолжить чтение.</p></div><button id="lr-add-text" class="btn primary">Добавить текст</button></div><div id="lr-library-list"></div><p class="tiny">Тексты хранятся только в этом браузере. Для больших книг и переноса на другое устройство используй резервную копию в настройках.</p>';
 document.querySelector("#read").before(library);
@@ -1079,13 +1097,20 @@ function renderLibrary(){
 const oldShowTab=showTab;
 showTab=function(name){
  if(name==="library"){
-  for(const sec of ["read","words","practice","stats","settings","library"])find(sec).classList.toggle("hidden",sec!=="library");
+  for(const sec of ["read","discover","words","practice","stats","settings","library"])find(sec).classList.toggle("hidden",sec!=="library");
   document.querySelectorAll("header nav button").forEach(btn=>btn.classList.toggle("active",btn.dataset.tab==="library"));
   renderLibrary();
  }else{library.classList.add("hidden");oldShowTab(name)}
 };
 b.onclick=()=>showTab("library");
-find("lr-add-text").onclick=()=>{showTab("read");find("addText").click()};
+find("lr-add-text").onclick=()=>{
+ showTab("read");
+ find("addText").click();
+ find("title").value="";
+ find("textInput").value="";
+ find("txtfile").value="";
+ find("title").focus();
+};
 const oldSave=find("saveText").onclick;
 find("saveText").onclick=()=>{
  const text=find("textInput").value.trim();if(!text)return alert("Сначала добавь текст");
@@ -1970,6 +1995,14 @@ function updateSource(){
  const item=(state.library||[]).find(x=>x.id===state.activeTextId);
  const url=sourceURL(item?.sourceURL);if(!url)return;
  const a=document.createElement("a");a.href=url;a.textContent="Источник: "+(item.sourceTitle||new URL(url).hostname);a.target="_blank";a.rel="noopener noreferrer";credit.append(a);
+ if(item.discoverId){
+  const license=document.createElement("a");
+  license.href="https://creativecommons.org/licenses/by-sa/4.0/";
+  license.target="_blank";
+  license.rel="noopener noreferrer";
+  license.textContent="CC BY-SA 4.0";
+  credit.append(" · Вводный фрагмент статьи · ",license);
+ }
 }
 window.addEventListener("langrad:extension-import",e=>{
  const data=e.detail;
@@ -2591,4 +2624,5 @@ window.addEventListener("message",event=>{
 <script defer src="/mobile-sheet.js"></script>
 <script defer src="/mobile-sections.js"></script>
 <script defer src="/pwa.js"></script>
+<script defer src="/discover.js"></script>
 </body></html>

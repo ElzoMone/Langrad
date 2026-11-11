@@ -1,13 +1,13 @@
 /* Langrad mobile stage 1: one navigation, two layouts.
  * Never clone/rebind navigation buttons or touch saved application state.
- * All six tabs remain the original working controls.
+ * All tabs remain the original working controls.
  */
 (()=>{
 "use strict";
 const nav=document.querySelector("header > nav.topnav");
 if(!nav)return;
 const labels={
- read:"Читать",library:"Тексты",words:"Слова",
+ read:"Читать",library:"Тексты",discover:"Найти",words:"Слова",
  practice:"Учить",stats:"Итоги",settings:"Настр."
 };
 function refresh(){

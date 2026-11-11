@@ -61,7 +61,7 @@ const widths=[320,375,430,768];
    assert.equal(info.position,"fixed",theme+" "+width+": nav is not fixed");
    assert.ok(Math.abs(info.nav.bottom-740)<2,theme+" "+width+": tab bar isn't at viewport bottom");
    assert.ok(info.nav.height>=65&&info.nav.height<120,theme+" "+width+": bad tabbar size");
-   assert.equal(info.buttons.length,6,theme+" "+width+": missing navigation");
+   assert.equal(info.buttons.length,7,theme+" "+width+": missing navigation");
    assert.ok(info.buttons.every(b=>b.rect.width>=44),theme+" "+width+": too-small touch targets");
    assert.equal(info.screenWidth,width,theme+" "+width+": horizontal page overflow "+info.screenWidth);
    assert.equal(info.documentTitle,sampleTitle,theme+" "+width+": book title changed");
@@ -100,7 +100,7 @@ const widths=[320,375,430,768];
    });
    assert.notEqual(info.position,"fixed","desktop navigation became fixed");
    assert.equal(info.width,width,"desktop overflow");
-   assert.equal(info.count,6);
+   assert.equal(info.count,7);
    console.log("PASS desktop",width+"px",JSON.stringify(info));
    await ctx.close();
   }

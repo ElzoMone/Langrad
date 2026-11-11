@@ -88,7 +88,7 @@
   html[data-theme] body > header > .pills {
     display:none!important;
   }
-  /* The same six real buttons move visually to a phone tabbar.
+  /* The same real buttons move visually to a phone tabbar.
      No proxy navigation, so existing handlers and active state survive. */
   html[data-theme] body > header > nav.topnav {
     position:fixed!important;
@@ -367,6 +367,11 @@
 }
 
 @media(max-width:790px){
+ html[data-theme] body > header > nav.topnav > button[data-tab="discover"]::before{
+  background-image:none!important;
+  -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.8'%3E%3Ccircle cx='10.5' cy='10.5' r='5.5'/%3E%3Cpath d='m15 15 5 5'/%3E%3C/svg%3E") center/contain no-repeat!important;
+  mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.8'%3E%3Ccircle cx='10.5' cy='10.5' r='5.5'/%3E%3Cpath d='m15 15 5 5'/%3E%3C/svg%3E") center/contain no-repeat!important;
+ }
  html[data-theme] body > header > nav.topnav > button[data-tab="words"]::before{
   -webkit-mask-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20width%3D'24'%20height%3D'24'%20viewBox%3D'0%200%2024%2024'%20fill%3D'none'%20stroke%3D'black'%20stroke-width%3D'1.8'%20stroke-linecap%3D'round'%20stroke-linejoin%3D'round'%3E%3Cpath%20d%3D%22M5%203.5h14v17l-7-4.5-7%204.5z%22%2F%3E%3Cpath%20d%3D%22M9%208h6M9%2011h6%22%2F%3E%3C%2Fsvg%3E");
   mask-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20width%3D'24'%20height%3D'24'%20viewBox%3D'0%200%2024%2024'%20fill%3D'none'%20stroke%3D'black'%20stroke-width%3D'1.8'%20stroke-linecap%3D'round'%20stroke-linejoin%3D'round'%3E%3Cpath%20d%3D%22M5%203.5h14v17l-7-4.5-7%204.5z%22%2F%3E%3Cpath%20d%3D%22M9%208h6M9%2011h6%22%2F%3E%3C%2Fsvg%3E");

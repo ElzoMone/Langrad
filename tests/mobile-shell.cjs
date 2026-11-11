@@ -12,7 +12,7 @@ const css=fs.readFileSync("mobile-shell.css","utf8");
 assert.match(css,/@media\s*\(max-width:\s*790px\)/);
 assert.match(css,/position:fixed!important/);
 assert.match(css,/env\(safe-area-inset-bottom,0px\)/);
-for(const tab of ["read","library","words","practice","stats","settings"])
+for(const tab of ["read","library","discover","words","practice","stats","settings"])
  assert.ok(css.includes('button[data-tab="'+tab+'"]::before'),"Missing icon for "+tab);
 const title="Erich Maria Remarque\\Drei Kameraden\\Kapitel 1\\";
 const book=("Der Himmel war gelb wie Messing. Er erkannte seinen Freund. \n\n").repeat(85);
@@ -30,7 +30,7 @@ const dom=new JSDOM(html,{url:"https://langrad.vercel.app/",runScripts:"dangerou
  }});
 const w=dom.window,$=s=>w.document.querySelector(s);
 const sleep=ms=>new Promise(resolve=>setTimeout(resolve,ms));
-const names={read:"Читать",library:"Тексты",words:"Слова",practice:"Учить",stats:"Итоги",settings:"Настр."};
+const names={read:"Читать",library:"Тексты",discover:"Найти",words:"Слова",practice:"Учить",stats:"Итоги",settings:"Настр."};
 (async()=>{
  await sleep(220);
  assert.ok(w.langradMobileShell);
@@ -39,7 +39,7 @@ const names={read:"Читать",library:"Тексты",words:"Слова",pract
  assert.equal(w.document.querySelectorAll("header nav.topnav").length,1,"Duplicate navigation");
  assert.equal(w.document.documentElement.dataset.mobileNavReady,"true");
  const tabs=[...nav.querySelectorAll("button[data-tab]")];
- assert.equal(tabs.length,6,"Six original tabs must stay available");
+ assert.equal(tabs.length,7,"All seven tabs must stay available");
  for(const [type,short] of Object.entries(names)){
   const b=nav.querySelector('[data-tab="'+type+'"]');
   assert.ok(b,type+" missing");
@@ -48,9 +48,9 @@ const names={read:"Читать",library:"Тексты",words:"Слова",pract
  assert.equal(nav.querySelectorAll('button[aria-current="page"]').length,1);
  assert.equal(nav.querySelector('[aria-current="page"]').dataset.tab,"read");
  assert.ok(w.langradPager.pageCount()>1);
- console.log("PASS six original navigation buttons, short labels and page state");
+ console.log("PASS seven navigation buttons, short labels and page state");
 
- for(const tab of ["library","words","practice","stats","settings","read"]){
+ for(const tab of ["library","discover","words","practice","stats","settings","read"]){
   const button=nav.querySelector('[data-tab="'+tab+'"]');
   button.click();
   await sleep(35);
@@ -59,7 +59,7 @@ const names={read:"Читать",library:"Тексты",words:"Слова",pract
   assert.equal(nav.querySelectorAll('button[aria-current="page"]').length,1,"Multiple current nav buttons");
   assert.equal($("#"+tab).classList.contains("hidden"),false,"Section not opened "+tab);
  }
- console.log("PASS all six tabs navigate to the real sections with aria-current");
+ console.log("PASS all seven tabs navigate to the real sections with aria-current");
 
  // New buttons inserted by future modules also receive a mobile label
  // without replacing any existing button/event handler.
@@ -75,7 +75,7 @@ const names={read:"Читать",library:"Тексты",words:"Слова",pract
   picker.value=theme;picker.dispatchEvent(new w.Event("change",{bubbles:true}));
   await sleep(55);
   assert.equal(w.document.documentElement.dataset.theme,theme);
-  assert.equal(nav.querySelectorAll('button[data-tab]').length,6);
+  assert.equal(nav.querySelectorAll('button[data-tab]').length,7);
   assert.ok(nav.querySelector('[data-tab="library"]'));
   assert.equal(nav.querySelector('[data-tab="read"]').dataset.mobileLabel,"Читать");
  }
