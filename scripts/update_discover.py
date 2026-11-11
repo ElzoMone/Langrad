@@ -65,10 +65,17 @@ def fetch_pages():
 
 
 def wikipedia(date):
+    topics = {"Природа", "Наука и техника", "История", "Культура", "География"}
     for page in fetch_pages():
         entry = article(page, date)
-        if entry:
-            yield entry
+        if not entry or entry["words"] < 100 or entry["topic"] not in topics:
+            continue
+        if re.search(r"^(?:Liste|Kategorie)\b|^\(\d+\)|Amtsbezirk|Landgemeinde|Olympische Sommerspiele",
+                     entry["title"], re.IGNORECASE):
+            continue
+        if re.search(r"\(\s*\*[^)]{0,150}\b(?:19|20)\d{2}", entry["text"][:230]):
+            continue
+        yield entry
 
 
 def journalism(date):
@@ -116,14 +123,15 @@ def main():
     for entry in curated:
         entry["words"] = len(re.findall(r"[^\W\d_]+(?:[-’'][^\W\d_]+)*", entry["text"]))
     entries = list(curated)
+    curated_ids = {entry["id"] for entry in curated}
     errors = 0
     for name, predicate, collect, limit in (
         ("netzpolitik.org", lambda entry: entry.get("category") == "journalism", journalism, 48),
         ("German Wikipedia", lambda entry: entry["id"].startswith("dewiki-"), wikipedia, 120),
     ):
-        previous = [entry for entry in old if predicate(entry)]
+        previous = [entry for entry in old if predicate(entry) and entry["id"] not in curated_ids]
         try:
-            new = [] if args.offline else list(collect(date))[:12]
+            new = [] if args.offline else [entry for entry in collect(date) if entry["id"] not in curated_ids][:12]
         except (URLError, TimeoutError, ValueError, RuntimeError, KeyError, ElementTree.ParseError) as exc:
             errors += 1
             print(f"{name}: {exc}")

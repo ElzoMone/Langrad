@@ -30,7 +30,7 @@ const dom=new JSDOM(html,{url:"https://langrad.vercel.app/",runScripts:"dangerou
  }});
 const w=dom.window,$=s=>w.document.querySelector(s);
 const sleep=ms=>new Promise(resolve=>setTimeout(resolve,ms));
-const names={read:"Читать",library:"Тексты",discover:"Найти",words:"Слова",practice:"Учить",stats:"Итоги",settings:"Настр."};
+const names={read:"Читать",library:"Библиотека",discover:"Найти",words:"Слова",practice:"Учить",stats:"Итоги",settings:"Настр."};
 (async()=>{
  await sleep(220);
  assert.ok(w.langradMobileShell);
@@ -66,7 +66,7 @@ const names={read:"Читать",library:"Тексты",discover:"Найти",wo
  const extra=w.document.createElement("button");
  extra.dataset.tab="library";extra.textContent="Тексты";
  nav.append(extra);await sleep(35);
- assert.equal(extra.dataset.mobileLabel,"Тексты");
+ assert.equal(extra.dataset.mobileLabel,"Библиотека");
  extra.remove();
  await sleep(15);
 

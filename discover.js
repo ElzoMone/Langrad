@@ -8,6 +8,7 @@
   const sort = document.getElementById("discover-sort");
   const hideRead = document.getElementById("discover-hide-read");
   const recommendation = document.getElementById("discover-recommendation");
+  const resume = document.getElementById("discover-continue");
   const cefr = ["A1", "A2", "B1", "B2", "C1"];
   const segmenter = new Intl.Segmenter("de", {granularity: "sentence"});
   let selectedLevel = "";
@@ -17,8 +18,7 @@
   const retry = document.getElementById("discover-retry");
   const groups = {
     adapted: "Адаптированные тексты",
-    classic: "Классическая проза",
-    literature: "Басни и сатира",
+    classic: "Классика",
     journalism: "Современные статьи",
     encyclopedia: "Энциклопедия"
   };
@@ -30,7 +30,6 @@
   let loading = false;
   const expanded = new Set();
   const selectedVariants = new Map();
-  const wordSets = new Map();
   let works = [];
 
   function link(url, label) {
@@ -69,25 +68,6 @@
     return state.discoverRead?.[article.id] === true;
   }
 
-  function familiarPercent(article, familiarWords) {
-    if (!wordSets.has(article.id)) {
-      wordSets.set(article.id, [...new Set(words(article.text).map(normal))]);
-    }
-    const unique = wordSets.get(article.id);
-    return unique.length ? Math.round(100 * unique.filter(word => familiarWords.has(word)).length / unique.length) : 0;
-  }
-
-  function familiarWords() {
-    const known = new Set();
-    for (const [key, entry] of Object.entries(state.words)) {
-      const record = state.words[entry.aliasOf] || entry;
-      if (!isKnown(record)) continue;
-      known.add(key);
-      if (record.lemma) known.add(normal(record.lemma));
-    }
-    return known;
-  }
-
   function groupWorks(entries) {
     const originals = new Map(entries.filter(item => item.category !== "adapted" && item.text)
       .map(item => [item.sourceURL, item]));
@@ -102,20 +82,28 @@
     }
     return entries.filter(article => !paired.has(article.id)).map(article => ({
       id: article.id,
-      category: adaptations.has(article.id) ? "adapted" : article.category,
+      category: adaptations.has(article.id) ? "adapted" : article.category === "literature" ? "classic" : article.category,
       variants: adaptations.get(article.id) || [article]
     }));
   }
 
-  function makeCard(work, known) {
+  function makeCard(work, featured = false) {
     const article = work.article;
     const card = document.createElement("article");
     card.className = "lr-discover-card";
+    card.dataset.level = article.level || "";
+    card.classList.toggle("lr-discover-featured", featured);
     card.dataset.work = work.id;
     card.dataset.article = article.id;
     const body = document.createElement("div");
     body.className = "lr-discover-body";
     card.append(body);
+    if (featured) {
+      const label = document.createElement("p");
+      label.className = "lr-discover-kicker";
+      label.textContent = "Текст дня";
+      body.append(label);
+    }
     const meta = document.createElement("div");
     meta.className = "lr-discover-meta";
     if (cefr.includes(article.level)) {
@@ -125,6 +113,8 @@
       badge.title = "Примерный уровень";
       badge.textContent = article.level;
       meta.append(badge);
+    } else {
+      meta.append("Уровень не оценён");
     }
     if (article.words) {
       const duration = document.createElement("span");
@@ -132,7 +122,7 @@
       duration.title = "Оценка при скорости 120 слов в минуту";
       meta.append(duration);
     }
-    const title = document.createElement("h3");
+    const title = document.createElement(featured ? "h2" : "h3");
     title.lang = "de";
     title.textContent = article.title;
     body.append(meta, title);
@@ -144,7 +134,7 @@
     }
     const tags = document.createElement("div");
     tags.className = "lr-discover-tags";
-    for (const label of [article.topic, !article.text && article.source, article.category === "adapted" && "Адаптация",
+    for (const label of [article.topic, article.source, article.category === "adapted" && "Адаптация",
       savedArticle(article) && "Сохранено", marked(article) && "Прочитано"].filter(Boolean)) {
       const tag = document.createElement("span");
       tag.textContent = label;
@@ -166,7 +156,7 @@
         if (button.disabled) button.title = "Версия скрыта текущими фильтрами";
         button.onclick = () => {
           selectedVariants.set(work.id, variant.id);
-          const replacement = makeCard({...work, article: variant}, known);
+          const replacement = makeCard({...work, article: variant}, featured);
           card.replaceWith(replacement);
           replacement.querySelector('[data-variant="' + variant.id + '"]').focus();
         };
@@ -174,23 +164,16 @@
       }
       body.append(variants);
     }
-    if (article.text) {
+    if (article.summary || article.text) {
       const preview = document.createElement("p");
-      preview.lang = "de";
+      preview.lang = article.summary ? "ru" : "de";
       preview.className = "lr-discover-excerpt";
       const iterator = segmenter.segment(article.text.trim())[Symbol.iterator]();
       const first = iterator.next().value?.segment || "";
       const second = first.length < 100 ? iterator.next().value?.segment || "" : "";
-      preview.textContent = (first + second).replace(/\s+/g, " ").trim();
+      preview.textContent = (article.summary || first + second).replace(/\s+/g, " ").trim();
       if (preview.textContent.length > 215) preview.textContent = preview.textContent.slice(0, 215).replace(/\s+\S*$/, "") + "…";
       body.append(preview);
-    }
-    if (article.text && known.size) {
-      const familiarity = document.createElement("p");
-      familiarity.className = "lr-discover-familiar";
-      familiarity.textContent = "Вы знаете ≈ " + familiarPercent(article, known) + "%";
-      familiarity.title = "Доля уникальных слов, отмеченных знакомыми в Langrad";
-      body.append(familiarity);
     }
     const actions = document.createElement("div");
     actions.className = "lr-discover-actions";
@@ -203,29 +186,34 @@
     }
     const mark = document.createElement("button");
     mark.type = "button";
-    mark.className = "btn ghost lr-discover-action";
-    mark.textContent = marked(article) ? "Снять отметку" : "Отметить прочитанным";
+    mark.className = "lr-discover-mark";
+    mark.textContent = "✓";
+    mark.setAttribute("aria-label", "Прочитано — " + article.title);
+    mark.setAttribute("aria-pressed", String(marked(article)));
+    mark.title = marked(article) ? "Снять отметку" : "Отметить прочитанным";
     mark.onclick = () => {
       state.discoverRead ||= {};
       if (marked(article)) delete state.discoverRead[article.id];
       else state.discoverRead[article.id] = true;
       persist();
+      const region = card.closest("#discover-recommendation") || list;
       render();
-      (list.querySelector('[data-article="' + article.id + '"] .btn.ghost') || hideRead).focus();
+      (region.querySelector('[data-article="' + article.id + '"] .lr-discover-mark') ||
+        list.querySelector(".lr-discover-mark") || search).focus();
     };
-    actions.append(open, mark);
+    actions.append(open);
+    body.append(mark);
     body.append(actions);
     return card;
   }
 
   function render() {
-    const known = familiarWords();
     const terms = normal(search.value.trim()).split(/\s+/).filter(Boolean);
     const eligible = article => (!topic.value || article.topic === topic.value) &&
       (!selectedLevel || article.level === selectedLevel) &&
       (!hideRead.checked || !marked(article)) &&
       (!length.value || (article.words > 0 && (length.value === "short" ? article.words <= 150 : article.words > 150))) &&
-      terms.every(term => normal([article.title, article.author, article.topic, article.text].join(" ")).includes(term));
+      terms.every(term => normal([article.title, article.author, article.topic, article.summary, article.text].join(" ")).includes(term));
     const matches = works.flatMap(work => {
       const variants = work.variants.filter(eligible);
       if (!variants.length) return [];
@@ -240,27 +228,55 @@
       return (b.article.added || "").localeCompare(a.article.added || "");
     });
     recommendation.replaceChildren();
+    resume.replaceChildren();
     if (!terms.length && !selectedLevel && !topic.value && !length.value) {
+      const page = window.langradPager?.pageNumber();
+      const total = window.langradPager?.pageCount();
+      if (page > 1 && state.title) {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "lr-discover-resume";
+        button.textContent = "Продолжить чтение · " + state.title + " · " + page + " из " + total;
+        button.onclick = () => showTab("read");
+        resume.append(button);
+      }
       const target = rank(state.aid || "B1");
-      const suitable = matches.flatMap(work => work.eligible.filter(article => article.text && !marked(article))
-        .map(article => ({...work, article}))).sort((a, b) =>
-        Math.abs(rank(a.article.level) - target) - Math.abs(rank(b.article.level) - target) ||
-        familiarPercent(b.article, known) - familiarPercent(a.article, known));
+      const distance = article => Math.abs(rank(article.level) - target);
+      const suitable = matches.flatMap(work => {
+        const options = work.eligible.filter(article => article.text && article.summary && !marked(article));
+        options.sort((a, b) => distance(a) - distance(b));
+        const article = options.find(item => item.id === selectedVariants.get(work.id)) || options[0];
+        return article ? [{...work, article}] : [];
+      }).sort((a, b) => distance(a.article) - distance(b.article) ||
+        (b.article.added || "").localeCompare(a.article.added || "") || a.id.localeCompare(b.id));
       if (suitable.length) {
-        const work = suitable[0];
-        const heading = document.createElement("h2");
-        heading.textContent = "Рекомендуем вам";
-        const jump = document.createElement("button");
-        jump.type = "button";
-        jump.className = "lr-discover-recommend";
-        jump.textContent = work.article.level + " · " + work.article.title + " ↓";
-        jump.onclick = () => {
-          selectedVariants.set(work.id, work.article.id);
-          expanded.add(work.category);
-          render();
-          list.querySelector('[data-work="' + work.id + '"] .lr-discover-action')?.focus();
-        };
-        recommendation.append(heading, jump);
+        const bestDistance = distance(suitable[0].article);
+        const pool = suitable.filter(work => distance(work.article) === bestDistance);
+        const now = new Date();
+        const day = Math.floor(Date.UTC(now.getFullYear(), now.getMonth(), now.getDate()) / 86400000);
+        const featured = pool[day % pool.length];
+        recommendation.append(makeCard(featured, true));
+        const recommended = [];
+        const usedTopics = new Set([featured.article.topic]);
+        const rest = suitable.filter(work => work !== featured);
+        for (const work of rest) {
+          if (usedTopics.has(work.article.topic)) continue;
+          recommended.push(work);
+          usedTopics.add(work.article.topic);
+          if (recommended.length === 3) break;
+        }
+        for (const work of rest) {
+          if (recommended.length === 3) break;
+          if (!recommended.includes(work)) recommended.push(work);
+        }
+        if (recommended.length) {
+          const heading = document.createElement("h2");
+          heading.textContent = "Для твоего уровня";
+          const grid = document.createElement("div");
+          grid.className = "lr-discover-grid";
+          grid.append(...recommended.map(work => makeCard(work)));
+          recommendation.append(heading, grid);
+        }
       }
     }
     list.replaceChildren();
@@ -282,7 +298,7 @@
       grid.className = "lr-discover-grid";
       grid.id = "discover-shelf-" + category;
       block.classList.toggle("is-expanded", isExpanded);
-      grid.append(...entries.slice(0, isExpanded ? entries.length : previewSize).map(work => makeCard(work, known)));
+      grid.append(...entries.slice(0, isExpanded ? entries.length : previewSize).map(work => makeCard(work)));
       if (entries.length > 2) {
         const toggle = document.createElement("button");
         toggle.type = "button";
@@ -296,7 +312,7 @@
           if (isExpanded) expanded.delete(category);
           else expanded.add(category);
           render();
-          document.getElementById(heading.id).nextElementSibling?.focus();
+          document.getElementById(heading.id).parentElement.querySelector("button")?.focus();
         };
         row.append(toggle);
       }
@@ -320,7 +336,7 @@
           note: "Вводный фрагмент", license: "CC BY-SA 4.0",
           licenseURL: "https://creativecommons.org/licenses/by-sa/4.0/"}];
       }
-      if (!Object.hasOwn(groups, item.category) ||
+      if (!(Object.hasOwn(groups, item.category) || item.category === "literature") ||
           !/^https:\/\/(?:de\.wikisource\.org|netzpolitik\.org)\//.test(item.sourceURL) ||
           typeof item.source !== "string" || typeof item.text !== "string" ||
           (item.text && typeof item.license !== "string") ||
@@ -342,10 +358,11 @@
     retry.hidden = true;
     try {
       if (location.hostname === "langrad.vercel.app") {
-        articles = await getFeed(published).then(feed => {
-          if (!feed.some(article => article.category !== "encyclopedia")) throw new Error("Legacy catalog");
-          return feed;
-        }).catch(() => getFeed(bundled));
+        const [live, local] = await Promise.allSettled([getFeed(published), getFeed(bundled)]);
+        const featured = (local.value || []).filter(article => article.summary);
+        articles = [...new Map([...(live.value || local.value || []), ...featured]
+          .map(article => [article.id, article])).values()];
+        if (!articles.length) throw new Error("Empty catalog");
       } else {
         articles = await getFeed(bundled).catch(() => getFeed("/public/discover.json"));
       }

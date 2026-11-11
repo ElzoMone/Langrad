@@ -389,17 +389,9 @@ html[data-theme="tfr"] .foot{color:#a66eaf!important;font-family:"VT323",monospa
 <section id="discover" class="hidden">
   <div class="lr-discover-intro">
     <h1>Найти тексты</h1>
-    <p>Немецкие тексты для чтения. Лента пополняется ежедневно.</p>
   </div>
   <div class="lr-discover-filters">
-    <label class="lr-discover-search">Поиск <input id="discover-search" class="input" type="search" placeholder="Название, автор или слово в тексте"></label>
-    <label>Тема <select id="discover-topic" class="input"><option value="">Все темы</option></select></label>
-    <label>Длина <select id="discover-length" class="input">
-      <option value="">Любая</option><option value="short">До 150 слов</option><option value="long">От 151 слова</option>
-    </select></label>
-    <label>Сортировка <select id="discover-sort" class="input">
-      <option value="recent">Сначала новые</option><option value="level">От простого к сложному</option><option value="length">Сначала короткие</option>
-    </select></label>
+    <label class="lr-discover-search"><input aria-label="Поиск текстов" id="discover-search" class="input" type="search" placeholder="Название, автор или слово в тексте"></label>
     <div id="discover-level" class="lr-discover-levels" role="group" aria-label="Примерный уровень">
       <button type="button" data-level="" aria-pressed="true">Все уровни</button>
       <button type="button" data-level="A1" aria-pressed="false">A1</button>
@@ -408,8 +400,21 @@ html[data-theme="tfr"] .foot{color:#a66eaf!important;font-family:"VT323",monospa
       <button type="button" data-level="B2" aria-pressed="false">B2</button>
       <button type="button" data-level="C1" aria-pressed="false">C1</button>
     </div>
+    <details class="lr-discover-extra">
+      <summary>Ещё фильтры</summary>
+      <div class="lr-discover-extra-fields">
+    <label>Тема <select id="discover-topic" class="input"><option value="">Все темы</option></select></label>
+    <label>Длина <select id="discover-length" class="input">
+      <option value="">Любая</option><option value="short">До 150 слов</option><option value="long">От 151 слова</option>
+    </select></label>
+    <label>Сортировка <select id="discover-sort" class="input">
+      <option value="recent">Сначала новые</option><option value="level">От простого к сложному</option><option value="length">Сначала короткие</option>
+    </select></label>
     <label class="lr-discover-hide"><input id="discover-hide-read" type="checkbox"> Скрыть прочитанное</label>
+      </div>
+    </details>
   </div>
+  <div id="discover-continue"></div>
   <div id="discover-recommendation"></div>
   <p id="discover-status" role="status"></p>
   <button id="discover-retry" type="button" class="btn" hidden>Повторить загрузку</button>
