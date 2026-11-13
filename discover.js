@@ -17,6 +17,7 @@
   const status = document.getElementById("discover-status");
   const retry = document.getElementById("discover-retry");
   const groups = {
+    series: "Серии",
     adapted: "Адаптированные тексты",
     classic: "Классика",
     journalism: "Современные статьи",
@@ -42,7 +43,7 @@
   }
 
   function savedArticle(article) {
-    return state.library.find(item => item.discoverId === article.id || (!item.discoverId && article.category !== "adapted" && item.sourceURL === article.sourceURL));
+    return state.library.find(item => item.discoverId === article.id || (!item.discoverId && !article.series && article.category !== "adapted" && item.sourceURL === article.sourceURL));
   }
 
   function read(article) {
@@ -51,7 +52,7 @@
       item = {
         id: article.id, discoverId: article.id, title: article.title,
         text: article.text, sourceTitle: [article.author, article.source].filter(Boolean).join(" · "),
-        license: article.license, licenseURL: article.licenseURL, sourceNote: article.note,
+        series: article.series, chapter: article.chapter, license: article.license, licenseURL: article.licenseURL, sourceNote: article.note,
         sourceURL: article.sourceURL, addedAt: Date.now()
       };
       state.library.push(item);
@@ -69,7 +70,7 @@
   }
 
   function groupWorks(entries) {
-    const originals = new Map(entries.filter(item => item.category !== "adapted" && item.text)
+    const originals = new Map(entries.filter(item => item.category !== "adapted" && !item.series && item.text)
       .map(item => [item.sourceURL, item]));
     const paired = new Set();
     const adaptations = new Map();
@@ -134,7 +135,7 @@
     }
     const tags = document.createElement("div");
     tags.className = "lr-discover-tags";
-    for (const label of [article.topic, article.source, article.category === "adapted" && "Адаптация",
+    for (const label of [article.series ? "Часть " + article.chapter + " из 3" : article.topic, article.source, article.category === "adapted" && "Адаптация",
       savedArticle(article) && "Сохранено", marked(article) && "Прочитано"].filter(Boolean)) {
       const tag = document.createElement("span");
       tag.textContent = label;
@@ -207,6 +208,24 @@
     return card;
   }
 
+  function renderResume() {
+    resume.replaceChildren();
+    const page = window.langradPager?.pageNumber();
+    const total = window.langradPager?.pageCount();
+    if (total > 1 && state.title) {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "lr-discover-resume";
+      button.textContent = "Продолжить чтение · " + state.title + " · " + page + " из " + total;
+      button.onclick = () => showTab("read");
+      const bar = document.createElement("progress");
+      bar.max = total;
+      bar.value = page;
+      bar.setAttribute("aria-label", "Позиция в тексте");
+      resume.append(button, bar);
+    }
+  }
+
   function render() {
     const terms = normal(search.value.trim()).split(/\s+/).filter(Boolean);
     const eligible = article => (!topic.value || article.topic === topic.value) &&
@@ -228,18 +247,7 @@
       return (b.article.added || "").localeCompare(a.article.added || "");
     });
     recommendation.replaceChildren();
-    resume.replaceChildren();
     if (!terms.length && !selectedLevel && !topic.value && !length.value) {
-      const page = window.langradPager?.pageNumber();
-      const total = window.langradPager?.pageCount();
-      if (page > 1 && state.title) {
-        const button = document.createElement("button");
-        button.type = "button";
-        button.className = "lr-discover-resume";
-        button.textContent = "Продолжить чтение · " + state.title + " · " + page + " из " + total;
-        button.onclick = () => showTab("read");
-        resume.append(button);
-      }
       const target = rank(state.aid || "B1");
       const distance = article => Math.abs(rank(article.level) - target);
       const suitable = matches.flatMap(work => {
@@ -280,26 +288,34 @@
       }
     }
     list.replaceChildren();
-    for (const [category, label] of Object.entries(groups)) {
-      const entries = matches.filter(work => work.category === category);
+    const seriesNames = [...new Map(matches.filter(work => work.article.series)
+      .map(work => [work.article.series, work.article.seriesTitle]))];
+    const shelves = Object.entries(groups).flatMap(([category, label]) =>
+      category === "series" ? seriesNames.map(([id, title]) => [category, title, id]) : [[category, label]]);
+    for (const [category, label, series] of shelves) {
+      const shelf = series || category;
+      const entries = matches.filter(work => work.category === category &&
+        (category !== "series" || work.article.series === series));
+      if (series) entries.sort((a, b) => a.article.chapter - b.article.chapter);
+
       if (!entries.length) continue;
       const block = document.createElement("section");
       block.className = "lr-discover-group";
       const heading = document.createElement("h2");
       heading.textContent = label;
-      heading.id = "discover-group-" + category;
+      heading.id = "discover-group-" + shelf;
       block.setAttribute("aria-labelledby", heading.id);
       block.dataset.category = category;
-      const isExpanded = expanded.has(category);
+      const isExpanded = Boolean(series) || expanded.has(shelf);
       const row = document.createElement("div");
       row.className = "lr-discover-shelf-heading";
       row.append(heading);
       const grid = document.createElement("div");
       grid.className = "lr-discover-grid";
-      grid.id = "discover-shelf-" + category;
+      grid.id = "discover-shelf-" + shelf;
       block.classList.toggle("is-expanded", isExpanded);
       grid.append(...entries.slice(0, isExpanded ? entries.length : previewSize).map(work => makeCard(work)));
-      if (entries.length > 2) {
+      if (!series && entries.length > 2) {
         const toggle = document.createElement("button");
         toggle.type = "button";
         toggle.className = "lr-discover-toggle";
@@ -309,8 +325,8 @@
         toggle.setAttribute("aria-controls", grid.id);
         toggle.setAttribute("aria-expanded", String(isExpanded));
         toggle.onclick = () => {
-          if (isExpanded) expanded.delete(category);
-          else expanded.add(category);
+          if (isExpanded) expanded.delete(shelf);
+          else expanded.add(shelf);
           render();
           document.getElementById(heading.id).parentElement.querySelector("button")?.focus();
         };
@@ -347,7 +363,36 @@
     return valid;
   }
 
+  let chapterRequest;
+  function loadChapters() {
+    return chapterRequest ||= getFeed("/discover-series.json")
+      .catch(() => getFeed("/public/discover-series.json"))
+      .catch(() => {
+        chapterRequest = undefined;
+        return [];
+      });
+  }
+
+  document.getElementById("lr-reading-summary").addEventListener("langrad:reading-finished", async event => {
+    const {id} = event.detail;
+    if (!state.library?.find(item => item.id === id)?.series) return;
+    const summary = event.currentTarget;
+    const chapters = await loadChapters();
+    if (state.activeTextId !== id || summary.querySelector("[data-next-chapter]")) return;
+    const article = chapters.find(item => item.id === id);
+    const next = chapters.find(item => article?.series && item.series === article.series && item.chapter === article.chapter + 1);
+    if (!next) return;
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "btn";
+    button.textContent = "Следующая часть";
+    button.dataset.nextChapter = next.id;
+    button.onclick = () => read(next);
+    summary.append(button);
+  });
+
   async function load() {
+    renderResume();
     if (loading) return;
     if (articles.length) {
       render();
@@ -366,6 +411,8 @@
       } else {
         articles = await getFeed(bundled).catch(() => getFeed("/public/discover.json"));
       }
+      const chapters = await loadChapters();
+      articles = [...chapters, ...articles];
       works = groupWorks(articles);
       const topics = [...new Set(articles.map(article => article.topic))].sort((a, b) => a.localeCompare(b, "ru"));
       for (const name of topics) topic.add(new Option(name, name));

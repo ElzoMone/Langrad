@@ -136,7 +136,7 @@ function clear(){
 }
 function goto(next){
  ensure();
- const index=Math.max(0,Math.min(pages.length-1,Number(next)||0));
+ const index=Math.max(0,Math.min(pages.length-1,Math.trunc(Number(next)||0)));
  if(index===page)return;
  page=index;
  state.readingPages??={};
@@ -144,6 +144,12 @@ function goto(next){
  persist();renderReader();
  // Ensure jumping between pages doesn't leave the reader at the very bottom.
  document.getElementById("lr-page-nav-top")?.scrollIntoView?.({block:"start",behavior:"auto"});
+}
+function advance(){
+ ensure();
+ if(page>=pages.length-1)return;
+ reader.dispatchEvent(new CustomEvent("langrad:page-read",{detail:context()}));
+ goto(page+1);
 }
 function createNavigation(id){
  const nav=document.createElement("nav");
@@ -155,7 +161,8 @@ function createNavigation(id){
  next.type="button";next.className="btn sm";next.textContent="Вперёд →";
  const picker=document.createElement("select");picker.className="lr-page-select";
  picker.setAttribute("aria-label","Перейти к странице");
- prev.addEventListener("click",()=>goto(page-1));next.addEventListener("click",()=>goto(page+1));
+ prev.addEventListener("click",()=>goto(page-1));
+ next.addEventListener("click",advance);
  picker.addEventListener("change",()=>goto(Number(picker.value)));
  nav.append(prev,label,picker,next);
  return {nav,prev,next,label,picker};
@@ -222,7 +229,7 @@ window.langradPager={
  getMode:storedMode,setMode:selectMode,getCachedVersion:savedVersion,
  pageCount:()=>{ensure();return pages.length},
  pageNumber:()=>{ensure();return page+1},
- goto,splitText:paginate
+ goto,advance,splitText:paginate
 };
 const detail=document.querySelector(".layout>.details");
 if(detail){detail.tabIndex=0;detail.setAttribute("aria-label","Карточка слова. Прокручивается отдельно от текста.");}

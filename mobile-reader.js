@@ -176,7 +176,8 @@ reader.addEventListener("touchend",event=>{
  const number=p.pageNumber?.()||1,count=p.pageCount?.()||1;
  const target=dx<0?number+1:number-1;
  if(target<1||target>count)return;
- p.goto(target-1);
+ if(dx<0)p.advance();
+ else p.goto(target-1);
  syncPage();
 },{passive:true});
 apply();

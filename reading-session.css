@@ -1,0 +1,46 @@
+.lr-reading-finish,
+.lr-reading-activity {
+  margin-block: 18px;
+}
+#lr-reading-summary {
+  margin-top: 12px;
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+}
+.lr-reading-finish [hidden] { display: none !important; }
+#lr-reading-progress, #discover-continue progress {
+  display: block;
+  width: 100%;
+  accent-color: var(--accent);
+}
+#lr-reading-goal-form {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-block: 12px;
+}
+#lr-reading-goal { width: 8em; }
+#lr-reading-week {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 6px;
+  list-style: none;
+  padding: 0;
+  font-size: .78rem;
+}
+#lr-reading-week li { display: grid; gap: 4px; text-align: center; overflow-wrap: anywhere; }
+#lr-reading-week meter { width: 100%; min-width: 0; }
+#reader .token.lr-spoken {
+  color: #1c2231 !important;
+  background: #ffda83 !important;
+  outline: 1px solid #ac7119;
+}
+#discover-continue:not(:empty) {
+  margin-block: 12px;
+  padding: 10px 14px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+}
+#discover-continue .lr-discover-resume { margin: 0; }

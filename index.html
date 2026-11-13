@@ -377,6 +377,7 @@ html[data-theme="tfr"] .foot{color:#a66eaf!important;font-family:"VT323",monospa
 <link rel="stylesheet" href="/mobile-sections.css">
 <link rel="stylesheet" href="/pwa.css">
 <link rel="stylesheet" href="/discover.css">
+<link rel="stylesheet" href="/reading-session.css">
 </head>
 <body>
 <header><div><div class="brand">LANG<em>RAD</em></div><div class="subbrand">THE LANGUAGE RISES</div></div><div class="pills"><span class="pill">Deutsch → Русский</span><span class="pill">Локальное хранение</span><span class="pill">Без платного ИИ</span></div>
@@ -390,6 +391,7 @@ html[data-theme="tfr"] .foot{color:#a66eaf!important;font-family:"VT323",monospa
   <div class="lr-discover-intro">
     <h1>Найти тексты</h1>
   </div>
+  <div id="discover-continue"></div>
   <div class="lr-discover-filters">
     <label class="lr-discover-search"><input aria-label="Поиск текстов" id="discover-search" class="input" type="search" placeholder="Название, автор или слово в тексте"></label>
     <div id="discover-level" class="lr-discover-levels" role="group" aria-label="Примерный уровень">
@@ -414,7 +416,6 @@ html[data-theme="tfr"] .foot{color:#a66eaf!important;font-family:"VT323",monospa
       </div>
     </details>
   </div>
-  <div id="discover-continue"></div>
   <div id="discover-recommendation"></div>
   <p id="discover-status" role="status"></p>
   <button id="discover-retry" type="button" class="btn" hidden>Повторить загрузку</button>
@@ -428,10 +429,24 @@ html[data-theme="tfr"] .foot{color:#a66eaf!important;font-family:"VT323",monospa
 <hr class="sep"><div class="spread"><h2 id="docTitle">Ein kleiner Anfang</h2><div class="levelbox"><label class="tiny" for="aid">Подсказки:</label><select id="aid"><option>A1</option><option>A2</option><option selected>B1</option><option>B2</option><option>C1</option></select></div></div>
 <div id="reader" class="reader" aria-label="Текст для чтения"></div><div id="readingHint" class="alert"></div>
 <div id="sentenceHelp"></div>
+<div class="lr-reading-finish">
+ <button id="lr-log-page" type="button" class="btn">Отметить страницу прочитанной</button>
+ <button id="lr-finish-reading" type="button" class="btn primary">Завершить чтение</button>
+ <section id="lr-reading-summary" tabindex="-1" hidden></section>
+</div>
 </section>
 <section id="words" class="hidden"><div class="eyebrow">Твоя лексика</div><h1>Словарь</h1><p>Вкладка показывает встреченные и сохранённые слова. Сам факт просмотра перевода не означает, что слово известно.</p><input class="input" id="wordSearch" placeholder="Искать слово"><div class="row" style="margin-top:12px"><button class="btn" id="exportCsv">↓ CSV для Anki/Excel</button></div><div id="wordList"></div></section>
 <section id="practice" class="hidden"><div class="eyebrow">Активная память</div><h1>Повторение</h1><p>Здесь нужно вспомнить перевод без подсказки. Слова, освоенные в разные дни, переходят на более длинные интервалы.</p><div class="spread"><span id="quizCount" class="pill"></span><span id="quizStep" class="pill"></span></div><div id="quiz" style="margin:24px 0"></div><button class="btn primary" id="startQuiz">Начать тест</button></section>
-<section id="stats" class="hidden"><div class="eyebrow">Твой прогресс</div><h1>Статистика</h1><div class="statgrid"><div class="stat"><strong id="seenNumber">0</strong><span>Встречено</span></div><div class="stat"><strong id="studyNumber">0</strong><span>Изучается</span></div><div class="stat"><strong id="knownNumber">0</strong><span>Проверено</span></div></div><div class="label">Доля правильных ответов</div><div class="progress"><div id="accuracyFill"></div></div><p id="accuracy"></p><div class="alert">Количество слов и результаты тестов — не объективное определение уровня A1–C1. В будущих версиях появится полноценная диагностика.</div></section>
+<section id="stats" class="hidden"><div class="eyebrow">Твой прогресс</div><h1>Статистика</h1><section class="lr-reading-activity" aria-labelledby="lr-reading-activity-title">
+<h2 id="lr-reading-activity-title">Привычка читать</h2>
+<p id="lr-reading-streak"></p>
+<label id="lr-reading-today" for="lr-reading-progress"></label>
+<progress id="lr-reading-progress"></progress>
+<form id="lr-reading-goal-form"><label for="lr-reading-goal">Цель в словах на день</label>
+<input id="lr-reading-goal" type="number" class="input" min="10" max="50000" step="1" required>
+<button type="submit" class="btn">Сохранить цель</button></form>
+<h3>Последние семь дней</h3><ul id="lr-reading-week"></ul>
+</section><div class="statgrid"><div class="stat"><strong id="seenNumber">0</strong><span>Встречено</span></div><div class="stat"><strong id="studyNumber">0</strong><span>Изучается</span></div><div class="stat"><strong id="knownNumber">0</strong><span>Проверено</span></div></div><div class="label">Доля правильных ответов</div><div class="progress"><div id="accuracyFill"></div></div><p id="accuracy"></p><div class="alert">Количество слов и результаты тестов — не объективное определение уровня A1–C1. В будущих версиях появится полноценная диагностика.</div></section>
 <section id="settings" class="hidden"><div class="eyebrow">Твоя библиотека</div><h1>Настройки</h1><p>Слова и тексты сейчас сохраняются локально в этом браузере. Для другого устройства используй резервную копию.</p><button class="btn primary" id="backup">↓ Скачать резервную копию</button><div class="row" style="margin-top:10px"><label for="restore" class="btn" style="cursor:pointer">↑ Восстановить</label><input class="hidden" type="file" id="restore" accept=".json"></div><hr class="sep"><div class="alert">Версия 0.8: немецкий язык, расширенный словарь. Учебная адаптация текста работает по приблизительным правилам и не гарантирует соответствия CEFR; проверяй грамматику.</div></section>
 </main>
 <aside class="panel details"><div class="eyebrow">Грамматика и значения</div><div id="detail"><h2 style="margin-top:18px">Выбери слово</h2><p>Нажми на слово в читалке — здесь появятся перевод, начальная форма и грамматическая справка.</p></div></aside>
@@ -1459,14 +1474,31 @@ panel.innerHTML=[
 '</select><span class="lr-status" id="lr-status" aria-live="polite">Готово к прослушиванию</span></div>',
 '<div class="lr-track"><input id="lr-seek" type="range" min="0" max="1000" step="1" value="0" aria-label="Перемотка по тексту">',
 '<output id="lr-percent" for="lr-seek">0% текста</output></div>',
-'<p class="lr-help">Перемотка по месту в тексте — приблизительная: голос создаёт браузер, а не аудиофайл.</p>'
+'<p class="lr-help">Озвучивается открытая страница. Подсветка зависит от выбранного системного голоса.</p>'
 ].join("");
 playButton.parentElement.insertAdjacentElement("afterend",panel);
 const pauseButton=panel.querySelector("#lr-pause"),stopButton=panel.querySelector("#lr-stop");
 const seek=panel.querySelector("#lr-seek"),percent=panel.querySelector("#lr-percent");
 const rate=panel.querySelector("#lr-rate"),status=panel.querySelector("#lr-status");
 const synth=window.speechSynthesis;
-let source=String(state.text||""),pos=0,mode="stopped",ticket=0,utterance=null,dragging=false;
+const reader=document.getElementById("reader");
+let source="", context="", boundaries=[], spoken=null;
+let pos=0,mode="stopped",ticket=0,utterance=null,dragging=false;
+function highlight(offset){
+ spoken?.classList.remove("lr-spoken");
+ spoken=offset===null?null:boundaries.find(word=>word.start<=offset&&offset<word.end)?.node;
+ spoken?.classList.add("lr-spoken");
+}
+function bindWords(){
+ let offset=0;
+ boundaries=[];
+ for(const node of reader.childNodes){
+  const end=offset+node.textContent.length;
+  if(node.nodeType===1&&node.classList.contains("token"))boundaries.push({start:offset,end,node});
+  offset=end;
+ }
+ if(spoken)highlight(pos);
+}
 function draw(){
  if(!dragging)seek.value=String(Math.round(1000*pos/Math.max(1,source.length)));
  percent.textContent=Math.round(Number(seek.value)/10)+"% текста";
@@ -1480,10 +1512,16 @@ function cancel(){
  ticket++;
  if(synth)try{if(synth.paused)synth.resume();synth.cancel()}catch(e){}
  utterance=null;
+ highlight(null);
 }
 function sync(){
- const next=String(state.text||"");
- if(next!==source){cancel();source=next;pos=0;mode="stopped";draw()}
+ const pager=window.langradPager;
+ const page=pager?.currentContext();
+ const key=page?[page.doc,page.signature,page.index].join("|"):String(state.activeTextId||"");
+ const next=String(pager?.displayPageText()??state.text??"");
+ if(next!==source||key!==context){
+  cancel();highlight(null);source=next;context=key;pos=0;mode="stopped";draw();
+ }
 }
 function splitAt(start){
  const limit=Math.min(source.length,start+220);
@@ -1501,15 +1539,22 @@ function speakPart(id){
  const start=pos,end=splitAt(start);
  const u=new SpeechSynthesisUtterance(source.slice(start,end));
  utterance=u;u.lang="de-DE";u.rate=Number(rate.value);
- u.onboundary=e=>{if(id!==ticket||utterance!==u)return;if(Number.isFinite(e.charIndex))pos=Math.min(end,start+e.charIndex);draw()};
- u.onend=()=>{if(id!==ticket||utterance!==u)return;utterance=null;pos=end;draw();if(mode==="playing")speakPart(id)};
- u.onerror=e=>{if(id!==ticket||utterance!==u||e.error==="canceled"||e.error==="interrupted")return;utterance=null;mode="stopped";draw();status.textContent="Ошибка озвучивания"};
+ u.onboundary=e=>{
+  if(id!==ticket||utterance!==u||mode!=="playing")return;
+  if(Number.isFinite(e.charIndex)){
+   pos=Math.min(end,start+e.charIndex);
+   if(e.name==="word")highlight(pos);
+  }
+  draw();
+ };
+ u.onend=()=>{if(id!==ticket||utterance!==u)return;utterance=null;highlight(null);pos=end;draw();if(mode==="playing")speakPart(id)};
+ u.onerror=e=>{if(id!==ticket||utterance!==u||e.error==="canceled"||e.error==="interrupted")return;utterance=null;highlight(null);mode="stopped";draw();status.textContent="Ошибка озвучивания"};
  draw();
  try{synth.speak(u)}catch(e){mode="stopped";draw();status.textContent="Голос недоступен"}
 }
 function play(){
  if(!synth||!window.SpeechSynthesisUtterance){alert("В этом браузере озвучивание недоступно");return}
- sync();
+ sync();bindWords();
  if(!source.trim()){alert("Сначала добавь немецкий текст");return}
  if(mode==="playing")return;
  if(mode==="paused"&&utterance&&synth.paused){mode="playing";synth.resume();draw();return}
@@ -1521,7 +1566,7 @@ function pause(){
  if(mode!=="playing")return;
  mode="paused";try{synth.pause()}catch(e){}draw();
 }
-function stop(){cancel();pos=0;mode="stopped";source=String(state.text||"");draw()}
+function stop(){cancel();pos=0;mode="stopped";draw()}
 function jump(v){
  sync();let target=Math.round(source.length*Math.max(0,Math.min(1000,Number(v)||0))/1000);
  if(target>0&&target<source.length&&/\S/.test(source[target])&&/\S/.test(source[target-1])){
@@ -1541,7 +1586,15 @@ rate.addEventListener("change",()=>{
  else if(mode==="paused"){cancel();mode="paused";draw()}
 });
 const previousRender=renderReader;
-renderReader=function(){sync();return previousRender.apply(this,arguments)};
+renderReader=function(){
+ sync();
+ const result=previousRender.apply(this,arguments);
+ bindWords();
+ return result;
+};
+new MutationObserver(()=>{
+ if(document.getElementById("read").classList.contains("hidden")&&mode!=="stopped")stop();
+}).observe(document.getElementById("read"),{attributes:true,attributeFilter:["class"]});
 draw();
 })();
 </script>
@@ -2649,4 +2702,5 @@ window.addEventListener("message",event=>{
 <script defer src="/mobile-sections.js"></script>
 <script defer src="/pwa.js"></script>
 <script defer src="/discover.js"></script>
+<script defer src="/reading-session.js"></script>
 </body></html>

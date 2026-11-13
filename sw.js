@@ -6,7 +6,7 @@
  * Bump VERSION when changing offline behavior. HTML/CSS/JS are network-first
  * even without bumping, so new site deployments are not held hostage by SW.
  */
-const VERSION="2026-11-11-discover-editorial";
+const VERSION="2026-11-13-reading-cycle";
 const PREFIX="langrad-pwa-";
 const SHELL_CACHE=PREFIX+"shell-"+VERSION;
 const DICT_CACHE=PREFIX+"dict-"+VERSION;
@@ -44,13 +44,16 @@ const CORE=[
  "/mobile-sheet.js",
  "/mobile-sections.js",
  "/pwa.js",
+ "/reading-session.css",
+ "/reading-session.js",
  "/discover.js"
 ];
 const OPTIONAL=[
  "/dictionary.json",
  "/dictionary-meta.json",
  "/dict/manifest.json",
- "/discover.json"
+ "/discover.json",
+ "/discover-series.json"
 ];
 const SHELL_PATHS=new Set([...CORE,...OPTIONAL,"/index.html"]);
 const isDictionary=(path)=>{
