@@ -5,30 +5,21 @@
 (()=>{
 "use strict";
 const MIN_WORDS=210,TARGET_WORDS=245,MAX_WORDS=300;
-const read=document.getElementById("read"),reader=document.getElementById("reader");
-if(!read||!reader||typeof renderReader!=="function")return;
-const originalRender=renderReader;
-let currentSource=null,currentDoc=null,currentSignature=null,pages=[],page=0;
 const wordPattern=/[\p{L}]+(?:['’-][\p{L}]+)*/gu;
 const words=s=>(String(s||"").match(wordPattern)||[]).length;
-const keyOf=()=>String(state.activeTextId||"current-text");
-function signature(s){
- let h=2166136261;
- // FNV-1a over the entire source; prevents a stale page variant being
- // displayed after edits even when the text has the same length.
- for(let i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619)}
- return (h>>>0).toString(36)+"-"+s.length;
-}
-function paginate(text){
+function paginate(text,target=TARGET_WORDS){
+ if(!Number.isInteger(target)||target<40||target>2000)throw new RangeError("Invalid page word target");
+ const min=target===TARGET_WORDS?MIN_WORDS:Math.floor(target*.86);
+ const max=target===TARGET_WORDS?MAX_WORDS:Math.ceil(target*1.22);
  const matches=[...text.matchAll(wordPattern)];
  if(!matches.length)return [{text:text.trim(),start:0,end:text.length,words:0}];
  const all=[],n=matches.length;
  let start=0,startWord=0;
  while(startWord<n){
-  let endWord=Math.min(startWord+TARGET_WORDS,n);
+  let endWord=Math.min(startWord+target,n);
   if(endWord<n){
-   const lower=Math.min(startWord+MIN_WORDS,n-1);
-   const upper=Math.min(startWord+MAX_WORDS,n-1);
+   const lower=Math.min(startWord+min,n-1);
+   const upper=Math.min(startWord+max,n-1);
    let sentence=null,paragraph=null;
    for(let k=lower;k<=upper;k++){
     const before=matches[k-1],after=matches[k];
@@ -36,23 +27,37 @@ function paginate(text){
     const gap=text.slice(before.index+before[0].length,after.index);
     if(/\n\s*\n/.test(gap))paragraph=k;
     if(/[.!?…][\s"'”»)\]]*$/.test(gap)||/[.!?…]["'”»)\]]*\s+/.test(gap))sentence=k;
-    if(paragraph!==null && k>=startWord+TARGET_WORDS-15)break;
+    if(paragraph!==null && k>=startWord+target-15)break;
    }
-   endWord=paragraph??sentence??Math.min(startWord+TARGET_WORDS,n);
-   if(endWord<=startWord)endWord=Math.min(startWord+TARGET_WORDS,n);
+   endWord=paragraph??sentence??Math.min(startWord+target,n);
+   if(endWord<=startWord)endWord=Math.min(startWord+target,n);
   }
   const end=endWord<n?matches[endWord].index:text.length;
   all.push({text:text.slice(start,end).trim(),start,end,words:endWord-startWord});
   start=end;startWord=endWord;
  }
  // Avoid a nearly empty last page when it can be combined safely.
- if(all.length>1&&all[all.length-1].words<80&&
-    all[all.length-2].words+all[all.length-1].words<=355){
+ if(all.length>1&&all[all.length-1].words<(target===TARGET_WORDS?80:Math.ceil(target*.325))&&
+    all[all.length-2].words+all[all.length-1].words<=(target===TARGET_WORDS?355:Math.ceil(target*1.45))){
   const last=all.pop(),prev=all[all.length-1];
   prev.text=text.slice(prev.start,last.end).trim();
   prev.end=last.end;prev.words+=last.words;
  }
  return all;
+}
+if(typeof module==="object"&&module.exports)module.exports={paginate,wordPattern};
+if(typeof document==="undefined")return;
+const read=document.getElementById("read"),reader=document.getElementById("reader");
+if(!read||!reader||typeof renderReader!=="function")return;
+const originalRender=renderReader;
+let currentSource=null,currentDoc=null,currentSignature=null,pages=[],page=0;
+const keyOf=()=>String(state.activeTextId||"current-text");
+function signature(s){
+ let h=2166136261;
+ // FNV-1a over the entire source; prevents a stale page variant being
+ // displayed after edits even when the text has the same length.
+ for(let i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619)}
+ return (h>>>0).toString(36)+"-"+s.length;
 }
 function ensure(){
  const text=String(state.text||""),doc=keyOf(),sig=signature(text);
@@ -229,7 +234,7 @@ window.langradPager={
  getMode:storedMode,setMode:selectMode,getCachedVersion:savedVersion,
  pageCount:()=>{ensure();return pages.length},
  pageNumber:()=>{ensure();return page+1},
- goto,advance,splitText:paginate
+ goto,advance,splitText:paginate,wordPattern
 };
 const detail=document.querySelector(".layout>.details");
 if(detail){detail.tabIndex=0;detail.setAttribute("aria-label","Карточка слова. Прокручивается отдельно от текста.");}
