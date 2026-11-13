@@ -208,19 +208,23 @@
     return card;
   }
 
-  function renderResume() {
+  let resumeVersion = 0;
+  async function renderResume() {
+    const version = ++resumeVersion;
     resume.replaceChildren();
     const page = window.langradPager?.pageNumber();
     const total = window.langradPager?.pageCount();
-    if (total > 1 && state.title) {
+    const book = await window.langradPrivateBookResume?.();
+    if (version !== resumeVersion) return;
+    if (book || (total > 1 && state.title)) {
       const button = document.createElement("button");
       button.type = "button";
       button.className = "lr-discover-resume";
-      button.textContent = "Продолжить чтение · " + state.title + " · " + page + " из " + total;
-      button.onclick = () => showTab("read");
+      button.textContent = "Продолжить чтение · " + (book ? book.title + " · " + book.detail : state.title + " · " + page + " из " + total);
+      button.onclick = book?.open || (() => showTab("read"));
       const bar = document.createElement("progress");
-      bar.max = total;
-      bar.value = page;
+      bar.max = book?.totalPages ?? total;
+      bar.value = book?.position ?? page;
       bar.setAttribute("aria-label", "Позиция в тексте");
       resume.append(button, bar);
     }

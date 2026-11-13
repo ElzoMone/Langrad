@@ -21,8 +21,9 @@
 
   function decode(input) {
     if (typeof input === "string") return input;
-    if (!(input instanceof ArrayBuffer) && !ArrayBuffer.isView(input)) throw new TypeError("Expected text or bytes");
-    const bytes = input instanceof ArrayBuffer ? new Uint8Array(input) :
+    const buffer = Object.prototype.toString.call(input) === "[object ArrayBuffer]";
+    if (!buffer && !ArrayBuffer.isView(input)) throw new TypeError("Expected text or bytes");
+    const bytes = buffer ? new Uint8Array(input) :
       new Uint8Array(input.buffer, input.byteOffset, input.byteLength);
     if (bytes[0] === 255 && bytes[1] === 254) return new TextDecoder("utf-16le").decode(bytes);
     if (bytes[0] === 254 && bytes[1] === 255) return new TextDecoder("utf-16be").decode(bytes);
@@ -179,14 +180,17 @@
   async function processText(input, {title, author = "", commonWords, pageWords = 245} = {}) {
     if (typeof title !== "string" || !identityPart(title) || typeof author !== "string") throw new TypeError("Expected book title and author");
     if (!(commonWords instanceof Set) || !commonWords.size) throw new TypeError("Expected a German frequency word set");
-    const text = clean(input);
+    const declared = Array.isArray(input) ? input.map(chapter => ({
+      title: chapter.title, text: clean(chapter.text)
+    })).filter(chapter => /\p{L}/u.test(chapter.text)) : null;
+    const text = declared ? declared.map(chapter => chapter.text).join("\n\n") : clean(input);
     const tokenize = value => [...value.matchAll(pattern)].map(word => fold(word[0]));
     const tokens = tokenize(text);
     if (!tokens.length) throw new Error("No readable words in input");
     const language = detectLanguage(tokens);
     const paginate = node ? pager.paginate : window.langradPager?.splitText;
     if (!paginate) throw new Error("Langrad pagination is unavailable");
-    const chapters = splitChapters(text).map((chapter, index) => {
+    const chapters = (declared || splitChapters(text)).map((chapter, index) => {
       const chapterTokens = tokenize(chapter.text);
       return {
         ...chapter, index,
