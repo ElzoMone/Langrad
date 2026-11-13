@@ -68,3 +68,13 @@ html[data-theme][data-lr-reading-tone]:not([data-lr-reading-tone="theme"]) #read
 html[data-theme][data-lr-reading-tone]:not([data-lr-reading-tone="theme"]) #read #reader .token:not(.sel):not(.lr-spoken):hover {
   background:var(--lr-page-hover) !important;
 }
+
+#lr-chapter-audio:not([hidden]) {
+  margin-block: 10px;
+  padding: 10px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+}
+#lr-chapter-audio [hidden] { display: none !important; }
+#lr-chapter-audio audio { width: 100%; margin-top: 8px; }
+#lr-chapter-audio p { margin: 0; }

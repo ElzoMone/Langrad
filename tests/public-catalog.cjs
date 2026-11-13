@@ -17,6 +17,9 @@ test("catalog filters, private separation and reading resume",async()=>{
   w.HTMLElement.prototype.scrollIntoView=()=>{};
   w.scrollTo=()=>{};
   w.TextDecoder=TextDecoder;
+  w.HTMLMediaElement.prototype.play=function(){this.dispatchEvent(new w.Event("play"));return Promise.resolve();};
+  w.HTMLMediaElement.prototype.pause=function(){};
+  w.HTMLMediaElement.prototype.load=function(){};
   w.speechSynthesis={getVoices:()=>[],cancel:()=>{}};
   w.fetch=async raw=>{
    const url=new URL(raw,w.location.href);
@@ -46,8 +49,22 @@ test("catalog filters, private separation and reading resume",async()=>{
   await wait(()=>$("#lr-public-chapters select"));
   assert.equal($("#lr-public-chapters a").href,kafka.source_url);
   const select=$("#lr-public-chapters select");
+  const audio=$("#lr-chapter-audio audio");
+  assert.equal($("#lr-chapter-audio").hidden,true);
+  assert.equal(audio.hasAttribute("src"),false);
   select.value="1";select.dispatchEvent(new w.Event("change"));
   assert.equal($("#lr-public-chapters select").value,"1");
+  await wait(()=>!$("#lr-chapter-audio").hidden);
+  $("#lr-chapter-audio button").click();
+  assert.match(audio.src,/verwandlung_01_kafka_64kb/);
+  w.langradPager.goto(1);
+  assert.match(audio.src,/verwandlung_01_kafka_64kb/);
+  const selector=$("#lr-public-chapters select");
+  selector.value="2";selector.dispatchEvent(new w.Event("change"));
+  assert.equal(audio.hasAttribute("src"),false);
+  assert.equal($("#lr-chapter-audio").hidden,false);
+  const back=$("#lr-public-chapters select");
+  back.value="1";back.dispatchEvent(new w.Event("change"));
   w.langradPager.goto(1);
   const saved=JSON.parse(w.localStorage.getItem("langrad-v01"));
   assert.equal(saved.publicBookProgress[kafka.id].chapter,1);

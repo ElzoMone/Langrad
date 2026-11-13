@@ -1,0 +1,58 @@
+{
+  "kafka-verwandlung-1": {
+    "url": "https://www.archive.org/download/verwandlung_mw_0811_librivox/verwandlung_01_kafka_64kb.mp3",
+    "source": "https://librivox.org/die-verwandlung-von-franz-kafka/",
+    "feed": "https://librivox.org/rss/2689",
+    "reader": "Markus Wachenheim",
+    "author_death_year": 1924,
+    "title": "Abschnitt 1"
+  },
+  "public-chapter-gutenberg-22367-2": {
+    "url": "https://www.archive.org/download/verwandlung_mw_0811_librivox/verwandlung_01_kafka_64kb.mp3",
+    "source": "https://librivox.org/die-verwandlung-von-franz-kafka/",
+    "feed": "https://librivox.org/rss/2689",
+    "reader": "Markus Wachenheim",
+    "author_death_year": 1924,
+    "title": "Abschnitt 1"
+  },
+  "kafka-verwandlung-2": {
+    "url": "https://www.archive.org/download/verwandlung_mw_0811_librivox/verwandlung_02_kafka_64kb.mp3",
+    "source": "https://librivox.org/die-verwandlung-von-franz-kafka/",
+    "feed": "https://librivox.org/rss/2689",
+    "reader": "Markus Wachenheim",
+    "author_death_year": 1924,
+    "title": "Abschnitt 2"
+  },
+  "public-chapter-gutenberg-22367-3": {
+    "url": "https://www.archive.org/download/verwandlung_mw_0811_librivox/verwandlung_02_kafka_64kb.mp3",
+    "source": "https://librivox.org/die-verwandlung-von-franz-kafka/",
+    "feed": "https://librivox.org/rss/2689",
+    "reader": "Markus Wachenheim",
+    "author_death_year": 1924,
+    "title": "Abschnitt 2"
+  },
+  "kafka-verwandlung-3": {
+    "url": "https://www.archive.org/download/verwandlung_mw_0811_librivox/verwandlung_03_kafka_64kb.mp3",
+    "source": "https://librivox.org/die-verwandlung-von-franz-kafka/",
+    "feed": "https://librivox.org/rss/2689",
+    "reader": "Markus Wachenheim",
+    "author_death_year": 1924,
+    "title": "Abschnitt 3"
+  },
+  "public-chapter-gutenberg-22367-4": {
+    "url": "https://www.archive.org/download/verwandlung_mw_0811_librivox/verwandlung_03_kafka_64kb.mp3",
+    "source": "https://librivox.org/die-verwandlung-von-franz-kafka/",
+    "feed": "https://librivox.org/rss/2689",
+    "reader": "Markus Wachenheim",
+    "author_death_year": 1924,
+    "title": "Abschnitt 3"
+  },
+  "public-chapter-wikisource-der-kleine-haewelmann-1": {
+    "url": "https://www.archive.org/download/haewelmann_librivox/der_kleine_haewelmann_storm_64kb.mp3",
+    "source": "https://librivox.org/der-kleine-haewelmann-by-theodor-storm/",
+    "feed": "https://librivox.org/rss/172",
+    "reader": "Franzi",
+    "author_death_year": 1888,
+    "title": "Der kleine Häwelmann"
+  }
+}

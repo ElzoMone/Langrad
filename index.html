@@ -456,7 +456,12 @@ html[data-theme="tfr"] .foot{color:#a66eaf!important;font-family:"VT323",monospa
  <label>Размер шрифта <select id="lr-reading-size"></select></label>
  <label>Ширина колонки <select id="lr-reading-width"><option value="theme">По умолчанию</option><option value="narrow">Узкая</option><option value="medium">Средняя</option><option value="wide">Широкая</option></select></label>
  </div>
-</details><div id="lr-book-chapters"></div><div id="lr-public-chapters" class="row"></div><div id="reader" class="reader" aria-label="Текст для чтения"></div><div id="readingHint" class="alert"></div>
+</details><div id="lr-book-chapters"></div><div id="lr-public-chapters" class="row"></div><section id="lr-chapter-audio" aria-label="Аудиозапись главы" hidden>
+ <div class="row"><button type="button" class="btn">Слушать главу</button>
+ <a target="_blank" rel="noopener noreferrer" class="tiny"></a></div>
+ <audio controls preload="none" aria-label="Запись LibriVox" hidden></audio>
+ <p class="tiny" role="status"></p>
+</section><div id="reader" class="reader" aria-label="Текст для чтения"></div><div id="readingHint" class="alert"></div>
 <div id="sentenceHelp"></div>
 <div class="lr-reading-finish">
  <button id="lr-page-summary" type="button" class="btn" hidden>Итог страницы</button>
@@ -2753,4 +2758,5 @@ window.addEventListener("message",event=>{
 <script defer src="/books/epub.js"></script>
 <script defer src="/books/private-library.js"></script>
 <script defer src="/books/public-catalog.js"></script>
+<script defer src="/books/chapter-audio.js"></script>
 </body></html>
