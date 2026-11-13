@@ -379,6 +379,7 @@ html[data-theme="tfr"] .foot{color:#a66eaf!important;font-family:"VT323",monospa
 <link rel="stylesheet" href="/discover.css">
 <link rel="stylesheet" href="/reading-session.css">
 <link rel="stylesheet" href="/books/private-library.css">
+<link rel="stylesheet" href="/books/public-catalog.css">
 </head>
 <body>
 <header><div><div class="brand">LANG<em>RAD</em></div><div class="subbrand">THE LANGUAGE RISES</div></div><div class="pills"><span class="pill">Deutsch → Русский</span><span class="pill">Локальное хранение</span><span class="pill">Без платного ИИ</span></div>
@@ -393,6 +394,25 @@ html[data-theme="tfr"] .foot{color:#a66eaf!important;font-family:"VT323",monospa
     <h1>Найти тексты</h1>
   </div>
   <div id="discover-continue"></div>
+  <div class="row lr-catalog-tabs" role="group" aria-label="Раздел каталога">
+    <button type="button" class="btn" id="lr-catalog-texts" aria-pressed="true">Тексты</button>
+    <button type="button" class="btn" id="lr-catalog-books" aria-pressed="false">Книги</button>
+  </div>
+  <section id="lr-public-catalog" class="hidden" aria-label="Каталог книг">
+    <div class="lr-book-filters">
+      <label>Поиск <input type="search" id="lr-public-search" class="input" placeholder="Название или автор"></label>
+      <label>Уровень <select id="lr-public-level" class="input"></select></label>
+      <label>Жанр и тема <select id="lr-public-genre" class="input"></select></label>
+      <label>Длина <select id="lr-public-length" class="input"><option value="">Любая</option><option value="short">До 2 000 слов</option><option value="medium">2 001–10 000 слов</option><option value="long">Больше 10 000 слов</option></select></label>
+      <label>Источник <select id="lr-public-source" class="input"></select></label>
+    </div>
+    <div id="lr-public-recommended"></div>
+    <p id="lr-public-status" role="status"></p>
+    <button type="button" class="btn hidden" id="lr-public-retry">Повторить загрузку</button>
+    <div id="lr-public-results" class="lr-public-grid"></div>
+    <button type="button" class="btn hidden" id="lr-public-more">Показать ещё</button>
+  </section>
+  <div id="lr-discover-texts">
   <div class="lr-discover-filters">
     <label class="lr-discover-search"><input aria-label="Поиск текстов" id="discover-search" class="input" type="search" placeholder="Название, автор или слово в тексте"></label>
     <div id="discover-level" class="lr-discover-levels" role="group" aria-label="Примерный уровень">
@@ -421,6 +441,7 @@ html[data-theme="tfr"] .foot{color:#a66eaf!important;font-family:"VT323",monospa
   <p id="discover-status" role="status"></p>
   <button id="discover-retry" type="button" class="btn" hidden>Повторить загрузку</button>
   <div id="discover-list"></div>
+  </div>
 </section>
 <section id="read">
 <div class="spread"><div><div class="eyebrow">Чтение с пониманием</div><h1>Читалка</h1></div><span id="score" class="pill">—</span></div>
@@ -428,7 +449,7 @@ html[data-theme="tfr"] .foot{color:#a66eaf!important;font-family:"VT323",monospa
 <div class="row"><button class="btn primary" id="addText">＋ Добавить текст</button><button class="btn" id="example">Пример</button><button class="btn" id="speak">🔊 Слушать</button></div>
 <div id="editor" class="hidden" style="margin-top:18px"><label class="label" for="title">Название</label><input class="input" id="title" value="Mein Text"><label class="label" for="textInput">Текст на немецком</label><textarea id="textInput" class="input" rows="8" placeholder="Вставь немецкий текст или загрузи TXT"></textarea><div class="row" style="margin-top:10px"><label class="btn" for="txtfile" style="cursor:pointer">📄 Выбрать TXT</label><input id="txtfile" type="file" accept=".txt,text/plain" class="hidden"><button class="btn primary" id="saveText">Открыть текст</button><button class="btn ghost" id="cancelEdit">Отмена</button></div></div>
 <hr class="sep"><div class="spread"><h2 id="docTitle">Ein kleiner Anfang</h2><div class="levelbox"><label class="tiny" for="aid">Подсказки:</label><select id="aid"><option>A1</option><option>A2</option><option selected>B1</option><option>B2</option><option>C1</option></select></div></div>
-<div id="lr-book-chapters"></div><div id="reader" class="reader" aria-label="Текст для чтения"></div><div id="readingHint" class="alert"></div>
+<div id="lr-book-chapters"></div><div id="lr-public-chapters" class="row"></div><div id="reader" class="reader" aria-label="Текст для чтения"></div><div id="readingHint" class="alert"></div>
 <div id="sentenceHelp"></div>
 <div class="lr-reading-finish">
  <button id="lr-log-page" type="button" class="btn">Отметить страницу прочитанной</button>
@@ -602,8 +623,14 @@ const tokens=s=>s.match(/[\p{L}]+(?:['’-][\p{L}]+)*|[^\p{L}]+/gu)||[];
 const words=s=>tokens(s).filter(w=>/\p{L}/u.test(w));
 function serializableState(){
  const privateChapter=String(state.activeTextId||"").startsWith("private-chapter-");
- const fallback=privateChapter?(state.library?.[0]||{id:"",title:"",text:""}):null;
- return privateChapter?{...state,activeTextId:fallback.id,title:fallback.title,text:fallback.text,privateBookActive:true}:{...state,privateBookActive:Boolean(state.privateBookActive&&!window.langradPrivateBookResume)};
+ const publicChapter=String(state.activeTextId||"").startsWith("public-chapter-");
+ const fallback=privateChapter||publicChapter?(state.library?.[0]||{id:"",title:"",text:""}):null;
+ return {
+  ...state,
+  ...(fallback ? {activeTextId:fallback.id,title:fallback.title,text:fallback.text} : {}),
+  privateBookActive:privateChapter || Boolean(state.privateBookActive&&!window.langradPrivateBookResume),
+  publicBookActive:publicChapter || Boolean(state.publicBookActive&&!window.langradPublicBookResume)
+ };
 }
 function persist(){try{localStorage.setItem(storageKey,JSON.stringify(serializableState()));
 }catch(e){alert("Хранилище браузера заполнено. Сделай резервную копию.")}}
@@ -2717,4 +2744,5 @@ window.addEventListener("message",event=>{
 <script defer src="/books/text-pipeline.js"></script>
 <script defer src="/books/epub.js"></script>
 <script defer src="/books/private-library.js"></script>
+<script defer src="/books/public-catalog.js"></script>
 </body></html>
