@@ -1,0 +1,38 @@
+name: Import public German books and texts
+on:
+  schedule:
+    - cron: '43 4 * * 1,4'
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/update-books.yml"
+      - "scripts/collect_books.py"
+      - "scripts/build_book_catalog.cjs"
+      - "scripts/wikisource-books.json"
+permissions:
+  contents: write
+concurrency:
+  group: langrad-public-books
+jobs:
+  import:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - name: Collect source candidates
+        run: python3 scripts/collect_books.py --output /tmp/book-candidates.json --existing public/books/catalog.json
+      - name: Build catalog and report unverified records
+        run: |
+          node scripts/build_book_catalog.cjs /tmp/book-candidates.json /tmp/book-review.json
+          echo '## Unverified items' >> "$GITHUB_STEP_SUMMARY"
+          node -e 'for (const item of require("/tmp/book-review.json")) console.log("- " + item.id + " — " + item.reason)' >> "$GITHUB_STEP_SUMMARY"
+      - name: Commit new public texts
+        run: |
+          git add public/books
+          if git diff --cached --quiet; then exit 0; fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git commit -m 'chore(books): refresh public German catalog'
+          git pull --rebase origin "$GITHUB_REF_NAME"
+          git push origin "HEAD:$GITHUB_REF_NAME"
