@@ -86,6 +86,7 @@
     state.privateBookProgress ||= {};
     state.privateBookProgress[book.id] = {chapter:index};
     state.lastPrivateBook = book.id;
+    state.lastReadingBookKind = "private";
     state.activeTextId = chapterPrefix + book.id + "-" + index;
     state.title = book.title + " · " + chapter.title;
     state.text = chapter.text;

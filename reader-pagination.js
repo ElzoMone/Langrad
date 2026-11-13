@@ -97,6 +97,10 @@ function displayed(){
  ensure();
  return saved()?.variant||pages[page]?.text||"";
 }
+function chapterReadingText(mode){
+ ensure();
+ return pages.map((entry,index)=>savedVersion(mode,index)?.variant||entry.text).join("\n\n");
+}
 function pageOriginal(){ensure();return pages[page]?.text||""}
 function context(){
  ensure();return {doc:keyOf(),signature:currentSignature,index:page,original:pageOriginal()};
@@ -228,7 +232,7 @@ renderReader=function(){
 };
 // For the preexisting renderer and Gemini/local adaptation IIFE.
 window.langradPager={
- displayPageText:displayed,originalPage:pageOriginal,
+ displayPageText:displayed,originalPage:pageOriginal,chapterReadingText,
  currentContext:context,isContext,saveForContext:save,
  getCurrentAdaptation:saved,clearCurrentAdaptation:clear,
  getMode:storedMode,setMode:selectMode,getCachedVersion:savedVersion,

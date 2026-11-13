@@ -449,9 +449,17 @@ html[data-theme="tfr"] .foot{color:#a66eaf!important;font-family:"VT323",monospa
 <div class="row"><button class="btn primary" id="addText">＋ Добавить текст</button><button class="btn" id="example">Пример</button><button class="btn" id="speak">🔊 Слушать</button></div>
 <div id="editor" class="hidden" style="margin-top:18px"><label class="label" for="title">Название</label><input class="input" id="title" value="Mein Text"><label class="label" for="textInput">Текст на немецком</label><textarea id="textInput" class="input" rows="8" placeholder="Вставь немецкий текст или загрузи TXT"></textarea><div class="row" style="margin-top:10px"><label class="btn" for="txtfile" style="cursor:pointer">📄 Выбрать TXT</label><input id="txtfile" type="file" accept=".txt,text/plain" class="hidden"><button class="btn primary" id="saveText">Открыть текст</button><button class="btn ghost" id="cancelEdit">Отмена</button></div></div>
 <hr class="sep"><div class="spread"><h2 id="docTitle">Ein kleiner Anfang</h2><div class="levelbox"><label class="tiny" for="aid">Подсказки:</label><select id="aid"><option>A1</option><option>A2</option><option selected>B1</option><option>B2</option><option>C1</option></select></div></div>
-<div id="lr-book-chapters"></div><div id="lr-public-chapters" class="row"></div><div id="reader" class="reader" aria-label="Текст для чтения"></div><div id="readingHint" class="alert"></div>
+<details id="lr-reading-view">
+ <summary>Оформление чтения</summary>
+ <div class="lr-reading-view-controls">
+ <label>Фон <select id="lr-reading-tone"><option value="theme">По теме сайта</option><option value="light">Светлый</option><option value="sepia">Сепия</option><option value="dark">Тёмный</option></select></label>
+ <label>Размер шрифта <select id="lr-reading-size"></select></label>
+ <label>Ширина колонки <select id="lr-reading-width"><option value="theme">По умолчанию</option><option value="narrow">Узкая</option><option value="medium">Средняя</option><option value="wide">Широкая</option></select></label>
+ </div>
+</details><div id="lr-book-chapters"></div><div id="lr-public-chapters" class="row"></div><div id="reader" class="reader" aria-label="Текст для чтения"></div><div id="readingHint" class="alert"></div>
 <div id="sentenceHelp"></div>
 <div class="lr-reading-finish">
+ <button id="lr-page-summary" type="button" class="btn" hidden>Итог страницы</button>
  <button id="lr-log-page" type="button" class="btn">Отметить страницу прочитанной</button>
  <button id="lr-finish-reading" type="button" class="btn primary">Завершить чтение</button>
  <section id="lr-reading-summary" tabindex="-1" hidden></section>

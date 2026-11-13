@@ -44,3 +44,27 @@
   border-radius: 10px;
 }
 #discover-continue .lr-discover-resume { margin: 0; }
+
+#lr-reading-view { margin-block: 10px; }
+#lr-reading-view summary { cursor: pointer; width: fit-content; padding-block: 7px; }
+.lr-reading-view-controls { display: flex; flex-wrap: wrap; gap: 10px; margin-block: 8px; }
+.lr-reading-view-controls label { display: grid; gap: 4px; font-size: .84rem; }
+html[data-theme][data-lr-reading-size] #read #reader { font-size: var(--lr-reading-size) !important; }
+html[data-theme][data-lr-reading-width="narrow"] #read #reader { max-width: min(100%, 48ch) !important; margin-inline: auto !important; }
+html[data-theme][data-lr-reading-width="medium"] #read #reader { max-width: min(100%, 68ch) !important; margin-inline: auto !important; }
+html[data-theme][data-lr-reading-width="wide"] #read #reader { max-width: 100% !important; margin-inline: auto !important; }
+html[data-lr-reading-tone="light"] { --lr-page-bg:#fbfaf7; --lr-page-text:#202327; --lr-page-hover:#e2edf9; }
+html[data-lr-reading-tone="sepia"] { --lr-page-bg:#f5ead3; --lr-page-text:#372c22; --lr-page-hover:#e8d6ae; }
+html[data-lr-reading-tone="dark"] { --lr-page-bg:#222326; --lr-page-text:#f2eee8; --lr-page-hover:#414a60; }
+html[data-theme][data-lr-reading-tone]:not([data-lr-reading-tone="theme"]) #read #reader {
+  color:var(--lr-page-text) !important;
+  background:var(--lr-page-bg) !important;
+  border-radius:10px;
+  padding:clamp(12px,4vw,24px) !important;
+}
+html[data-theme][data-lr-reading-tone]:not([data-lr-reading-tone="theme"]) #read #reader .token:not(.sel):not(.lr-spoken) {
+  color:inherit !important;
+}
+html[data-theme][data-lr-reading-tone]:not([data-lr-reading-tone="theme"]) #read #reader .token:not(.sel):not(.lr-spoken):hover {
+  background:var(--lr-page-hover) !important;
+}

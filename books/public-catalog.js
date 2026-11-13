@@ -208,6 +208,7 @@
     state.publicBookProgress ||= {};
     state.publicBookProgress[book.id] = {chapter:index};
     state.lastPublicBook = book.id;
+    state.lastReadingBookKind = "public";
     state.activeTextId = "public-chapter-" + chapter.id;
     state.title = book.title + " · " + chapter.title;
     state.text = chapter.text;
@@ -292,11 +293,26 @@
   }).observe(discover,{attributes:true,attributeFilter:["class"]});
 
   window.langradPublicBookResume = async () => {
-    if (!active || state.activeTextId !== "public-chapter-" + active.book.chapters[active.index].id) return null;
-    const {book,index} = active;
-    return {title:book.title,detail:"Глава " + (index+1) + " из " + book.chapters.length +
-      " · страница " + window.langradPager.pageNumber() + " из " + window.langradPager.pageCount(),
-      totalPages:book.chapters.length,position:index+1,open:() => showTab("read")};
+    const id = state.lastPublicBook;
+    if (!id) return null;
+    try {
+      await loadCatalog();
+      const row = books.find(book => book.id === id);
+      if (!row) return null;
+      const chapter = Math.min(row.chapter_count - 1, Math.max(0, Math.trunc(started()[id]?.chapter || 0)));
+      const position = (state.readingPages?.["public-chapter-" + id + "-" + (chapter + 1)]?.index || 0) + 1;
+      return {title:row.title,detail:"Глава " + (chapter+1) + " из " + row.chapter_count +
+        " · страница " + position,totalPages:row.chapter_count,position:chapter+1,open:async () => {
+          const ticket = ++selection;
+          const status = get("discover-continue-status");
+          try {
+            const book = await loadBook(row);
+            if (ticket === selection && !discover.classList.contains("hidden")) openChapter(book,chapter);
+          } catch {
+            if (ticket === selection && status) status.textContent = "Не удалось открыть книгу. Попробуй ещё раз.";
+          }
+        }};
+    } catch { return null; }
   };
 
   const startup = state.publicBookActive;
@@ -308,7 +324,8 @@
       if (!row) return;
       const book = await loadBook(row);
       if (ticket === selection && !get("read").classList.contains("hidden")) {
-        openChapter(book,started()[book.id]?.chapter || 0,{restore:true});
+        const chapter = Math.min(book.chapters.length-1,Math.max(0,Math.trunc(started()[book.id]?.chapter || 0)));
+        openChapter(book,chapter,{restore:true});
       }
     }).catch(() => {});
   }

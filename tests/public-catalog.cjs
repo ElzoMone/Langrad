@@ -59,6 +59,31 @@ test("catalog filters, private separation and reading resume",async()=>{
   $("#lr-public-results button").click();
   await wait(()=>!$("#read").classList.contains("hidden"));
   assert.equal(w.langradPager.pageNumber(),2);
+  $("#lr-reading-tone").value="sepia";
+  $("#lr-reading-tone").dispatchEvent(new w.Event("change"));
+  $("#lr-reading-size").value="26";
+  $("#lr-reading-size").dispatchEvent(new w.Event("change"));
+  $("#lr-reading-width").value="narrow";
+  $("#lr-reading-width").dispatchEvent(new w.Event("change"));
+  assert.equal(w.document.documentElement.dataset.lrReadingTone,"sepia");
+  assert.equal(w.document.documentElement.style.getPropertyValue("--lr-reading-size"),"26px");
+  assert.equal(JSON.parse(w.localStorage.getItem("langrad-reading-view-v1")).width,"narrow");
+  assert.equal($("#lr-page-summary").hidden,false);
+  $("#lr-page-summary").click();
+  assert.equal($("#lr-reading-summary h2").textContent,"Итог страницы");
+  const activity=()=>Object.values(JSON.parse(w.localStorage.getItem("langrad-v01")).readingActivity.days).at(-1);
+  const counted=activity();
+  assert.ok(counted>0);
+  $("#lr-page-summary").click();
+  assert.equal(activity(),counted);
+  w.langradPager.goto(w.langradPager.pageCount()-1);
+  assert.equal($("#lr-reading-summary").hidden,true);
+  $("#lr-finish-reading").click();
+  assert.equal($("#lr-reading-summary h2").textContent,"Итог главы");
+  $('[data-tab="stats"]').click();
+  assert.match($("#lr-reading-streak").textContent,/1/);
+  assert.equal($("#lr-reading-week").children.length,7);
+
   assert.deepEqual(errors,[]);
   await new Promise(resolve=>setTimeout(resolve,30));
  } finally {dom.window.close();}

@@ -103,6 +103,7 @@ function updateTypography(){
 function persistPrefs(){
  try{localStorage.setItem(key,JSON.stringify(prefs))}catch(_){}
  updateTypography();
+ document.dispatchEvent(new CustomEvent("langrad:reader-font",{detail:prefs.size}));
 }
 smaller.addEventListener("click",()=>{prefs.size=Math.max(18,prefs.size-1);persistPrefs()});
 larger.addEventListener("click",()=>{prefs.size=Math.min(28,prefs.size+1);persistPrefs()});
@@ -182,7 +183,10 @@ reader.addEventListener("touchend",event=>{
 },{passive:true});
 apply();
 window.langradMobileReader={
- apply,syncPage,getPreferences:()=>({...prefs}),isMobile,
+ apply,syncPage,setFontSize(value){
+  prefs.size=Math.max(18,Math.min(28,value));
+  persistPrefs();
+ },getPreferences:()=>({...prefs}),isMobile,
  get pageText(){return pageCounter.textContent}
 };
 })();
