@@ -145,6 +145,30 @@
       "words": 116
     },
     {
+      "id": "netzpolitik-ad83dafdff4b787815a747df",
+      "category": "journalism",
+      "title": "KW 46: Die Woche, in der wir Richtung Geheimpolizei gehen",
+      "author": "Chris Köver",
+      "source": "netzpolitik.org",
+      "sourceURL": "https://netzpolitik.org/2026/kw-46-die-woche-in-der-wir-richtung-geheimpolizei-gehen/",
+      "topic": "Общество и технологии",
+      "text": "",
+      "words": 0,
+      "added": "2026-11-14"
+    },
+    {
+      "id": "netzpolitik-425794dcd841f01e38a9a96e",
+      "category": "journalism",
+      "title": "Amazon Ring rüstet auf: Endlich autonome Drohnen für die Heimüberwachung!",
+      "author": "Markus Reuter",
+      "source": "netzpolitik.org",
+      "sourceURL": "https://netzpolitik.org/2026/amazon-ring-ruestet-auf-endlich-autonome-drohnen-fuer-die-heimueberwachung/",
+      "topic": "Общество и технологии",
+      "text": "",
+      "words": 0,
+      "added": "2026-11-14"
+    },
+    {
       "id": "netzpolitik-7dac8b7304ec8ae0f9663b00",
       "category": "journalism",
       "title": "Geheimdienstreform: Das ist keine Sicherheit",
@@ -154,7 +178,7 @@
       "topic": "Общество и технологии",
       "text": "",
       "words": 0,
-      "added": "2026-11-13"
+      "added": "2026-11-14"
     },
     {
       "id": "netzpolitik-8e137a8d2b5910bd82b92de6",
@@ -166,7 +190,7 @@
       "topic": "Общество и технологии",
       "text": "",
       "words": 0,
-      "added": "2026-11-13"
+      "added": "2026-11-14"
     },
     {
       "id": "netzpolitik-36b1996e0e4b6a71b75425cd",
@@ -178,7 +202,7 @@
       "topic": "Общество и технологии",
       "text": "",
       "words": 0,
-      "added": "2026-11-13"
+      "added": "2026-11-14"
     },
     {
       "id": "netzpolitik-dae968fcb79ca284b49b6a3b",
@@ -190,7 +214,7 @@
       "topic": "Общество и технологии",
       "text": "",
       "words": 0,
-      "added": "2026-11-13"
+      "added": "2026-11-14"
     },
     {
       "id": "netzpolitik-64c76274ed23869a2a233612",
@@ -202,7 +226,7 @@
       "topic": "Общество и технологии",
       "text": "",
       "words": 0,
-      "added": "2026-11-13"
+      "added": "2026-11-14"
     },
     {
       "id": "netzpolitik-4b8a65ab5740cc025f851769",
@@ -214,7 +238,7 @@
       "topic": "Общество и технологии",
       "text": "",
       "words": 0,
-      "added": "2026-11-13"
+      "added": "2026-11-14"
     },
     {
       "id": "netzpolitik-7191ff0ea81687a21aa81e2a",
@@ -226,7 +250,7 @@
       "topic": "Общество и технологии",
       "text": "",
       "words": 0,
-      "added": "2026-11-13"
+      "added": "2026-11-14"
     },
     {
       "id": "netzpolitik-a5c5a5f6a696b30a0d2d0d3e",
@@ -238,7 +262,7 @@
       "topic": "Общество и технологии",
       "text": "",
       "words": 0,
-      "added": "2026-11-13"
+      "added": "2026-11-14"
     },
     {
       "id": "netzpolitik-dd0dd1c9d4e337b950e5d86d",
@@ -250,7 +274,7 @@
       "topic": "Общество и технологии",
       "text": "",
       "words": 0,
-      "added": "2026-11-13"
+      "added": "2026-11-14"
     },
     {
       "id": "netzpolitik-5ef150058aac6c1829da6e00",
@@ -262,7 +286,7 @@
       "topic": "Общество и технологии",
       "text": "",
       "words": 0,
-      "added": "2026-11-13"
+      "added": "2026-11-14"
     },
     {
       "id": "netzpolitik-8601f711f5ed6bad2f45425a",
@@ -371,6 +395,16 @@
       "text": "",
       "words": 0,
       "added": "2026-11-11"
+    },
+    {
+      "id": "dewiki-6635058",
+      "title": "Munkholmbroen",
+      "text": "Munkholmbroen (deutsch Munkholm-Brücke) ist eine zweispurige Straßenbrücke, die auf der dänischen Insel Seeland über den Tempelkrog im Isefjord führt und den Südosten Holbæks mit der Halbinsel Hornsherred und der Lejre Kommune verbindet. Aus drei weißen Stahlbögen besteht der Überbau der Eisenbetonbrücke, die 1952 nach Plänen von Dänemarks führendem Brückenbauer Anker Engelund fertiggestellt wurde. Zur 114 Meter langen Brücke führen zwei Dämme, die eine Länge von 140 Meter (von Holbæk über die Landzunge Munkholm) bzw. 35 Meter (im Osten vom Ort Langtved) haben. In der Ausführung wurde auf ein Klappsegment verzichtet, wodurch der zu vernachlässigenden Schifffahrt südlich des Bauwerks lediglich eine Durchfahrtshöhe von 3,45 Metern zur Verfügung steht.",
+      "words": 102,
+      "topic": "География",
+      "level": "B2",
+      "added": "2026-11-14",
+      "sourceURL": "https://de.wikipedia.org/w/index.php?oldid=271720088"
     },
     {
       "id": "dewiki-718145",
