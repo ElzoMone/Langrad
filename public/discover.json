@@ -145,6 +145,78 @@
       "words": 116
     },
     {
+      "id": "netzpolitik-06455c4a7173c6def161aabc",
+      "category": "journalism",
+      "title": "Haushalt: Baden-Württemberg will massiv beim Datenschutz kürzen",
+      "author": "Jette Scheibchen",
+      "source": "netzpolitik.org",
+      "sourceURL": "https://netzpolitik.org/2026/haushalt-baden-wuerttemberg-will-massiv-beim-datenschutz-kuerzen/",
+      "topic": "Общество и технологии",
+      "text": "",
+      "words": 0,
+      "added": "2026-11-25"
+    },
+    {
+      "id": "netzpolitik-c6720cd546d95e1170afce13",
+      "category": "journalism",
+      "title": "Trump und Huang: Die Tech-Oligarchie ist außer Kontrolle",
+      "author": "Tomas Rudl",
+      "source": "netzpolitik.org",
+      "sourceURL": "https://netzpolitik.org/2026/trump-und-huang-die-tech-oligarchie-ist-ausser-kontrolle/",
+      "topic": "Общество и технологии",
+      "text": "",
+      "words": 0,
+      "added": "2026-11-25"
+    },
+    {
+      "id": "netzpolitik-6c132da505d641bf07562aa0",
+      "category": "journalism",
+      "title": "Kürzungen bei \"Demokratie leben\": „Antifeminismus kann eine Radikalisierungspipeline sein“",
+      "author": "Chris Köver",
+      "source": "netzpolitik.org",
+      "sourceURL": "https://netzpolitik.org/2026/kuerzungen-bei-demokratie-leben-antifeminismus-kann-eine-radikalisierungspipeline-sein/",
+      "topic": "Общество и технологии",
+      "text": "",
+      "words": 0,
+      "added": "2026-11-25"
+    },
+    {
+      "id": "netzpolitik-1fa887b4e7d880c18adb22e7",
+      "category": "journalism",
+      "title": "Überwachung von Sea-Watch-Sprecherin: „Der Angriff auf uns ist Teil eines Angriffs auf die Demokratie“",
+      "author": "Anna Biselli",
+      "source": "netzpolitik.org",
+      "sourceURL": "https://netzpolitik.org/2026/ueberwachung-von-sea-watch-sprecherin-der-angriff-auf-uns-ist-teil-eines-angriffs-auf-die-demokratie/",
+      "topic": "Общество и технологии",
+      "text": "",
+      "words": 0,
+      "added": "2026-11-25"
+    },
+    {
+      "id": "netzpolitik-e2cf273bd5a2895c04ca57d5",
+      "category": "journalism",
+      "title": "Digitale Gewalt: Die Hälfte aller gewalttätigen Partner greift auch mit Technik an",
+      "author": "Martin Schwarzbeck",
+      "source": "netzpolitik.org",
+      "sourceURL": "https://netzpolitik.org/2026/digitale-gewalt-die-haelfte-aller-gewalttaetigen-partner-greift-auch-mit-technik-an/",
+      "topic": "Общество и технологии",
+      "text": "",
+      "words": 0,
+      "added": "2026-11-25"
+    },
+    {
+      "id": "netzpolitik-87f67cf891ad80af8108e4d1",
+      "category": "journalism",
+      "title": "Verbraucherzentrale: Rechtmäßiger Einsatz der Meta-Brille im Alltag „kaum möglich“",
+      "author": "Markus Reuter",
+      "source": "netzpolitik.org",
+      "sourceURL": "https://netzpolitik.org/2026/verbraucherzentrale-rechtmaessiger-einsatz-der-meta-brille-im-alltag-kaum-moeglich/",
+      "topic": "Общество и технологии",
+      "text": "",
+      "words": 0,
+      "added": "2026-11-25"
+    },
+    {
       "id": "netzpolitik-4cffd50c7a81d5a44a2a5082",
       "category": "journalism",
       "title": "Alterskontrollen, Sorgerechtsnachweise: EU-Länder haben Bedenken zum Kids Act",
@@ -154,7 +226,7 @@
       "topic": "Общество и технологии",
       "text": "",
       "words": 0,
-      "added": "2026-11-24"
+      "added": "2026-11-25"
     },
     {
       "id": "netzpolitik-21bd9ecfbcc1d6a0f1a8ffe8",
@@ -166,7 +238,7 @@
       "topic": "Общество и технологии",
       "text": "",
       "words": 0,
-      "added": "2026-11-24"
+      "added": "2026-11-25"
     },
     {
       "id": "netzpolitik-83983c50b3abc6a1ef2bf2b0",
@@ -178,7 +250,7 @@
       "topic": "Общество и технологии",
       "text": "",
       "words": 0,
-      "added": "2026-11-24"
+      "added": "2026-11-25"
     },
     {
       "id": "netzpolitik-b95a06db4013f37b1c146525",
@@ -190,7 +262,7 @@
       "topic": "Общество и технологии",
       "text": "",
       "words": 0,
-      "added": "2026-11-24"
+      "added": "2026-11-25"
     },
     {
       "id": "netzpolitik-1a684052c6d6306d56c3d73c",
@@ -202,7 +274,7 @@
       "topic": "Общество и технологии",
       "text": "",
       "words": 0,
-      "added": "2026-11-24"
+      "added": "2026-11-25"
     },
     {
       "id": "netzpolitik-5e7e98274ce8e9c9f691968e",
@@ -214,7 +286,7 @@
       "topic": "Общество и технологии",
       "text": "",
       "words": 0,
-      "added": "2026-11-24"
+      "added": "2026-11-25"
     },
     {
       "id": "netzpolitik-d3c8fb426fd0f6cc4ffe204b",
@@ -649,16 +721,24 @@
       "added": "2026-11-11"
     },
     {
-      "id": "netzpolitik-288cc6f788d765b70eca27ce",
-      "category": "journalism",
-      "title": "„Zu schnell, zu groß“: Protestierende in ganz Europa kämpfen gegen den Rechenzentrums-Boom",
-      "author": "Muna Turki",
-      "source": "netzpolitik.org",
-      "sourceURL": "https://netzpolitik.org/2026/zu-schnell-zu-gross-protestierende-in-ganz-europa-kaempfen-gegen-den-rechenzentrums-boom/",
-      "topic": "Общество и технологии",
-      "text": "",
-      "words": 0,
-      "added": "2026-11-11"
+      "id": "dewiki-7374869",
+      "title": "Investitionsprogramm Zukunft Bildung und Betreuung",
+      "text": "Das Investitionsprogramm Zukunft Bildung und Betreuung (IZBB) wurde von der Bundesregierung unter Bundeskanzler Gerhard Schröder für die Haushaltsjahre 2003 bis 2007 aufgelegt. Mit dem IZBB sollte \"die Schaffung einer modernen Infrastruktur im Ganztagsschulbereich unterstützt und der Anstoß für ein bedarfsorientiertes Angebot in allen Regionen gegeben werden.\" Dafür stellte die Bundesregierung insgesamt vier Milliarden Euro zur Verfügung, die sowohl für den Ausbau bestehender als auch für die Schaffung neuer Ganztagsschulen eingesetzt werden konnten. Gefördert werden sollte der Neubau, der Umbau, die Renovierung oder die Ausstattung entsprechender Schulbauten bis zum 31. Dezember 2008. Die durch die Ausweitung des schulischen Ganztagsbetriebs entstehenden zusätzlichen laufenden Kosten oder Personalkosten waren nicht Gegenstand des IZBB. Diese mussten und müssen die Schulträger aus eigener Kraft übernehmen.\nDie damalige Bundesministerin für Bildung und Forschung Edelgard Bulmahn unterzeichnete am 29. April 2003 zusammen mit den Kultusministern der Länder eine entsprechende Verwaltungsvereinbarung.",
+      "words": 136,
+      "topic": "Наука и техника",
+      "level": "B2",
+      "added": "2026-11-25",
+      "sourceURL": "https://de.wikipedia.org/w/index.php?oldid=271910613"
+    },
+    {
+      "id": "dewiki-8417949",
+      "title": "Uffeln (Adelsgeschlecht)",
+      "text": "Uffeln, historisch auch Uffel oder Offeln, die Reichsfreiherrliche Bastard-Linie aber Ufflen, ist der Name eines alten hessischen Adelsgeschlechts mit dem Stammhaus Burguffeln bei Grebenstein.\nDrei weitere wappen- und stammesverschiedene jedoch namensgleiche westfälische Geschlechter Uffeln sind bekannt, jedoch bis zum 17. Jahrhundert erloschen. Die 1707 in den schwedischen Adel aufgenommenen Uffeln gehen auf den schwedischen Hofgerichtsassessor und Justizrat in Bremen, Dr. jur. Hermann Johann Uffelmann zurück und sind ebenfalls mit dem nachstehend ausgeführten Geschlecht nicht verwandt. Eine bei Antwerpen ihren Ursprung nehmende Familie van Uffelen trat in Hamburg und im Lauenburgischen um 1700 herum ebenfalls unter dem Namen Uffeln auf. Mit dem Hamburger Bankier und Erbherrn auf Basthorst, Johann Dominicus von Uffeln († 1721) ist auch dieses Geschlecht in Deutschland im Mannesstamm erloschen.\nNoch weiterhin kam es in der Literatur häufiger zu Verwechslungen und Vermischungen mit den lippischen von Offen, welche neben dem ähnlichen Familiennamen ebenfalls nach dem Herzogtum Braunschweig-Lüneburg Offiziere und Hofbeamte stellten, worin wohl die Ursachen der Fehlschlüsse zu suchen sind.",
+      "words": 157,
+      "topic": "История",
+      "level": "B2",
+      "added": "2026-11-25",
+      "sourceURL": "https://de.wikipedia.org/w/index.php?oldid=265450006"
     },
     {
       "id": "dewiki-6928068",
