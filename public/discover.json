@@ -145,6 +145,42 @@
       "words": 116
     },
     {
+      "id": "netzpolitik-7fcfb791fec130f4bfd7a46e",
+      "category": "journalism",
+      "title": "Pariser Manifest: Promi-Wissenschaftler schlagen Alarm gegen die Oligarchie",
+      "author": "Markus Reuter",
+      "source": "netzpolitik.org",
+      "sourceURL": "https://netzpolitik.org/2026/pariser-manifest-promi-wissenschaftler-schlagen-alarm-gegen-die-oligarchie/",
+      "topic": "Общество и технологии",
+      "text": "",
+      "words": 0,
+      "added": "2026-11-27"
+    },
+    {
+      "id": "netzpolitik-bb7cab573d01560ddec9b7fd",
+      "category": "journalism",
+      "title": "Staatliche Werbung: Transparenz am unteren Limit",
+      "author": "Leonhard Pitz",
+      "source": "netzpolitik.org",
+      "sourceURL": "https://netzpolitik.org/2026/staatliche-werbung-transparenz-am-unteren-limit/",
+      "topic": "Общество и технологии",
+      "text": "",
+      "words": 0,
+      "added": "2026-11-27"
+    },
+    {
+      "id": "netzpolitik-1cd921ee26bf355b3509f7ce",
+      "category": "journalism",
+      "title": "Hilfe für Kranke ohne Papiere: „Da hängt vielleicht das Leben einer schwangeren Frau dran“",
+      "author": "Carla Rochel",
+      "source": "netzpolitik.org",
+      "sourceURL": "https://netzpolitik.org/2026/hilfe-fuer-kranke-ohne-papiere-da-haengt-vielleicht-das-leben-einer-schwangeren-frau-dran/",
+      "topic": "Общество и технологии",
+      "text": "",
+      "words": 0,
+      "added": "2026-11-27"
+    },
+    {
       "id": "netzpolitik-cad2d1539441c536aa7db843",
       "category": "journalism",
       "title": "KI in der Migrationsverwaltung: Automatisiert ins Risiko",
@@ -154,7 +190,7 @@
       "topic": "Общество и технологии",
       "text": "",
       "words": 0,
-      "added": "2026-11-26"
+      "added": "2026-11-27"
     },
     {
       "id": "netzpolitik-da7f5517dcd40271cf3f9c80",
@@ -166,7 +202,7 @@
       "topic": "Общество и технологии",
       "text": "",
       "words": 0,
-      "added": "2026-11-26"
+      "added": "2026-11-27"
     },
     {
       "id": "netzpolitik-06455c4a7173c6def161aabc",
@@ -178,7 +214,7 @@
       "topic": "Общество и технологии",
       "text": "",
       "words": 0,
-      "added": "2026-11-26"
+      "added": "2026-11-27"
     },
     {
       "id": "netzpolitik-c6720cd546d95e1170afce13",
@@ -190,7 +226,7 @@
       "topic": "Общество и технологии",
       "text": "",
       "words": 0,
-      "added": "2026-11-26"
+      "added": "2026-11-27"
     },
     {
       "id": "netzpolitik-6c132da505d641bf07562aa0",
@@ -202,7 +238,7 @@
       "topic": "Общество и технологии",
       "text": "",
       "words": 0,
-      "added": "2026-11-26"
+      "added": "2026-11-27"
     },
     {
       "id": "netzpolitik-1fa887b4e7d880c18adb22e7",
@@ -214,7 +250,7 @@
       "topic": "Общество и технологии",
       "text": "",
       "words": 0,
-      "added": "2026-11-26"
+      "added": "2026-11-27"
     },
     {
       "id": "netzpolitik-e2cf273bd5a2895c04ca57d5",
@@ -226,7 +262,7 @@
       "topic": "Общество и технологии",
       "text": "",
       "words": 0,
-      "added": "2026-11-26"
+      "added": "2026-11-27"
     },
     {
       "id": "netzpolitik-87f67cf891ad80af8108e4d1",
@@ -238,7 +274,7 @@
       "topic": "Общество и технологии",
       "text": "",
       "words": 0,
-      "added": "2026-11-26"
+      "added": "2026-11-27"
     },
     {
       "id": "netzpolitik-4cffd50c7a81d5a44a2a5082",
@@ -250,7 +286,7 @@
       "topic": "Общество и технологии",
       "text": "",
       "words": 0,
-      "added": "2026-11-26"
+      "added": "2026-11-27"
     },
     {
       "id": "netzpolitik-21bd9ecfbcc1d6a0f1a8ffe8",
@@ -685,40 +721,24 @@
       "added": "2026-11-12"
     },
     {
-      "id": "netzpolitik-3ec06f61d44417101efffc54",
-      "category": "journalism",
-      "title": "Days of Action against data centers: Taking on AI, capitalism and ecological harm",
-      "author": "Muna Turki",
-      "source": "netzpolitik.org",
-      "sourceURL": "https://netzpolitik.org/2026/days-of-action-against-data-centers-taking-on-ai-capitalism-and-ecological-harm/",
-      "topic": "Общество и технологии",
-      "text": "",
-      "words": 0,
-      "added": "2026-11-12"
+      "id": "dewiki-9970256",
+      "title": "Richtungssinn (Elektrotechnik)",
+      "text": "Unter dem Richtungssinn versteht man in der Elektrotechnik die Vorzeichenkonvention skalarer Größen, wie der elektrischen Stromstärke, der elektrischen Spannung oder des magnetischen Flusses.\nEin Begriff, der „Richtung-“ enthält, überrascht im Zusammenhang mit Skalaren, die ja im Gegensatz zu Vektoren keine Richtung haben. Im Falle der elektrischen Stromstärke ist deren Richtung die Bewegungsrichtung positiver Ladungsträger oder die der Bewegungsrichtung negativer Ladungsträger entgegengesetzte Richtung. In einem näherungsweise als eindimensional betrachtbaren Leiter, z. B. in einem Kabel, wird damit das Vorzeichen der Stromstärke festgelegt. Beim Strom wird auch von der konventionellen Stromrichtung oder der physikalischen Stromrichtung gesprochen.\nDie skalaren Größen, für die in ihrer Definition ein Richtungssinn festgelegt wird, gehen durch Integration über eine Fläche aus einem Dichtevektor hervor, aus dessen Richtung sich der Richtungssinn ergibt. Das heißt, der Richtungssinn des elektrischen Stroms ergibt sich aus der Richtung des Stromdichtevektors, der Richtungssinn des magnetischen Flusses aus der Richtung der magnetischen Flussdichte usw.\nDie zurückgezogene DIN 5489 verwendet den Begriff „Richtungssinn“ auch im Zusammenhang mit dem magnetischen Fluss und der magnetischen Spannung; die Nachfolgenorm DIN EN 60375 spricht einfach von der „Richtung“.",
+      "words": 176,
+      "topic": "География",
+      "level": "B2",
+      "added": "2026-11-27",
+      "sourceURL": "https://de.wikipedia.org/w/index.php?oldid=250527045"
     },
     {
-      "id": "netzpolitik-d8f23af638f34609c84ec27b",
-      "category": "journalism",
-      "title": "Weniger staatliche Transparenz: Dobrindts Pläne sind „Angriff auf die Pressefreiheit“",
-      "author": "Markus Reuter",
-      "source": "netzpolitik.org",
-      "sourceURL": "https://netzpolitik.org/2026/weniger-staatliche-transparenz-dobrindts-plaene-sind-angriff-auf-die-pressefreiheit/",
-      "topic": "Общество и технологии",
-      "text": "",
-      "words": 0,
-      "added": "2026-11-12"
-    },
-    {
-      "id": "netzpolitik-edf78f99b95abfedfc06f46e",
-      "category": "journalism",
-      "title": "Trainingsvideos für Verhaltensanalyse: Für die Überwachungs-KI gibt es nie genug Gewalt",
-      "author": "Martin Schwarzbeck",
-      "source": "netzpolitik.org",
-      "sourceURL": "https://netzpolitik.org/2026/trainingsvideos-fuer-verhaltensanalyse-fuer-die-ueberwachungs-ki-gibt-es-nie-genug-gewalt/",
-      "topic": "Общество и технологии",
-      "text": "",
-      "words": 0,
-      "added": "2026-11-12"
+      "id": "dewiki-10359974",
+      "title": "Metropolis Bridge",
+      "text": "Die Metropolis Bridge ist eine eingleisige Eisenbahnbrücke über den Ohio zwischen der Stadt Metropolis in Illinois und dem McCracken County in Kentucky. Nach einer mehrjährigen Planungsphase wurde sie zwischen 1915 und 1917 von der Paducah and Illinois Railroad errichtet, einer zu gleichen Teilen von der Nashville, Chattanooga and St. Louis Railway und der Chicago, Burlington and Quincy Railroad gegründeten Bau- und Betreibergesellschaft. Die fast zwei Kilometer lange Stahlbrücke besitzt mit 220 Metern den weltweit zweitlängsten einfachen Fachwerkträger einer Eisenbahnbrücke und war ursprünglich für einen zweigleisigen Ausbau konzipiert, der während ihres über 100-jährigen Bestehens aber nie umgesetzt wurde. Die Paducah and Illinois Railroad ist weiterhin Eigner der Brücke, die heute von mehreren Eisenbahngesellschaften aus den USA und Kanada genutzt wird.",
+      "words": 116,
+      "topic": "География",
+      "level": "B2",
+      "added": "2026-11-27",
+      "sourceURL": "https://de.wikipedia.org/w/index.php?oldid=246120610"
     },
     {
       "id": "dewiki-9411751",
